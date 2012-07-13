@@ -3,6 +3,7 @@
  *  SDL04_Station
  */
 #include "StdAfx.h"
+#include <windows.h>
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
@@ -66,6 +67,9 @@ bool	AssetLoadManager :: LoadItem( json_t* item )
 template <typename Loader>
 bool LoadStuff( Loader* loader, const char* filePath, const char* mainKey )
 {
+	TCHAR dirName[MAX_PATH];
+	
+	GetCurrentDirectory( MAX_PATH, dirName );
 	ifstream fileStream( filePath );
 	if( fileStream.is_open() == false )//open();
 	{

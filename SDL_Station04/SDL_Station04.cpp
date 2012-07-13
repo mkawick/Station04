@@ -28,7 +28,7 @@ void	Test()
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//Test();
-	GameFramework Game (920, 600);
+	GameFramework Game (1200, 800);
 	
 	Game.MainLoop ();
 	exit(0);

@@ -2,7 +2,8 @@
 	"files":
 			[
 			   { "ignore": 1, "file": "D:/Develop/assimp/test/models/BLEND/4Cubes4Mats_248.blend", "key": "cubes" },
-			   { "file": "D:/Develop/VisualStudio/SDL/SDL_Station04/Data/cone.3ds", "key": "cone" },
+			   { "ignore": "../Data/cone.3ds", "key": "resource1" },
+			   { "file": "../Data/Asteroids/Asteroid_01_Sm.obj", "key": "cone" },
 			   { "file": "end", "key": "end" }
 			]
 }

@@ -77,7 +77,7 @@ GameFramework :: GameFramework (int Width, int Height)
 
 	Init ();
 	
-	AssetLoader.LoadFromManifest("D:/Develop/VisualStudio/SDL/SDL_Station04/Data/GraphicsFileManifest.json");
+	AssetLoader.LoadFromManifest("../Data/GraphicsFileManifest.json");
 
 	
 }
