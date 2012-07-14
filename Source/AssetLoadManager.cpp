@@ -55,7 +55,20 @@ bool	AssetLoadManager :: LoadItem( json_t* item )
 
 	if( keyLookup && fileName )
 	{
-		Load( keyLookup, fileName );
+		U32 hashKey = Load( keyLookup, fileName );
+		if( hashKey )
+		{
+			json_t *scaleObj = json_object_get( item, "scale");
+			if( json_is_real( scaleObj ) )
+			{
+				float newScale = static_cast< float >( json_real_value( scaleObj ) );
+				AssetPairIter it = assets.find( hashKey );
+				AssetObject* obj = it->second;
+				if( obj )
+					obj->SetScale( newScale );
+			}
+		}
+		
 		return true;
 	}
 
@@ -144,7 +157,7 @@ AssetObject* AssetLoadManager :: FindObject( const char* key )
 
     std::size_t hash = string_hash( key );
 
-	stdext::hash_map < int, AssetObject* > :: iterator iter;
+	AssetPairIter iter;
 	iter = assets.find( hash );
 	if( iter == assets.end() )
 		return NULL;
@@ -156,7 +169,7 @@ AssetObject* AssetLoadManager :: FindObject( const char* key )
 
 //--------------------------------------------------------------------
 
-int	AssetLoadManager :: Load( const char* key, const char* filePath )
+U32	AssetLoadManager :: Load( const char* key, const char* filePath )
 {
 	boost::hash<std::string> string_hash;
 
@@ -169,7 +182,7 @@ int	AssetLoadManager :: Load( const char* key, const char* filePath )
 		assets.insert( AssetPair( hash, asset ) );
 		return hash;
 	}
-	return -1;
+	return UINT_MAX;
 }
 
 
@@ -228,7 +241,8 @@ void set_float4(float f[4], float a, float b, float c, float d)
 AssetObject :: AssetObject() : 
 	scene( NULL ), 
 	DrawList( 0 ), 
-	angle( 0 )
+	angle( 0 ),
+	scale( 1.0f )
 {
 }
 
@@ -447,14 +461,15 @@ void	AssetObject::InitDrawList()
 	}
 }
 
-void	AssetObject::Render( float x, float y, float z, float rx, float ry, float rz, float scale )
+void	AssetObject::Render( float x, float y, float z, float rx, float ry, float rz, float _scale )
 {
+	float finalScale = scale * _scale;
 	glPushMatrix();		
 	
 		glTranslatef ( x, y, z);
 		
 		//float Scale = 0.12F;//1; //0.2
-		glScalef ( scale, scale, scale );// order is critical here, we must scale after rotating
+		glScalef ( finalScale, finalScale, finalScale );// order is critical here, we must scale after rotating
 		glRotatef (rx+180, 1, 0, 0);// flip front to back
 		glRotatef (ry, 0, 1, 0);
 		glRotatef (rz, 0, 0, 1);

@@ -8,10 +8,9 @@
 #include <assimp.h>
 #include <aiscene.h>
 #include <aipostprocess.h>
-/*
- *  AssetLoadManager.h
- *  SDL04_Station
- */
+
+#include "struct.h"
+
 #include "../tools/json/jansson.h"
 #include <hash_map>
 #include <iostream>
@@ -31,6 +30,8 @@ struct AssetObject
 	void	Render( float x, float y, float z, float rx, float ry, float rz, float scale );
 	void	DoMotion();
 
+	void	SetScale( float _scale ) { scale = _scale; }
+
 protected:
 	void	ApplyMaterial( const struct aiMaterial *mtl );
 	void	RecursiveRender( const struct aiScene *sc, const struct aiNode* nd );
@@ -48,12 +49,12 @@ protected:
 	aiVector3D		scene_min, scene_max, scene_center;
 
 	float			angle;
-
+	float			scale;
 
 };
 
- typedef pair <int, AssetObject*> AssetPair;
- typedef stdext::hash_map < int, AssetObject* >::iterator  AssetPairIter;
+ typedef pair <U32, AssetObject*> AssetPair;
+ typedef stdext::hash_map < U32, AssetObject* >::iterator  AssetPairIter;
 //--------------------------------------------------------------------------
 
 class AssetLoadManager
@@ -69,9 +70,9 @@ public:
 	void	Draw( int id );
 
 protected:
-	int		Load( const char* keyLoopup, const char* filePath );
+	U32		Load( const char* keyLoopup, const char* filePath );
 
-	stdext::hash_map< int, AssetObject* >	assets;
+	stdext::hash_map< U32, AssetObject* >	assets;
 	aiLogStream								loggingStream, loggingStream2;
 
 public:
