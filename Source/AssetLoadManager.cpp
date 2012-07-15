@@ -73,6 +73,9 @@ bool	AssetLoadManager :: LoadItem( json_t* item )
 	if( json_is_string( fileObj ) )
 		fileName = json_string_value( fileObj );
 
+	if( stricmp( fileName, "end" ) == 0 )
+		return true;
+
 	if( keyLookup && fileName )
 	{
 		U32 hashKey = Load( keyLookup, fileName );
