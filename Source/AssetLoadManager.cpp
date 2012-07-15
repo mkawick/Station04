@@ -44,6 +44,26 @@ bool	AssetLoadManager :: LoadItem( json_t* item )
 	{
 		return true;
 	}
+	// first we test for embedded manifests
+	// Note: we are not checking for infinite recursion
+	if( json_object_get( item, "manifest") )
+	{
+		json_t *		fileObj = json_object_get( item, "manifest");
+		if( fileObj )
+		{
+			const char*		fileName = json_string_value( fileObj );
+			if( fileName )
+			{
+				LoadFromManifest( fileName );
+			}
+		}
+		else
+		{
+			cout << "ERROR: badly formed file entry " << endl;
+		}
+		return true;
+	}
+
 	const char* keyLookup = NULL;
 	const char* fileName = NULL;
 	json_t *		fileObj = json_object_get( item, "file");
@@ -80,9 +100,9 @@ bool	AssetLoadManager :: LoadItem( json_t* item )
 template <typename Loader>
 bool LoadStuff( Loader* loader, const char* filePath, const char* mainKey )
 {
-	TCHAR dirName[MAX_PATH];
+	//TCHAR dirName[MAX_PATH];
 	
-	GetCurrentDirectory( MAX_PATH, dirName );
+	//GetCurrentDirectory( MAX_PATH, dirName );
 	ifstream fileStream( filePath );
 	if( fileStream.is_open() == false )//open();
 	{

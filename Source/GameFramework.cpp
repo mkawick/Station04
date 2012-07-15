@@ -76,10 +76,10 @@ GameFramework :: GameFramework (int Width, int Height)
 	GlobalGameFramework = this;// used throughout the init process
 
 	Init ();
-	
-	AssetLoader.LoadFromManifest("../Data/GraphicsFileManifest.json");
 
+	AssetLoader.LoadFromManifest("../Data/FileManifest.json");
 	
+	//AssetLoader.LoadFromManifest("../Data/GraphicsFileManifest.json");
 }
 
 //----------------------------------------------------

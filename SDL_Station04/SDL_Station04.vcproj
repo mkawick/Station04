@@ -387,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Data\FileManifest.json"
+				>
+			</File>
+			<File
 				RelativePath="..\Data\GraphicsFileManifest.json"
 				>
 			</File>
