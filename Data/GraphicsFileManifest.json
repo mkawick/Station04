@@ -3,8 +3,8 @@
 			[
 			   { "ignore": 1, "file": "D:/Develop/assimp/test/models/BLEND/4Cubes4Mats_248.blend", "key": "cubes" },
 			   { "ignore": "../Data/cone.3ds", "key": "resource1" },
-			   { "file": "../Data/Asteroids/Asteroid_01_Sm.obj", "key": "cone2", "scale":0.2 },
-			   { "file": "../Data/Ship01_Proxy/Ship01_Proxy.obj", "key": "cone", "scale":0.2 },
+			   { "file": "../Data/Asteroids/Asteroid_01_Sm.obj", "key": "cone", "scale":0.2 },
+			   { "file": "../Data/Ship01_Proxy/Ship01_Proxy.obj", "key": "cone2", "scale":0.2 },
 			   { "file": "end", "key": "end" }
 			]
 }
