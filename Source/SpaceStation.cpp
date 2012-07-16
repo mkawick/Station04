@@ -19,7 +19,7 @@
 const float SpaceStation :: CylinderMultiplier = 0.5f;
 //---------------------------------------------------------
 
-SpaceStation :: SpaceStation () : StellarObject ()
+SpaceStation :: SpaceStation () : ShipArchetype ()
 {
 	ShieldLevel[0] = 3;
 	ShieldLevel[1] = 3;

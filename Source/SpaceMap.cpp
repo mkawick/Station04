@@ -144,7 +144,7 @@ void	SpaceMap :: SetScreenPosition (float l, float t, float r, float b)
 	float HeightBetweenCenters = sin (ThirtyDegrees) * StationSpacing;// should divide by 2, optimized
 	float WidthBetweenCenters = cos (ThirtyDegrees) * StationSpacing;
 	
-	const float Sqrt3 = sqrt (3.0);// think of a 30-60-90 triangle
+	const float Sqrt3 = static_cast<float>( sqrt (3.0) );// think of a 30-60-90 triangle
 	float DistanceFromCenterToCornerPoints = (StationSpacing / Sqrt3);
 	
 	Hexes [0].Setup (CenterHorizontal, CenterVertical, DistanceFromCenterToCornerPoints);
@@ -200,10 +200,12 @@ void	SpaceMap :: Draw ()
 	GLint ViewportParams [4];
 	glGetIntegerv(GL_VIEWPORT, ViewportParams);// store until we restore later
 	
-	glViewport(ScreenPosition.Corners[0].x,
-			   ViewportParams[3] - ScreenPosition.Corners[1].y - ScreenPosition.Corners[0].y,
-			   ScreenPosition.Corners[1].x,
-			   ScreenPosition.Corners[1].y);
+    int top = static_cast< int >( ViewportParams[3] - ScreenPosition.Corners[1].y - ScreenPosition.Corners[0].y );
+    int left = static_cast< int >( ScreenPosition.Corners[0].x );
+    int width = static_cast< int >( ScreenPosition.Corners[1].x );
+    int height = static_cast< int >( ScreenPosition.Corners[1].y );
+
+	glViewport(left, top, width, height );
 
 	// preparation for drawing
 	glDisable (GL_LIGHTING);
@@ -257,7 +259,7 @@ void	SpaceMap :: DrawHex (int which, float offx, float offy)
 	}
 	else
 	{
-		glLineWidth (1.2);
+		glLineWidth (1.2f);
 		glColor3f (Color.r, Color.g, Color.b);
 	}
 	

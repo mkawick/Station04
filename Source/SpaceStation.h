@@ -7,19 +7,29 @@
 #pragma once
 
 #include "GlobalDefinitions.h"
-#include "StellarObject.h"
+#include "ShipArchetype.h"
 
 //------------------------------------------
 
-class SpaceStation : public StellarObject
+class SpaceStation : public ShipArchetype
 {
 public:
 	SpaceStation ();
 	
 	// note that draw uses a drawlist so we don't need to do any drawing here. See baseclass.
 	void			Setup ();
+    void			Draw () { StellarObject::Draw(); }
+    void			Update (GameData& data) { StellarObject::Update( data ); }
+    void			PostDrawCleanup () {}
+
+    // controls
 	int				GetShieldLevel () const;// overall 0-100, not individually
 	void			SetShieldLevel (int WhichSphere, int level);
+
+    void			Rotate (RotationDir dir) {}
+    void			SetAngleOfRotation (Vector angle){}
+    void			ApplyThrust () {}
+    
 	
 	//---------------------------------------
 	

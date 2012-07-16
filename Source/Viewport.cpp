@@ -68,7 +68,7 @@ void	Viewport :: Update (GameData& data)
 		SetCameraPosition(v);
 	}
 	
-	float	ViewAngle = 0.11;// simply for setting the proper frustum
+	float	ViewAngle = 0.11f;// simply for setting the proper frustum
 	glFrustum (-ViewAngle, ViewAngle, -ViewAngle, ViewAngle, 0.1, 9000);
 	
 	// I can't express how important setting the Frustrum before rotating and translating is.
