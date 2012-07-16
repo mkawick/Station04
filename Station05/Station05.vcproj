@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib glut32.lib glee.lib ..\tools\Assimp\bin\debug\assimp.lib"
+				AdditionalDependencies="..\tools\GL\lib\glut32.lib ..\tools\GL\lib\freeglut.lib ..\tools\GL\lib\glee.lib ..\tools\Assimp\bin\debug\assimp.lib ..\tools\SDL\lib\SDL.lib"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"
