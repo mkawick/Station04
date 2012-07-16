@@ -1,6 +1,6 @@
 /*
  *  Quaternion.cpp
- *  SDL04_Station
+ *  Station05
  */
 
 #include <math.h>

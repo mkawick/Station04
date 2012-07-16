@@ -1,6 +1,6 @@
 /*
  *  AudioManager.h
- *  SDL04_Station
+ *  Station05
  */
 #include "GameData.h"
 

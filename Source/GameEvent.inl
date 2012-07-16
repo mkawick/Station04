@@ -1,6 +1,6 @@
 /*
  *  GameEvent.inl
- *  SDL04_Station
+ *  Station05
  */
 
 #include <assert.h>

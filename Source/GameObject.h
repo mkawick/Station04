@@ -1,5 +1,5 @@
 //  GameObject.h
-//	SDL04_Station
+//	Station05
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 #include "PositionalCircles.h"

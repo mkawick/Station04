@@ -1,6 +1,6 @@
 /*
  *  PlayerConnection.cpp
- *  SDL04_Station
+ *  Station05
  *
  *  Created by Mickey Kawick on 28/12/08.
  *  Copyright 2008-2012 __MyCompanyName__. All rights reserved.

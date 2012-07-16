@@ -14,7 +14,12 @@ Quadtree::Quadtree() :
 	x2		( 0 ),
 	y2		( 0 ),
 	level	( UninitializedLevel ),
-	maxLevel( UninitializedLevel )
+	maxLevel( UninitializedLevel ),
+	objects(),
+	NW		( NULL ),
+	NE		( NULL ),
+	SW		( NULL ),
+	SE		( NULL )
 {
 }
 
@@ -31,6 +36,8 @@ void Quadtree::Init( float _x1, float _y1, float _x2, float _y2, int _level, int
 	level	= _level,
 	maxLevel=_maxLevel;
 
+	objects.clear();
+
 	if ( level == maxLevel ) 
 	{
 		return;
@@ -39,19 +46,13 @@ void Quadtree::Init( float _x1, float _y1, float _x2, float _y2, int _level, int
 	float halfX = ( x2+x1 ) * 0.5f;
 	float halfY = ( y2+y1 ) * 0.5f;
 	NW = new Quadtree();
-	NW->Init( x1, y1, halfX, halfY, level+1, maxLevel );
 	NE = new Quadtree();
-	NE->Init( halfX, y1, x2, halfY, level+1, maxLevel );
 	SW = new Quadtree();
-	SW->Init( x1, halfY, halfX, y2, level+1, maxLevel );
 	SE = new Quadtree();
+	NW->Init( x1, y1, halfX, halfY, level+1, maxLevel );
+	NE->Init( halfX, y1, x2, halfY, level+1, maxLevel );
+	SW->Init( x1, halfY, halfX, y2, level+1, maxLevel );
 	SE->Init( halfX, halfY, x2, y2, level+1, maxLevel );
-	/*
-	NW = new Quadtree( x, y, width / 2.0f, height / 2.0f, level+1, maxLevel );
-	NE = new Quadtree( x + width / 2.0f, y, width / 2.0f, height / 2.0f, level+1, maxLevel );
-	SW = new Quadtree( x, y + height / 2.0f, width / 2.0f, height / 2.0f, level+1, maxLevel );
-	SE = new Quadtree( x + width / 2.0f, y + height / 2.0f, width / 2.0f, height / 2.0f, level+1, maxLevel );
-	*/
 }
 
 float	 Quadtree::GetMinimumPartitionX() const 
@@ -66,6 +67,9 @@ float	 Quadtree::GetMinimumPartitionY() const
 
 void Quadtree::AddPartitionObject( PartitionObject *object ) 
 {
+	if( object == NULL )
+		return;
+
 	if ( level == maxLevel ) 
 	{
 		objects.push_back( object );
@@ -380,6 +384,9 @@ bool Quadtree::Contains( Quadtree *child, PartitionObject *object )
 
 void Quadtree::Remove( PartitionObject *object )
 {
+	if( object == NULL )
+		return;
+
 	if ( level == maxLevel ) 
 	{
 		objects.remove( object );

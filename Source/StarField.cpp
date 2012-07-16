@@ -1,6 +1,6 @@
 /*
  *  StarField.cpp
- *  SDL04_Station
+ *  Station05
  */
 
 #include "stdafx.h"
@@ -76,7 +76,7 @@ void	StarField :: Setup ()
 	
 	float PointSizes[2];
 	float CurrentPointSize;
-	bool IsAntiAliasingOn = glIsEnabled (GL_POINT_SMOOTH);
+	bool IsAntiAliasingOn = glIsEnabled (GL_POINT_SMOOTH) ? true : false;
 	glGetFloatv (GL_POINT_SIZE_RANGE, PointSizes);
 	glGetFloatv (GL_POINT_SIZE, &CurrentPointSize);
 	//glGetBooleanv (GL_POINT_SMOOTH, &IsAntiAliasingOn);
