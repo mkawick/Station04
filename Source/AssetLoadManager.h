@@ -9,7 +9,7 @@
 #include <aiscene.h>
 #include <aipostprocess.h>
 
-#include "struct.h"
+#include "../Common/struct.h"
 
 #include "../tools/json/jansson.h"
 #include "../common/ConfigFileLoader.h"

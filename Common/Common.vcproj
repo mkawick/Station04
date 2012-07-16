@@ -152,6 +152,10 @@
 				RelativePath=".\test.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\uuid.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -160,6 +164,14 @@
 			>
 			<File
 				RelativePath=".\ConfigFileLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\struct.h"
+				>
+			</File>
+			<File
+				RelativePath=".\uuid.h"
 				>
 			</File>
 		</Filter>

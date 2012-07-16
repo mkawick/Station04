@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include <windows.h>
-#include "vector.h"
+#include "../common/Math/vector.h"
 #include "gamedata.h"
 #include "ProjectileMgr.h"
 

@@ -3,7 +3,8 @@
  *  Station05
  */
 
-#include "stdafx.h"
+#pragma warning ( disable: 4996 )
+//#include "stdafx.h"
 #include <windows.h>
 #include "uuid.h"
 #include <string.h>

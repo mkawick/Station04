@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "spacestation.h"
 #include "gazelle.h"
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 #include "GameData.h"
 
 //-----------------------------------------------

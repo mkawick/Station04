@@ -7,7 +7,7 @@
 #include <windows.h>
 #include <list>
 #include <math.h>
-#include "mathfunctions.h"
+#include "../common/Math/mathfunctions.h"
 #include "AsteroidMgr.h"
 #include "asteroid.h"
 #include "GameData.h"

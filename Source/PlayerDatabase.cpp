@@ -9,7 +9,7 @@
 #include "SpaceStation.h"
 #include "gazelle.h"
 #include "scorey.h"
-#include "MathFunctions.h"
+#include "../common/Math/MathFunctions.h"
 #include <assert.h>
 
 //Scorey	testShip;

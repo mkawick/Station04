@@ -6,7 +6,7 @@
 #pragma once
 #include "gameevent.h"
 #include <string>
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 #include "GeneralDataTypes.h"
 
 class Player;

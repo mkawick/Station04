@@ -5,9 +5,9 @@
 
 #include "StdAfx.h"
 #include <windows.h>
-#include "uuid.h"
+#include "../common/uuid.h"
 #include "ResourceManager.h"
-#include "vector.h"
+#include "../common/Math/vector.h"
 #include "gamedata.h"
 #include "StellarResource.h"
 #include "AssetLoadManager.h"

@@ -5,7 +5,7 @@
 
 #pragma once
 #include <list>
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 
 struct Star
 {

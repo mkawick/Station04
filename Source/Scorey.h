@@ -6,7 +6,7 @@
 
 
 #pragma once
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 #include <list>
 #include "GameEvent.h"
 #include "ShipArchetype.h"

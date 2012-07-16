@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 //----------------------------------------------------
 
 struct ScreenRect

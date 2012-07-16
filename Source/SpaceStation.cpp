@@ -9,11 +9,11 @@
 
 #include "stdafx.h"
 #include <windows.h>
-#include "struct.h"
+#include "../Common/struct.h"
 #include "SpaceStation.h"
 #include <math.h>
 #include <assert.h>
-#include "mathfunctions.h"
+#include "../common/Math/mathfunctions.h"
 #include "GlobalDefinitions.h"
 
 const float SpaceStation :: CylinderMultiplier = 0.5f;

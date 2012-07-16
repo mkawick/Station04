@@ -6,7 +6,7 @@
 #pragma once
 
 #include <SDL/SDL.h>
-#include "vector.h"
+#include "../common/Math/vector.h"
 #include "SpaceStation.h"
 #include <math.h>
 #include <SDL/SDL_keysym.h>

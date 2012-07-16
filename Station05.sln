@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldServer", "WorldServer\WorldServer.vcproj", "{199F906E-D475-4E9B-8F09-FE98FD7241BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {213B4100-7A7B-4A44-B9FB-3A6BF6345D79}
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779} = {1187FD8D-7CC8-4719-929F-6AC38CE66779}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GatewayServer", "GatewayServer\GatewayServer.vcproj", "{56B2942A-342F-4072-AD27-B3915AC99963}"
+	ProjectSection(ProjectDependencies) = postProject
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {213B4100-7A7B-4A44-B9FB-3A6BF6345D79}
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779} = {1187FD8D-7CC8-4719-929F-6AC38CE66779}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZoneServer", "ZoneServer\ZoneServer.vcproj", "{CFD33410-F9E9-47C3-A79B-8D1D52F7F657}"
+	ProjectSection(ProjectDependencies) = postProject
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {213B4100-7A7B-4A44-B9FB-3A6BF6345D79}
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779} = {1187FD8D-7CC8-4719-929F-6AC38CE66779}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonLibs", "CommonLibs", "{7F0E1128-02C0-47A0-82E6-97E9D6CF11B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcproj", "{1187FD8D-7CC8-4719-929F-6AC38CE66779}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "Network\Network.vcproj", "{213B4100-7A7B-4A44-B9FB-3A6BF6345D79}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Station05", "Station05\Station05.vcproj", "{7936567C-50AA-467E-8915-CD41FD9CE530}"
+	ProjectSection(ProjectDependencies) = postProject
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {213B4100-7A7B-4A44-B9FB-3A6BF6345D79}
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779} = {1187FD8D-7CC8-4719-929F-6AC38CE66779}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{199F906E-D475-4E9B-8F09-FE98FD7241BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{199F906E-D475-4E9B-8F09-FE98FD7241BF}.Debug|Win32.Build.0 = Debug|Win32
+		{199F906E-D475-4E9B-8F09-FE98FD7241BF}.Release|Win32.ActiveCfg = Release|Win32
+		{199F906E-D475-4E9B-8F09-FE98FD7241BF}.Release|Win32.Build.0 = Release|Win32
+		{56B2942A-342F-4072-AD27-B3915AC99963}.Debug|Win32.ActiveCfg = Debug|Win32
+		{56B2942A-342F-4072-AD27-B3915AC99963}.Debug|Win32.Build.0 = Debug|Win32
+		{56B2942A-342F-4072-AD27-B3915AC99963}.Release|Win32.ActiveCfg = Release|Win32
+		{56B2942A-342F-4072-AD27-B3915AC99963}.Release|Win32.Build.0 = Release|Win32
+		{CFD33410-F9E9-47C3-A79B-8D1D52F7F657}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CFD33410-F9E9-47C3-A79B-8D1D52F7F657}.Debug|Win32.Build.0 = Debug|Win32
+		{CFD33410-F9E9-47C3-A79B-8D1D52F7F657}.Release|Win32.ActiveCfg = Release|Win32
+		{CFD33410-F9E9-47C3-A79B-8D1D52F7F657}.Release|Win32.Build.0 = Release|Win32
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779}.Debug|Win32.Build.0 = Debug|Win32
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779}.Release|Win32.ActiveCfg = Release|Win32
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779}.Release|Win32.Build.0 = Release|Win32
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79}.Debug|Win32.ActiveCfg = Debug|Win32
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79}.Debug|Win32.Build.0 = Debug|Win32
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79}.Release|Win32.ActiveCfg = Release|Win32
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79}.Release|Win32.Build.0 = Release|Win32
+		{7936567C-50AA-467E-8915-CD41FD9CE530}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7936567C-50AA-467E-8915-CD41FD9CE530}.Debug|Win32.Build.0 = Debug|Win32
+		{7936567C-50AA-467E-8915-CD41FD9CE530}.Release|Win32.ActiveCfg = Release|Win32
+		{7936567C-50AA-467E-8915-CD41FD9CE530}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1187FD8D-7CC8-4719-929F-6AC38CE66779} = {7F0E1128-02C0-47A0-82E6-97E9D6CF11B4}
+		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {7F0E1128-02C0-47A0-82E6-97E9D6CF11B4}
+	EndGlobalSection
+EndGlobal

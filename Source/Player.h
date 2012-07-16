@@ -7,8 +7,8 @@
 #pragma once
 #include <string>
 #include <list>
-#include "Vector.h"
-#include "uuid.h"
+#include "../common/Math/Vector.h"
+#include "../common/uuid.h"
 #include "ActiveUnit.h"
 
 class ShipArchetype;

@@ -11,7 +11,7 @@
 #include <SDL/SDL_opengl.h>
 //#import <GLUT/glut.h>
 #endif
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 #include <list>
 #include "WeaponBase.h"
 

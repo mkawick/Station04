@@ -1,7 +1,7 @@
 #pragma once
 // PartitionObject.h
 
-#include "../../Source/struct.h"
+#include "../../Common/struct.h"
 class StellarObject;
 
 enum CollisionFlags

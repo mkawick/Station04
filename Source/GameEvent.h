@@ -6,10 +6,10 @@
 #pragma once
 #include <queue>
 #include <list>
-#include "uuid.h"
+#include "../common/uuid.h"
 #include "GlobalDefinitions.h"
 
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 
 class GameData;
 class StellarResource;

@@ -6,7 +6,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 
 //----------------------------------------------------
 

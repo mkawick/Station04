@@ -17,7 +17,7 @@
 #include "player.h"
 #include "playerdatabase.h"
 #include "ShipArchetype.h"
-#include "MathFunctions.h"
+#include "../common/Math/MathFunctions.h"
 
 //----------------------------------------------------------------
 

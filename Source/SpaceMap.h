@@ -12,7 +12,7 @@
 #include <SDL/SDL_opengl.h>
 #include "glut.h"
 #endif
-#include "vector.h"
+#include "../common/Math/vector.h"
 #include "GeneralDataTypes.h"
 
 class GameData;

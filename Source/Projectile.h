@@ -5,8 +5,8 @@
  */
 
 #pragma once
-#include "Vector.h"
-#include "uuid.h"
+#include "../common/Math/Vector.h"
+#include "../common/uuid.h"
 
 #include "StellarObject.h"
 

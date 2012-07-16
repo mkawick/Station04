@@ -6,7 +6,7 @@
  *  Copyright 2008-2012 __MyCompanyName__. All rights reserved.
  *
  */
-#include "Vector.h"
+#include "../common/Math/Vector.h"
 
 class GameData;
 //---------------------------------------------------------

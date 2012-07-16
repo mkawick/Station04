@@ -1,7 +1,7 @@
 #pragma once
 //Quadtree.h
 
-#include "../../Source/struct.h"
+#include "../../Common/struct.h"
 #include <vector>
 #include <list>
 using namespace std;
