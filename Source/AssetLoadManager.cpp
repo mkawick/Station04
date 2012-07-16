@@ -61,16 +61,19 @@ bool	AssetLoadManager :: LoadModel( json_t* item )
 	if( keyLookup && fileName )
 	{
 		U32 hashKey = Load( keyLookup, fileName );
-		if( hashKey )
+		if( hashKey && hashKey != UINT_MAX)
 		{
 			json_t *scaleObj = json_object_get( item, "scale");
 			if( json_is_real( scaleObj ) )
 			{
 				float newScale = static_cast< float >( json_real_value( scaleObj ) );
 				AssetPairIter it = assets.find( hashKey );
-				AssetObject* obj = it->second;
-				if( obj )
-					obj->SetScale( newScale );
+				if( it != assets.end() )
+				{
+					AssetObject* obj = it->second;
+					if( obj )
+						obj->SetScale( newScale );
+				}
 			}
 		}
 		

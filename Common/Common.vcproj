@@ -169,6 +169,58 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<Filter
+			Name="Math"
+			>
+			<File
+				RelativePath=".\Math\Angle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Angle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\CapsuleCollision.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\CapsuleCollision.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\MathFunctions.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\MathFunctions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Matrix4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Matrix4.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Quaternion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Quaternion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Vector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Vector.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

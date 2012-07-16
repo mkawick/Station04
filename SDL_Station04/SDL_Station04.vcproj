@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="SDL_Station04"
+	Name="SDL_Station05"
 	ProjectGUID="{A5F40915-EF3C-4FCF-83D8-505F7F60D3D3}"
 	RootNamespace="SDL_Station04"
 	Keyword="Win32Proj"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="D:\Develop\VisualStudio\SDL\SDL_Station04\tools\SDL\include;D:\Develop\VisualStudio\SDL\SDL_Station04\tools\Assimp\Include;..\SDL_Station04\tools\json"
+				AdditionalIncludeDirectories="..\tools\SDL\include;..\tools\Assimp\Include;..\tools\json"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib glut32.lib glee.lib D:\Develop\VisualStudio\SDL\SDL_Station04\tools\Assimp\bin\debug\assimp.lib"
+				AdditionalDependencies="SDL.lib glut32.lib glee.lib ..\tools\Assimp\bin\debug\assimp.lib"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"
