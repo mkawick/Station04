@@ -5,8 +5,8 @@
 #include "stdafx.h"
 #include "Input.h"
 #include "GameObject.h"
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include "../tools/SDL/include/SDL.h"
+#include "../tools/SDL/include/SDL_opengl.h"
 
 namespace CORE_AI
 {

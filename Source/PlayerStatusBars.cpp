@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include <windows.h>
-#include "glut.h"
+#include "../tools/GL/include/glut.h"
 #include "PlayerStatusBars.h"
 #include "GameData.h"
 #include "PlayerDatabase.h"

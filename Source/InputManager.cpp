@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include <windows.h>
 #include <assert.h>
-#include <SDL/SDL.h>
+#include "../tools/SDL/include/SDL.h"
 #include "InputManager.h"
 #include "GameEvent.h"
 #include "Gamedata.h"

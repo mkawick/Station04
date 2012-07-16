@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include <windows.h>
 #include "SpaceMap.h"
-#include <SDL/SDL_Video.h>
+#include "../tools/SDL/include/SDL_Video.h"
 #include <math.h>
 #include <assert.h>
 #include "GameData.h"

@@ -5,9 +5,9 @@
 
 #include "StdAfx.h"
 #include <windows.h>
-#include <GL/glut.h>
+#include "../tools/GL/include/glut.h"
 #include <stdlib.h>
-#include <SDL/SDL.h>
+#include "../tools/SDL/include/SDL.h"
 #include <iostream>
 #include <fstream>
 using namespace std;

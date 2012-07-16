@@ -5,11 +5,13 @@
 
 #pragma once
 
-#include <SDL/SDL.h>
+#include "../tools/SDL/include/SDL.h"
+#include "../tools/SDL/include/SDL_keysym.h"
+
 #include "../common/Math/vector.h"
 #include "SpaceStation.h"
 #include <math.h>
-#include <SDL/SDL_keysym.h>
+
 //#include "room.h"
 #include "starfield.h"
 #include "viewport.h"

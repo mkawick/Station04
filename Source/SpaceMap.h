@@ -9,8 +9,8 @@
 
 #pragma once
 #ifndef __gl_h_
-#include <SDL/SDL_opengl.h>
-#include "glut.h"
+#include "../tools/SDL/include/SDL_opengl.h"
+#include "../tools/GL/include/glut.h"
 #endif
 #include "../common/Math/vector.h"
 #include "GeneralDataTypes.h"

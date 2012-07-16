@@ -7,7 +7,7 @@
 #include "stdafx.h"
 #include <windows.h>
 #ifndef __gl_h_
-#include <SDL/SDL_opengl.h>
+#include "../tools/SDL/include/SDL_opengl.h"
 #endif
 #include "Gazelle.h"
 #include "GameData.h"
