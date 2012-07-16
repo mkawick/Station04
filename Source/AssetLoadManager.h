@@ -12,6 +12,7 @@
 #include "struct.h"
 
 #include "../tools/json/jansson.h"
+#include "../common/ConfigFileLoader.h"
 #include <hash_map>
 #include <iostream>
 using namespace std;
@@ -57,7 +58,7 @@ protected:
  typedef stdext::hash_map < U32, AssetObject* >::iterator  AssetPairIter;
 //--------------------------------------------------------------------------
 
-class AssetLoadManager
+class AssetLoadManager : public ConfigFileLoader::FileLoader
 {
 public:
 	AssetLoadManager();
