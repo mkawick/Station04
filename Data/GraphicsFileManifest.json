@@ -1,5 +1,5 @@
 {
-	"files":
+	"models":
 			[
 			   { "ignore": 1, "file": "D:/Develop/assimp/test/models/BLEND/4Cubes4Mats_248.blend", "key": "cubes" },
 			   { "ignore": "../Data/cone.3ds", "key": "resource1" },

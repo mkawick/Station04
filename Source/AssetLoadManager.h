@@ -76,7 +76,13 @@ protected:
 	aiLogStream								loggingStream, loggingStream2;
 
 public:
-	bool	LoadItem( json_t* item );
+	bool	LoadOtherFiles( json_t* jsonObj, const char* filePath );
+	bool	LoadTextureFiles( json_t* jsonObj, const char* filePath );
+	bool	LoadModelFiles( json_t* jsonObj, const char* filePath );
+	bool	LoadAudioFiles( json_t* jsonObj, const char* filePath );
+	bool	LoadIniFiles( json_t* jsonObj, const char* filePath );
+	bool	LoadModel( json_t* item );
+	bool	LoadTexture( json_t* item );
 };
 
 //--------------------------------------------------------------------------

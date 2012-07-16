@@ -1,0 +1,8 @@
+{
+	"textures":
+			[
+			   { "file": "../Data/Asteroids/Asteriod01_Color.tga", "key": "tex01" },
+			   { "file": "../Data/Asteroids/Asteriod01_Normal.tga", "key": "tex02" },
+			   { "file": "end", "key": "end" }
+			]
+}

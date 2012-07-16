@@ -1,6 +1,7 @@
 {
 	"files":
 			[
-			   { "manifest": "../data/GraphicsFileManifest.json" }
+			   { "manifest": "../data/GraphicsFileManifest.json" },
+			   { "manifest": "../data/TexturesFileManifest.json" }
 			]
 }
