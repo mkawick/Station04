@@ -19,7 +19,7 @@
 const float SpaceStation :: CylinderMultiplier = 0.5f;
 //---------------------------------------------------------
 
-SpaceStation :: SpaceStation () : StellarObject ()
+SpaceStation :: SpaceStation () : ShipArchetype ()
 {
 	ShieldLevel[0] = 3;
 	ShieldLevel[1] = 3;
@@ -32,6 +32,30 @@ SpaceStation :: SpaceStation () : StellarObject ()
 		ResourceCapacity[i] = 500;
 	}
 	SetCurrentHitPoints (100);
+}
+
+void	SpaceStation :: Rotate (RotationDir dir)
+{
+}
+
+void	SpaceStation :: ApplyThrust ()// simple for now.
+{
+}
+
+
+void	SpaceStation :: Draw ()
+{
+	StellarObject::Draw();
+}
+
+void	SpaceStation :: Update (GameData& data)
+{
+	StellarObject::Update (data);
+}
+
+void	SpaceStation :: PostDrawCleanup ()
+{
+	//StellarObject::PostDrawCleanup();
 }
 
 //---------------------------------------------------------

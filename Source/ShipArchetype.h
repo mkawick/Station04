@@ -62,12 +62,12 @@ protected:
 	Vector			BodyColor, CockpitFrameColor, CockpitWindowColor;
 	Vector			ShieldColor;
 	std::list <Vector>	NationalColors;
-	Vector			Center;
-	Vector			Angle;
-	Vector			MovementVector;
+	//Vector			Center;
+	//Vector			Angle;
+	//Vector			MovementVector;
 	Vector			ExhaustPosition;
 	int				ShieldLevel [2];//
-	unsigned int	DrawList;
+	//unsigned int	DrawList;
 	
 	bool			IsApplyingThrust;
 	Events::GameEventQueue	EventQueue;

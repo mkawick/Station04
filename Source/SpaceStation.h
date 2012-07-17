@@ -7,11 +7,11 @@
 #pragma once
 
 #include "GlobalDefinitions.h"
-#include "StellarObject.h"
+#include "ShipArchetype.h"
 
 //------------------------------------------
 
-class SpaceStation : public StellarObject
+class SpaceStation : public ShipArchetype
 {
 public:
 	SpaceStation ();
@@ -20,6 +20,12 @@ public:
 	void			Setup ();
 	int				GetShieldLevel () const;// overall 0-100, not individually
 	void			SetShieldLevel (int WhichSphere, int level);
+
+	void	Rotate (RotationDir dir);
+	void	ApplyThrust ();// simple for now.
+	void	Draw ();
+	void	Update (GameData&);
+	void	PostDrawCleanup ();
 	
 	//---------------------------------------
 	

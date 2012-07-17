@@ -16,7 +16,7 @@
 //----------------------------------------------
 //----------------------------------------------
 
-ShipArchetype :: ShipArchetype () : DrawList (0xFFFFFFFF), IsApplyingThrust (false), StellarObject()
+ShipArchetype :: ShipArchetype () : IsApplyingThrust (false), StellarObject()
 {
 	ShieldLevel[0] = 3;
 	ShieldLevel[1] = 3;

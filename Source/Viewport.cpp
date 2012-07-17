@@ -48,9 +48,9 @@ void	Viewport :: SetCameraAngle (Vector v)
 void	Viewport :: MoveCameraToPosition (Vector v, float s, float a)
 {
 	Destination = v;
-	Vector MovementVector = Destination - Position;
-	Speed = MovementVector.AsNormal () * s;
-	Acceleration = MovementVector.AsNormal () * a;
+	Vector Velocity = Destination - Position;
+	Speed = Velocity.AsNormal () * s;
+	Acceleration = Velocity.AsNormal () * a;
 }
 
 //---------------------------------------------------------

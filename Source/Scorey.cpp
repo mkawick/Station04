@@ -51,12 +51,12 @@ void			Scorey :: ApplyThrust ()
 {
 	Vector v;
 	v.ConvertAngleInDegreesToXYComponents (Angle.z);
-	MovementVector += v;
+	Velocity += v;
 	
-	if (MovementVector.Magnitude () > 8)
+	if (Velocity.Magnitude () > 8)
 	{
-		MovementVector.Normalize ();
-		MovementVector *= 8;
+		Velocity.Normalize ();
+		Velocity *= 8;
 	}
 	IsApplyingThrust = true;
 }
@@ -67,20 +67,20 @@ void			Scorey :: Update (GameData& GlobalGameData)
 {
 	// tending toward 0 although in space this doesn't really happen
 	
-	float Velocity = MovementVector.Magnitude ();
-	if (Velocity > 0)
+	float Speed = Velocity.Magnitude ();
+	if (Speed > 0)
 	{
-		float SlowingValue = Velocity/100;
+		float SlowingValue = Speed/100;
 		if (SlowingValue < 0.2)
 			SlowingValue = 0.2;
-		Velocity -= SlowingValue;// negative 10%, or a minimum value (Zenos paradox).
-		if (Velocity<SlowingValue)
-			Velocity = 0;
+		Speed -= SlowingValue;// negative 10%, or a minimum value (Zenos paradox).
+		if (Speed<SlowingValue)
+			Speed = 0;
 	}
 	
-	MovementVector = MovementVector.AsNormal () * Velocity;
+	Velocity = Velocity.AsNormal () * Speed;
 	
-	Center += MovementVector;
+	Center += Velocity;
 }
 
 //----------------------------------------------
