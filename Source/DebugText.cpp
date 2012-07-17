@@ -7,9 +7,9 @@
 #include <windows.h>
 #include "DebugText.h"
 #ifndef __gl_h_
-#include <gl/glee.h>
-#include <SDL/SDL_opengl.h>
-#include "glut.h"
+#include "../tools/GL/include/glee.h"
+#include "../tools/SDL/include/SDL_opengl.h"
+#include "../tools/GL/include/glut.h"
 #endif
 #include <assert.h>
 

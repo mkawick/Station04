@@ -2,16 +2,10 @@
  *  Vector.cpp
  *  Station05
  */
-/*
-#ifndef __gl_h_
-#include <SDL/SDL_opengl.h>
-#include "glut.h"
-#endif*/
 
 #include <math.h>
 #include <assert.h>
 #include "Vector.h"
-//#include "
 #include "../struct.h"
 #include "MathFunctions.h"
 

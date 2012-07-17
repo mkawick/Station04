@@ -4,12 +4,12 @@
  */
 #include "stdafx.h"
 #include "Drawing.h"
-#include <SDL/SDL.h>
+#include "../tools/SDL/include/SDL.h"
 
 #include <windows.h>
 #ifndef __gl_h_
-#include <GL/glee.h>
-#include <GL/glut.h>
+#include "../tools/GL/include/glee.h"
+#include "../tools/GL/include/glut.h"
 #endif
 #include <math.h>
 #define M_PI       3.14159265358979323846f

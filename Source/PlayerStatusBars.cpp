@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include <windows.h>
-#include "glut.h"
+#include "../tools/GL/include/glut.h"
 #include "PlayerStatusBars.h"
 #include "GameData.h"
 #include "PlayerDatabase.h"
@@ -69,11 +69,12 @@ void	PlayerStatusBars :: Draw ()
 	
 	// from the height, subtract the height and top position arriving at a value
 	// less than the height of the screen
-	float top = ViewportParams[3] - (ScreenPosition.Corners[1].y + ScreenPosition.Corners[0].y);
-	glViewport(ScreenPosition.Corners[0].x,
-			   top,
-			   ScreenPosition.Corners[1].x,
-			   ScreenPosition.Corners[1].y);
+	int top = static_cast<int>( ViewportParams[3] - (ScreenPosition.Corners[1].y + ScreenPosition.Corners[0].y) );
+
+    int left = static_cast<int>( ScreenPosition.Corners[0].x );
+    int width = static_cast<int>( ScreenPosition.Corners[1].x );
+    int height = static_cast<int>( ScreenPosition.Corners[1].y );
+	glViewport( left, top, width, height );
 	
 	// preparation for drawing
 	glDisable (GL_LIGHTING);
@@ -129,14 +130,14 @@ void	PlayerStatusBars :: Update (GameData& GlobalGameData)
 		PlayerName = player->GetName();
 		NumberOfStationsBeingTracked = player->GetNumStations();
 		ShipArchetype* ship = player->GetShip ();
-		PlayerShipTracking = ship->GetHealth ();
-		PlayerShipShieldTracking = ship->GetShieldLevel ();
+		PlayerShipTracking = static_cast<float>( ship->GetHealth () );
+		PlayerShipShieldTracking = static_cast<float>( ship->GetShieldLevel () );
 		
 		for (int i=0; i<NumberOfStationsBeingTracked; i++)
 		{
 			SpaceStation* station = player->GetStation(i);
-			StationTracking[i] = station->GetHealth ();
-			StationShieldTracking[i] = station->GetShieldLevel ();
+			StationTracking[i] = static_cast<float>( station->GetHealth () );
+			StationShieldTracking[i] = static_cast<float>( station->GetShieldLevel () );
 		}
 	}
 }
@@ -191,7 +192,7 @@ void	PlayerStatusBars :: DrawUserName ()
 		text++;
 	}
 	
-	glColor3f (0.2, 0.2, 0);
+	glColor3f (0.2f, 0.2f, 0);
 	glRasterPos2f (x-Length+4, y+8);
 	text = PlayerName.c_str ();
 	while (*text)
@@ -216,18 +217,18 @@ void	PlayerStatusBars :: DrawPlayerShipValues ()
 	float MeterWidth = ScreenWidth / 8;// includes deadspace around meter
 	float MeterHeight = ScreenHeight - ScreenHeight*11/16;
 	
-	float MeterLeft = MeterWidth/2+Left;
+	float MeterLeft = MeterWidth/2+Left ;
 	float MeterRight = MeterLeft + MeterWidth;
 	
 	Vector DisplayColor = CalculateColor (ShipColor, WarningColor, DangerColor, PlayerShipTracking);
-	DrawBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  PlayerShipTracking*0.01);
+	DrawBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  PlayerShipTracking*0.01f);
 	
-	DrawBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  PlayerShipShieldTracking*0.01);
+	DrawBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  PlayerShipShieldTracking*0.01f);
 }
 
 //----------------------------------------------
 
-void	PlayerStatusBars :: DrawBar (const Vector& Color, int left, int top, int right, int bottom, float Health)
+void	PlayerStatusBars :: DrawBar (const Vector& Color, float left, float top, float right, float bottom, float Health)
 {
 	float Height = (bottom-top)* (1-Health) + top;
 	glColor3f (Color.r, Color.g, Color.b);
@@ -263,9 +264,9 @@ void		PlayerStatusBars :: DrawPlayerStationValues ()
 		MeterRight += MeterWidth + 30;
 		
 		Vector DisplayColor = CalculateColor (StationColor, WarningColor, DangerColor, StationTracking[i]);
-		DrawBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  StationTracking[i]*0.01);
+		DrawBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  StationTracking[i]*0.01f);
 		
-		DrawBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  StationShieldTracking[i]*0.01);
+		DrawBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  StationShieldTracking[i]*0.01f);
 	}
 }
 
@@ -326,12 +327,12 @@ Vector		PlayerStatusBars :: CalculateColor (const Vector& NormalColor, const Vec
 	}
 	else if (Health > 50)
 	{
-		float	HealthFactor = (Health-50) * 4.0/100.0;// 0-1
+		float	HealthFactor = (Health-50) * 4.0f/100.0f;// 0-1
 		returnColor = NormalColor * HealthFactor + WarningColor * (1-HealthFactor);
 	}
 	else if (Health >25)
 	{
-		float	HealthFactor = (Health-25) * 4.0/100.0;// 0-1
+		float	HealthFactor = (Health-25) * 4.0f/100.0f;// 0-1
 		returnColor = WarningColor * HealthFactor + DangerColor * (1-HealthFactor);
 	}
 	else

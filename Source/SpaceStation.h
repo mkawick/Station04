@@ -18,14 +18,16 @@ public:
 	
 	// note that draw uses a drawlist so we don't need to do any drawing here. See baseclass.
 	void			Setup ();
+
+    // controls
 	int				GetShieldLevel () const;// overall 0-100, not individually
 	void			SetShieldLevel (int WhichSphere, int level);
 
-	void	Rotate (RotationDir dir);
-	void	ApplyThrust ();// simple for now.
-	void	Draw ();
-	void	Update (GameData&);
-	void	PostDrawCleanup ();
+	void			Rotate (RotationDir dir);
+	void			ApplyThrust ();// simple for now.
+	void			Draw ();
+	void			Update (GameData&);
+	void			PostDrawCleanup ();
 	
 	//---------------------------------------
 	

@@ -98,7 +98,7 @@ namespace Events
 		void	PrepToDrawText ();
 		void	CleanupFromDrawingText ();
 		
-		void	DrawBar (const Vector& Color, int left, int top, int right, int bottom, float Health);
+		void	DrawBar (const Vector& Color, float left, float top, float right, float bottom, float Health);
 		
 		void	DrawFrame ();
 		void	DrawBackground ();

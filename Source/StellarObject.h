@@ -7,8 +7,8 @@
 #pragma once
 #ifndef __gl_h_
 //#define GL_GLEXT_PROTOTYPES
-#include <gl/glee.h>
-#include <SDL/SDL_opengl.h>
+#include "../tools/GL/include/glee.h"
+#include "../tools/SDL/include/SDL_opengl.h"
 //#import <GLUT/glut.h>
 #endif
 #include "../common/Math/Vector.h"

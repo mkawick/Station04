@@ -6,9 +6,9 @@
 #include "stdafx.h"
 #include <windows.h>
 #ifndef __gl_h_
-#include <GL/glee.h>
-#include <SDL/SDL_opengl.h>
-#include "glut.h"
+#include "../tools/GL/include/glee.h"
+#include "../tools/SDL/include/SDL_opengl.h"
+#include "../tools/GL/include/glut.h"
 #endif
 #include <math.h>
 #include "ShipArchetype.h"

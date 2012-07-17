@@ -1,7 +1,7 @@
 //  GameObject.h
 //	Station05
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include "../tools/SDL/include/SDL.h"
+#include "../tools/SDL/include/SDL_opengl.h"
 #include "PositionalCircles.h"
 
 namespace	CORE_AI

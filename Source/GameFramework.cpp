@@ -8,7 +8,7 @@
 #include "stdafx.h"
 #include <windows.h>
 #include <mmsystem.h>
-#include "glut.h"
+#include "../tools/GL/include/glut.h"
 
 #include <sstream>
 #include <string>

@@ -6,9 +6,9 @@
 #include "stdafx.h"
 #include <windows.h>
 #ifndef __gl_h_
-#include <GL/glee.h>
-#include <SDL/SDL_opengl.h>
-#include "glut.h"
+#include "../tools/GL/include/glee.h"
+#include "../tools/SDL/include/SDL_opengl.h"
+#include "../tools/GL/include/glut.h"
 #endif
 
 #include "GameFramework.h"
@@ -36,7 +36,7 @@ void			BasicProjectile :: SetCenter (Vector center)
 {
 	Center = center;
 
-	float length = ProjectileLength * ScaleFactor * 0.5;
+	float length = ProjectileLength * ScaleFactor * 0.5f;
 	Partitioning.x1 = center.x - length;// a simple rect enclosing the largest possible area is sufficient for a first-pass test.
 	Partitioning.y1 = center.y - length;
 	Partitioning.x2 = center.x + length;
@@ -68,12 +68,12 @@ void			BasicProjectile :: SetAcceleration (Vector a)
 
 void			BasicProjectile :: SetLifeSpan (float life)
 {
-	LifeSpan = life;
+	LifeSpan = (int) life;
 }
 
 void	BasicProjectile :: CalculateMaxAABB()
 {
-	float actualLength = ProjectileLength * 0.5 * ScaleFactor;
+	float actualLength = ProjectileLength * 0.5f * ScaleFactor;
 
 	Partitioning.x1 = Center.x - actualLength;
 	Partitioning.y1 = Center.y - actualLength;
@@ -83,7 +83,7 @@ void	BasicProjectile :: CalculateMaxAABB()
 
 void	BasicProjectile :: CalculateMaxAABB( float& _x1, float& _y1, float& _x2, float& _y2 )
 {
-	float actualLength = ProjectileLength * 0.5 * ScaleFactor;
+	float actualLength = ProjectileLength * 0.5f * ScaleFactor;
 
 	//cos( -Angle.z );
 	//float 
@@ -98,9 +98,9 @@ void	BasicProjectile :: CalculateMaxAABB( float& _x1, float& _y1, float& _x2, fl
 
 PhaseBolt :: PhaseBolt () : BasicProjectile ()
 {
-	ProjectileLength = 20;
-	ScaleFactor = 0.12;
-	Color.Set (0.9, 0.2, 0);
+	ProjectileLength = 20.0f;
+	ScaleFactor = 0.12f;
+	Color.Set (0.9f, 0.2f, 0);
 	Partitioning.collisionFlag = CollisionFlags_Phaser;
 }
 
@@ -121,7 +121,7 @@ void	PhaseBolt :: Draw ()
 		SetMaterialsAndColor ();
 		Vector BoltVector = Center;
 		float Left = -1, Right = 1;
-		float Top = -ProjectileLength*0.5, Bottom = ProjectileLength*0.5;
+		float Top = -ProjectileLength*0.5f, Bottom = ProjectileLength*0.5f;
 		
 		glPushMatrix();
 		
@@ -173,8 +173,8 @@ void	PhaseBolt :: Update ()
 		list<PartitionObject*>::iterator it = listOfPossibleCollisionObjects.begin();
 		if( it != listOfPossibleCollisionObjects.end() )
 		{
-			float actualLength = ProjectileLength * 0.5 * ScaleFactor;
-			float fudgeFactor = 1.2;// given the way that the missiles travel, we need a bit of overlap
+			float actualLength = ProjectileLength * 0.5f * ScaleFactor;
+			float fudgeFactor = 1.2f;// given the way that the missiles travel, we need a bit of overlap
 			// on the interection tests.
 			float lenSquared = actualLength * actualLength * fudgeFactor;
 			float cx = Center.x, cy = Center.y;
@@ -224,10 +224,10 @@ void	PhaseBolt :: Setup (const ShipArchetype& gazelle, UUID& WhoFired)
 	
 	float Length = GetProjectileLength () * GetScaleFactor ();
 	// fudge factor pushes the bolt away from the nose a bit
-	Vector StartPosition = v + b*Length*1.2; 
+	Vector StartPosition = v + b * Length * 1.2f; 
 	SetCenter (StartPosition);
 	SetAngle (a);
-	SetVelocity (Vector (b.AsNormal () * 3.4));
+	SetVelocity (Vector (b.AsNormal () * 3.4f));
 	WhoFiredMe = WhoFired;
 }
 
@@ -242,10 +242,10 @@ void	PhaseBolt :: Setup (const Scorey& scorey, UUID& WhoFired)
 	
 	float Length = GetProjectileLength () * GetScaleFactor ();
 	// fudge factor pushes the bolt away from the nose a bit
-	Vector StartPosition = v + b*Length*1.2; 
+	Vector StartPosition = v + b * Length * 1.2f; 
 	SetCenter (StartPosition);
 	SetAngle (a);
-	SetVelocity (Vector (b.AsNormal () * 3.4));
+	SetVelocity (Vector (b.AsNormal () * 3.4f ));
 	WhoFiredMe = WhoFired;
 }
 
@@ -253,8 +253,8 @@ void	PhaseBolt :: Setup (const Scorey& scorey, UUID& WhoFired)
 
 void	PhaseBolt :: SetMaterialsAndColor ()
 {
-	float Amb = 0.0;
-	float Specular = 0.0;
+	float Amb = 0.0f;
+	float Specular = 0.0f;
 	float Shininess = 0.0f;
 	float Diffuse = 0.0f;
 	
@@ -269,7 +269,7 @@ void	PhaseBolt :: SetMaterialsAndColor ()
 	glMaterialf(GL_FRONT, GL_SHININESS, Shininess);
 	glMaterialfv(GL_FRONT, GL_EMISSION, emission_mat);
 	
-	glBlendColor (Color.r, Color.g, Color.b, 1.0);
+	glBlendColor (Color.r, Color.g, Color.b, 1.0f);
 }
 
 //------------------------------------------
@@ -292,7 +292,7 @@ void		PhaseBolt :: SetMaterialsAndColorForFuzzyOutline ()
 	glMaterialf(GL_FRONT, GL_SHININESS, Shininess);
 	glMaterialfv(GL_FRONT, GL_EMISSION, emission_mat);
 	
-	glBlendColor (Color.r, Color.g, Color.b, 0.3);
+	glBlendColor (Color.r, Color.g, Color.b, 0.3f );
 }
 
 //------------------------------------------

@@ -7,8 +7,8 @@
 #include <windows.h>
 #define GLUT_BUILDING_LIB
 #ifndef __gl_h_
-#include <SDL/SDL_opengl.h>
-#include "glut.h"
+#include "../tools/SDL/include/SDL_opengl.h"
+#include "../tools/GL/include/glut.h"
 #endif
 #include "StarField.h"
 #include <math.h>

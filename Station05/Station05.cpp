@@ -6,10 +6,10 @@
 #define SDL_USE_NIB_FILE 0
 
 #ifndef __gl_h_
-#include <SDL/SDL_opengl.h>
+#include "../tools/SDL/include/SDL_opengl.h"
 #endif
-#include <SDL/SDL.h>
-#include <SDL/SDL_keysym.h>
+#include "../tools/SDL/include/SDL.h"
+#include "../tools/SDL/include/SDL_keysym.h"
 #include "../Source/GameFramework.h"
 
 #include <fstream>
