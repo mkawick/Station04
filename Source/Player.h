@@ -40,6 +40,8 @@ public:
 	
 	//-------------------------------------------
 	
+	void			Rotate (ShipArchetype :: RotationDir dir);
+	void			ApplyThrust ();// simple for now.
 	
 	
 	// we may want to add configuration params here

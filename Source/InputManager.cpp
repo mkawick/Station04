@@ -52,10 +52,6 @@ bool	InputManager :: HandleKeyboard (GameData& GlobalGameData)
 	SDL_Event events[6];
 	PlayerDatabase* playerdb = GlobalGameData.GetPlayerDatabase();
 	
-	//float AngleAdd = 0.5;
-	//float PositionAdd = 0.5;
-	//float LightPositionAdd = 0.8;
-	
 	Uint32 mask = SDL_KEYUPMASK;
 	int NumEventsReturned = SDL_PeepEvents(events, 6, SDL_PEEKEVENT, mask);
 	if (NumEventsReturned > 0)// when they let go, remove all keys on stack

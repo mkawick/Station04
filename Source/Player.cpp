@@ -69,12 +69,43 @@ void	Player :: Draw ()
 
 void	Player :: PostDrawCleanup ()
 {
+	std::list<SpaceStation*>:: iterator it = Stations.begin ();
+	while (it != Stations.end ())
+	{
+		(*it)->PostDrawCleanup ();
+		it++;
+	}
 	if (Ship)
 	{
 		Ship->PostDrawCleanup ();
 	}
 }
 
+void	Player :: Rotate ( ShipArchetype::RotationDir dir)
+{
+	if( IsViewFollowingShip )
+	{
+		Ship->Rotate( dir );
+	}
+	else
+	{
+		SpaceStation* station = GetStation (StationViewFocus);
+		station->Rotate( dir );
+	}
+}
+
+void	Player :: ApplyThrust ()// simple for now.
+{
+	if( IsViewFollowingShip )
+	{
+		Ship->ApplyThrust();
+	}
+	else
+	{
+		SpaceStation* station = GetStation (StationViewFocus);
+		station->ApplyThrust();
+	}
+}
 
 
 //-----------------------------------------------

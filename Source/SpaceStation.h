@@ -56,6 +56,8 @@ protected:
 	static const float	CylinderMultiplier;
 	float				ResourcesStored [ResourceTypes_Count];
 	float				ResourceCapacity [ResourceTypes_Count];
+
+	static Vector		RotationAddition;
 };
 
 //------------------------------------------

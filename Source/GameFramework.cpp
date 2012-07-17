@@ -150,7 +150,7 @@ void	GameFramework :: Update ()
 		SDL_Delay (Delay);
 	}
 
-	GlobalGameData.SetTimeElapsed (TimeDiff);
+	GlobalGameData.SetTimeElapsed ( static_cast<int>( TimeDiff ));
 
 	TextOut.AddText (str.c_str (), 690, 12);
 	LastTime = CurrentTime;

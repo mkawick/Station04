@@ -101,11 +101,11 @@ void			PlayerDatabase :: PostDrawCleanup ()
 void			PlayerDatabase :: ProcessMessages (GameData& GlobalGameData)//inherited, send all messages to the appropriate players
 {
 	Player* player = *CurrentPlayer;
-	ShipArchetype* Ship = NULL;
+	/*ShipArchetype* Ship = NULL;
 	if (player)
 	{
 		Ship = player->GetShip ();
-	}
+	}*/
 
 	int NumMessages = ReceiveQueue.Count ();
 	for (int i=0; i<NumMessages; i++)
@@ -114,7 +114,7 @@ void			PlayerDatabase :: ProcessMessages (GameData& GlobalGameData)//inherited, 
 		switch (msg->GetType())
 		{
 			case Events :: ApplyThrust:
-				Ship->ApplyThrust ();
+				player->ApplyThrust ();
 				break;
 			case Events :: GameModeChange:
 				break;
@@ -125,15 +125,15 @@ void			PlayerDatabase :: ProcessMessages (GameData& GlobalGameData)//inherited, 
 				
 				if (maneuverType == Events::ManeuverEvent::TurnLeft)
 				{
-					Ship->Rotate (ShipArchetype::CCW);
+					player->Rotate (ShipArchetype::CCW);
 				}
 				if (maneuverType == Events::ManeuverEvent::TurnRight)
 				{
-					Ship->Rotate (ShipArchetype::CW);
+					player->Rotate (ShipArchetype::CW);
 				}
 				if (maneuverType == Events::ManeuverEvent::Thrust)
 				{
-					Ship->ApplyThrust ();
+					player->ApplyThrust ();
 				}
 			}
 				break;
@@ -156,7 +156,6 @@ void			PlayerDatabase :: ProcessMessages (GameData& GlobalGameData)//inherited, 
 						debugText.SetMessageText ("Switch to stationview");
 						SendMessages (debugText);
 						break;
-						
 				}
 			}
 				break;

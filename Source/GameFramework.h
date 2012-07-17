@@ -67,7 +67,7 @@ protected:
 	void	RenderInstructions();
 protected:
 	SDL_Surface *		DrawingContext;
-	float				ScreenWidth, ScreenHeight;
+	int					ScreenWidth, ScreenHeight;
 	bool				AwaitingExit;
 	float				DistanceFromStations;
 	UUID				CurrentPlayer;
