@@ -37,22 +37,22 @@ PlayerStatusBars :: PlayerStatusBars (): PlayerShipTracking (0),
 
 //----------------------------------------------------------------
 
-void	PlayerStatusBars :: SetScreenDimensions (float Left, float Top, float Right, float Bottom)
+void	PlayerStatusBars :: SetScreenDimensions (int Left, int Top, int Right, int Bottom)
 {
-	ScreenDimensions.Corners[0].x = Left;
-	ScreenDimensions.Corners[0].y = Top;
-	ScreenDimensions.Corners[1].x = Right;
-	ScreenDimensions.Corners[1].y = Bottom;
+	ScreenDimensions.Corners[0].x = static_cast< float> ( Left );
+	ScreenDimensions.Corners[0].y = static_cast< float> ( Top );
+	ScreenDimensions.Corners[1].x = static_cast< float> ( Right );
+	ScreenDimensions.Corners[1].y = static_cast< float> ( Bottom );
 }
 
 //----------------------------------------------
 
-void	PlayerStatusBars :: SetScreenPosition (float l, float t, float r, float b)
+void	PlayerStatusBars :: SetScreenPosition (int l, int t, int r, int b)
 {
 	assert (ScreenDimensions.Corners[1].x != 0);// must set the dimensions first
 	
-	ScreenPosition.Corners[0].x = l, ScreenPosition.Corners[0].y = t, 
-	ScreenPosition.Corners[1].x = r, ScreenPosition.Corners[1].y = b;
+	ScreenPosition.Corners[0].x = static_cast< float> ( l ), ScreenPosition.Corners[0].y = static_cast< float> ( t ), 
+	ScreenPosition.Corners[1].x = static_cast< float> ( r ), ScreenPosition.Corners[1].y = static_cast< float> ( b );
 	
 	Height = ScreenDimensions.Corners[1].y - ScreenDimensions.Corners[0].x;
 	//float CenterVertical = Height / 2;

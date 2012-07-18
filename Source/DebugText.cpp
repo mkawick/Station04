@@ -82,7 +82,7 @@ void	DebugText :: Draw ()
 		if (WhichMsg < 0)
 			WhichMsg = NumMessages-1;
 		const char* text = ListOfMessages [WhichMsg].c_str ();
-		glRasterPos2f (x, yPosition);
+		glRasterPos2f (static_cast< float > ( x ), static_cast< float > ( yPosition ) );
 		yPosition += FontLeading;
 		while (*text)
 		{
@@ -173,17 +173,20 @@ void	DebugText :: AddText (const char* text)
 void	DebugText :: AddText (const char* text, int x, int y)
 {
 	int position = FindTextByPosition (x, y);
+
+	float textX = static_cast< float > ( x );
+	float textY = static_cast< float > ( y );
 	
 	if (position == -1)
 	{
 		PositionedText newPositionedText;
-		newPositionedText.Position.Set (x, y, 0);
+		newPositionedText.Position.Set (textX, textY, 0);
 		newPositionedText.Text = text;
 		TextByPosition.push_back (newPositionedText);
 	}
 	else
 	{
-		TextByPosition[position].Position.Set (x, y, 0);
+		TextByPosition[position].Position.Set (textX, textY, 0);
 		TextByPosition[position].Text = text;
 	}
 }

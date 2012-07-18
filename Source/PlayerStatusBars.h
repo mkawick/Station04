@@ -71,8 +71,8 @@ namespace Events
 		PlayerStatusBars ();
 		
 		void	SetDisplayFormat (eDisplayFormat format) {DisplayFormat = format;}
-		void	SetScreenPosition (float Left, float Top, float Right, float Bottom);
-		void	SetScreenDimensions (float Left, float Top, float Right, float Bottom);
+		void	SetScreenPosition (int Left, int Top, int Right, int Bottom);
+		void	SetScreenDimensions (int Left, int Top, int Right, int Bottom);
 
 		// ----------------------------------------------------------------------		
 		

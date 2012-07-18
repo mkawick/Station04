@@ -24,7 +24,7 @@ PlayerDatabase :: PlayerDatabase ()
 
 //-------------------------------------------
 
-void			PlayerDatabase ::SetScreenDimensions (float l, float t, float r, float b)
+void			PlayerDatabase ::SetScreenDimensions (int l, int t, int r, int b)
 {
 	StatusBars.SetScreenDimensions (l, t, r, b);
 }
@@ -33,7 +33,7 @@ void			PlayerDatabase ::SetScreenDimensions (float l, float t, float r, float b)
 
 void			PlayerDatabase ::SetPositionForPlayerStatusBars (float l, float t, float r, float b)
 {
-	StatusBars.SetScreenPosition (l, t, r, b);
+	StatusBars.SetScreenPosition (static_cast< int > ( l ), static_cast< int > ( t ), static_cast< int > ( r ), static_cast< int > ( b ) );
 }
 
 //-------------------------------------------

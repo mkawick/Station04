@@ -332,6 +332,26 @@
 				RelativePath="..\Data\GraphicsFileManifest.json"
 				>
 			</File>
+			<File
+				RelativePath="..\Data\IniFiles.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Keyboard.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Networking.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Player_Config.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\TexturesFileManifest.json"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source"

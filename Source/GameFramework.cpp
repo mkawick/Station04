@@ -75,9 +75,11 @@ GameFramework :: GameFramework (int Width, int Height)
 
 	GlobalGameFramework = this;// used throughout the init process
 
+	AssetLoader.LoadFromManifest( "../Data/IniFiles.json" );
+
 	Init ();
 
-	AssetLoader.LoadFromManifest("../Data/FileManifest.json");
+	AssetLoader.LoadFromManifest("../Data/FileManifest.json" );
 	
 	//AssetLoader.LoadFromManifest("../Data/GraphicsFileManifest.json");
 }
@@ -241,7 +243,7 @@ void	GameFramework :: Init ()
 {
 	SetupGraphics ();
 	SetupMessagingTopology ();
-	float DistanceFromCenter = 80;
+	int DistanceFromCenter = 80;
 	
 	
 	SpacePartition.Init( -3000, -3000, 3000, 3000, 0, 8 );
@@ -262,10 +264,10 @@ void	GameFramework :: Init ()
 	TextOut.SetScreenDiensions (ScreenWidth, ScreenHeight);
 	TextOut.SetScreenPosition (16, 120);
 	
-	spacemap.SetColor (Vector (0.48, 0.38, 0));
-	spacemap.SetFocusColor (Vector (0, 0.88, 0));
-	spacemap.SetHighlightedColor (Vector (1.0, 0.68, 0));
-	spacemap.SetConnectorColor (Vector (0.38, 0.58, 0.0));
+	spacemap.SetColor (Vector (0.48f, 0.38f, 0));
+	spacemap.SetFocusColor (Vector (0, 0.88f, 0));
+	spacemap.SetHighlightedColor (Vector (1.0f, 0.68f, 0));
+	spacemap.SetConnectorColor (Vector (0.38f, 0.58f, 0.0));
 
 	////////////////////////////////////////////////////////////
 	// Now setup the objects in the player universe
@@ -321,7 +323,7 @@ void	GameFramework :: SetupGraphics ()
 	
 	// Initialize the light
 	//GLfloat diffuse[] = {1.0, 1.0, 1.0, 1.0};
-	float Amb = 0.22;
+	float Amb = 0.22F;
 	float Diffuse = 1.0F;
 	float Specular = 0.1F;
 	//float Position = 

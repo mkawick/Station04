@@ -71,8 +71,8 @@ void			Scorey :: Update (GameData& GlobalGameData)
 	if (Speed > 0)
 	{
 		float SlowingValue = Speed/100;
-		if (SlowingValue < 0.2)
-			SlowingValue = 0.2;
+		if (SlowingValue < 0.2f)
+			SlowingValue = 0.2f;
 		Speed -= SlowingValue;// negative 10%, or a minimum value (Zenos paradox).
 		if (Speed<SlowingValue)
 			Speed = 0;
@@ -98,15 +98,15 @@ void			Scorey :: Setup ()
 	DrawList =  glGenLists(1);
 	glNewList (DrawList, GL_COMPILE);
 	
-	float Left = -BodyWidth*0.5, Top = -BodyLength*0.5;
+	float Left = -BodyWidth*0.5f, Top = -BodyLength*0.5f;
 	float Right = -Left, Bottom = -Top;
 	float MidBottom = 0;
-	float WideBody = 0.5;
-	float Bevel = 0.3;
+	float WideBody = 0.5f;
+	float Bevel = 0.3f;
 	float NearDepth = 0.0;
-	float FarDepth = 0.6;
-	float BevelDepth = 1.2;
-	float WingWidth = 6.3;
+	float FarDepth = 0.6f;
+	float BevelDepth = 1.2f;
+	float WingWidth = 6.3f;
 	
 	// the main body is composed of various quads
 	SetMaterialsAndColorForShipBody ();
@@ -122,7 +122,7 @@ void			Scorey :: Setup ()
 	
 	SetMaterialsAndColorForCockpitWindows ();
 	DrawCockpit (Left, Right, Top, MidBottom,
-				 Bevel, NearDepth+0.3);
+				 Bevel, NearDepth+0.3f);
 	
 	DrawEngine (Left-WideBody, Right+WideBody, Bottom, Bottom+1);
 	
@@ -137,7 +137,7 @@ void			Scorey :: Draw ()
 	
 	glTranslatef (Center.x, Center.y, Center.z);
 	
-	float Scale = 0.12;//1; //0.2
+	float Scale = 0.12f;//1; //0.2
 	glScalef (Scale, Scale, Scale);// order is critical here, we must scale after rotating
 	glRotatef (Angle.x+180, 1, 0, 0);// flip front to back
 	glRotatef (Angle.y, 0, 1, 0);
@@ -159,16 +159,16 @@ void			Scorey :: DrawThrust (float MaxLength)
 {
 	SetMaterialsAndColorForExhaust ();
 	float TopMostPosition = ExhaustPosition.y;
-	float NozzleHeight = TopMostPosition+MaxLength *0.25;// use 25% of the length for the initial nozzle exit
-	float FlameBodyHeight = NozzleHeight+MaxLength *0.45;
-	float FlameTipHeight = FlameBodyHeight+MaxLength * 0.30;
+	float NozzleHeight = TopMostPosition+MaxLength *0.25f;// use 25% of the length for the initial nozzle exit
+	float FlameBodyHeight = NozzleHeight+MaxLength *0.45f;
+	float FlameTipHeight = FlameBodyHeight+MaxLength * 0.30f;
 	
-	float NozzleLeft = -BodyWidth*0.25;
+	float NozzleLeft = -BodyWidth*0.25f;
 	float NozzleRight = -NozzleLeft;	
-	float FullLeft = -BodyWidth*0.75;
+	float FullLeft = -BodyWidth*0.75f;
 	float FullRight = -FullLeft;
 	
-	float RandomFlameCenter = (rand () % 100) / 100.0;
+	float RandomFlameCenter = static_cast< float> ( (rand () % 100) / 100.0f );
 	RandomFlameCenter *= NozzleLeft-NozzleRight;
 	RandomFlameCenter -= NozzleLeft;
 	
@@ -235,9 +235,9 @@ void			Scorey :: DrawWing (WingTypes type, float Left, float Right,
 									float Top, float Bottom, 
 									float NearDepth, float FarDepth, float Bevel)
 {
-	float MidHorizontal = (Left+Right) / 2.0;
-	float OneFourthDown = Top + (Bottom-Top) / 4.0;
-	float MidVertical = Bottom - (Bottom - OneFourthDown) / 2.0;	
+	float MidHorizontal = (Left+Right) / 2.0f;
+	float OneFourthDown = Top + (Bottom-Top) / 4.0f;
+	float MidVertical = Bottom - (Bottom - OneFourthDown) / 2.0f;	
 	
 	if (type == FrontLeft)
 	{
@@ -306,7 +306,7 @@ void			Scorey :: DrawCockpit (float Left, float Right, float Top, float Bottom,
 
 void			Scorey :: DrawEngine (float Left, float Right, float Top, float Bottom)
 {
-	ExhaustPosition.Set ((Left+Right)/2, Bottom+0.3, 0);
+	ExhaustPosition.Set ((Left+Right)/2, Bottom+0.3f, 0);
 	GLUquadric* quadric = gluNewQuadric ();
 	
 	float Radius = (Right-Left)/4;
@@ -315,7 +315,7 @@ void			Scorey :: DrawEngine (float Left, float Right, float Top, float Bottom)
 	//////////////////////////////////////////////////////////
 	
 	glPushMatrix();
-	glTranslatef (0, Top, Radius/1.2);
+	glTranslatef (0, Top, Radius/1.2f);
 	glRotatef (-90, 1, 0, 0);
 	gluCylinder (quadric, Radius,
 				 Radius/2, 

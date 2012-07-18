@@ -38,9 +38,9 @@ void	StarField :: SetCenter (Vector v)
 
 Star		StarField :: CreateStar ()
 {
-	float x = (rand ()%Range - (Range/2)) *1;
-	float y = (rand ()%Range - (Range/2)) *1;
-	float z = (rand ()% 200) -300;
+	float x = static_cast< float> ( (rand ()%Range - (Range/2)) *1);
+	float y = static_cast< float> ( (rand ()%Range - (Range/2)) *1 );
+	float z = static_cast< float> ( (rand ()% 200) -300 );
 	Vector Color; //= colors [rand ()%10];
 	Color.r = static_cast <float> (rand () % 100)/200.0F + 0.4F;
 	Color.g = static_cast <float> (rand () % 100)/200.0F + 0.4F;
@@ -60,8 +60,8 @@ void	StarField :: Setup ()
 	glNewList (DrawList, GL_COMPILE);
 	
 	glPushAttrib(GL_POINT);
-	float Amb = 0.4;
-	float Specular = 0.1;
+	float Amb = 0.4f;
+	float Specular = 0.1f;
 	float low_shininess = 3.0f;
 	
 
@@ -82,7 +82,7 @@ void	StarField :: Setup ()
 	//glGetBooleanv (GL_POINT_SMOOTH, &IsAntiAliasingOn);
 	
 	//float Size = 63;
-	glPointSize (1.2);
+	glPointSize (1.2f);
 	glEnable (GL_POINT_SMOOTH);
 	
 	Top = -Range/2, Bottom=Range/2, Left = -Range/2, Right = Range/2;
@@ -125,27 +125,27 @@ void	StarField :: Update ()
 void	StarField :: Draw ()
 {
 	const int HalfRange = Range/2;
-	int Across = Center.x;
+	int Across = static_cast< int > ( Center.x );
 	Across %= HalfRange;
-	int Vertical = Center.y;
+	int Vertical = static_cast< int > ( Center.y );
 	Vertical %= HalfRange;
 	
 	glPushMatrix();
-		glTranslatef (Across, Vertical, 0);
+		glTranslatef (static_cast< float > ( Across ), static_cast< float > ( Vertical ), 0);
 		glCallList (DrawList);
 	glPopMatrix();
 	
 	if (Across < -HalfRange*.8)// toward the left edge
 	{
 		glPushMatrix();
-			glTranslatef (Across+HalfRange, 0, 0);
+			glTranslatef (static_cast< float > ( Across+HalfRange ), 0, 0);
 			glCallList (DrawList);
 		glPopMatrix();
 	}
 	else if (Across > HalfRange*.8)// toward the right edge
 	{
 		glPushMatrix();
-			glTranslatef (Across-HalfRange, 0, 0);
+			glTranslatef (static_cast< float > ( Across-HalfRange ), 0, 0);
 			glCallList (DrawList);
 		glPopMatrix();
 	}

@@ -117,13 +117,13 @@ void	SpaceMap :: SetFocusColor (Vector color)
 
 //----------------------------------------------------------------
 
-void	SpaceMap :: SetScreenDimensions (float Left, float Top, float Right, float Bottom, float ss)
+void	SpaceMap :: SetScreenDimensions (int Left, int Top, int Right, int Bottom, int ss)
 {
-	ScreenDimensions.Corners[0].x = Left;
-	ScreenDimensions.Corners[0].y = Top;
-	ScreenDimensions.Corners[1].x = Right;
-	ScreenDimensions.Corners[1].y = Bottom;
-	StationSpacing = ss;
+	ScreenDimensions.Corners[0].x = static_cast< float> ( Left );
+	ScreenDimensions.Corners[0].y = static_cast< float> ( Top );
+	ScreenDimensions.Corners[1].x = static_cast< float> ( Right );
+	ScreenDimensions.Corners[1].y = static_cast< float> ( Bottom );
+	StationSpacing = static_cast< float> ( ss );
 }
 
 //----------------------------------------------------------------

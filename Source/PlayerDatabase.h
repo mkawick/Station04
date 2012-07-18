@@ -21,7 +21,7 @@ public:
 	
 	void			ClearAllPlayers ();// clear the db of all players
 
-	void			SetScreenDimensions (float Left, float Top, float Right, float Bottom);
+	void			SetScreenDimensions (int Left, int Top, int Right, int Bottom);
 	void			SetPositionForPlayerStatusBars (float l, float t, float r, float b);
 
 	//-------------------------------------------

@@ -53,7 +53,7 @@ public:
 	void	SetConnectorColor (Vector color);
 	
 	void	SetScreenPosition (float Left, float Top, float Right, float Bottom);
-	void	SetScreenDimensions (float Left, float Top, float Right, float Bottom, float StationSpacing);
+	void	SetScreenDimensions (int Left, int Top, int Right, int Bottom, int StationSpacing);
 	void	SetCameraPosition (Vector camera);
 	void	SetConnectionPosition (Vector position);
 

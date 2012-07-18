@@ -1,0 +1,16 @@
+{
+	"ini":{ "type": "keyboard",
+			"ship_controls" :
+				[
+				   { "key": "[", "event": "left" },
+				   { "key": "]", "event": "right" },
+				   { "key": ",", "event": "accelerate" },
+				   { "key": ".", "event": "fire_main" },
+				   { "key": "esc", "event": "escape" }
+				],
+			"FE_Controls" :
+				[
+					{ "key": "enter", "event": "select" }
+				]
+	}
+}

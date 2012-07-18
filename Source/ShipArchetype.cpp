@@ -84,8 +84,8 @@ void		ShipArchetype :: SetShieldColor (Vector color)
 
 void		ShipArchetype :: SetMaterialsAndColorForShipBody ()
 {
-	float Amb = 0.08;
-	float Specular = 0.04;
+	float Amb = 0.08f;
+	float Specular = 0.04f;
 	float low_shininess = 0.2f;
 	
 	float no_mat []  = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -106,12 +106,12 @@ void		ShipArchetype :: SetMaterialsAndColorForShipBody ()
 
 void	ShipArchetype :: SetMaterialsAndColorForCockpitFrame ()
 {
-	float Amb = 0.4;
-	float Specular = 0.6;
+	float Amb = 0.4f;
+	float Specular = 0.6f;
 	float shininess = 10.0f;
 	
 	float no_mat []  = {0.5f, 0.5f, 0.5f, 1.0f};
-	float mat_ambient_color [] = {Amb, Amb, 0.8, 1.0f};
+	float mat_ambient_color [] = {Amb, Amb, 0.8f, 1.0f};
 	float mat_diffuse [] = {CockpitFrameColor.r, CockpitFrameColor.g, CockpitFrameColor.b, 1.0f};
 	float mat_specular [] = {Specular, Specular, Specular, 1.0f};
 	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color);
@@ -127,8 +127,8 @@ void	ShipArchetype :: SetMaterialsAndColorForCockpitFrame ()
 
 void	ShipArchetype :: SetMaterialsAndColorForCockpitWindows ()
 {
-	float Amb = 0.4;
-	float Specular = 0.6;
+	float Amb = 0.4f;
+	float Specular = 0.6f;
 	float shininess = 5.0f;
 	
 	float no_mat []  = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -157,7 +157,7 @@ void	ShipArchetype :: SetMaterialsAndColorForExhaust ()
 	float Amb = 0.0;
 	float Specular = 0.0;
 	float shininess = 0.0f;
-	Vector Color (0.9, 0.4, 0.1);
+	Vector Color (0.9f, 0.4f, 0.1f);
 	
 	float emission_mat []  = {1.0f, 0.0f, 0.0f, 1.0f};
 	float mat_ambient_color [] = {Amb, Amb, Amb, 1.0f};
