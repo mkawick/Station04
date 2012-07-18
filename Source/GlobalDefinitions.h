@@ -18,3 +18,21 @@ enum ResourceTypes
 enum TechTree
 {
 };
+
+enum GameMode
+{
+	GameMode_Attract,
+	GameMode_Login,
+	GameMode_SelectAccount,
+	GameMode_Game,
+	GameMode_Logout,
+	GameMode_High_score
+};
+
+enum KeyboardEvent
+{
+	KeyboardEvent_RotateCW,
+	KeyboardEvent_RotateCCW,
+	KeyboardEvent_FireMain,
+	KeyboardEvent_Thrust
+};

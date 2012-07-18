@@ -785,3 +785,104 @@ void	FillinBaselineKeyMapper (KeyMapper& Mapper)
 
 // ----------------------------------------------------
 // ----------------------------------------------------
+
+SDLKey LookupSDLkeys( const char * key )
+{
+	struct KeyMap 
+	{ 
+		const char* key; 
+		SDLKey sdlKey; 
+	};
+
+	KeyMap keyMap[] = 
+	{
+		{ "bksp", SDLK_BACKSPACE },
+		{ "tab", SDLK_TAB },
+		{ "return", SDLK_RETURN },
+		{ "esc", SDLK_ESCAPE },
+		{ "[", SDLK_LEFTBRACKET },
+		{ "]", SDLK_RIGHTBRACKET },
+		{ ",", SDLK_COMMA },
+		{ ".", SDLK_PERIOD },
+		{ "1", SDLK_1 },
+		{ "2", SDLK_2 },
+		{ "3", SDLK_3 },
+		{ "4", SDLK_4 },
+		{ "5", SDLK_5 },
+		{ "6", SDLK_6 },
+	};
+
+	int num = sizeof( keyMap ) / sizeof( KeyMap );
+	for( int i=0; i< num; i++ )
+	{
+		if( stricmp( key, keyMap[i].key ) == 0 )
+			return keyMap[i].sdlKey;
+	}
+	return SDLK_UNKNOWN;
+}
+
+Events::EventMessages LookupEvent( const char* eventName )
+{
+	struct EventMap 
+	{ 
+		const char* name; 
+		Events::EventMessages event; 
+	};
+	EventMap eventMap[] = 
+	{
+		{ "", Events::NoMessage },
+		{ "debug", Events::DebugText },
+		{ "thrust", Events::ApplyThrust },
+		{ "mode", Events::GameModeChange },
+		{ "maneuver", Events::Maneuvers },
+		{ "view", Events::SwitchViewport },
+		{ "fire", Events::FireWeapon },
+		{ "camera", Events::CameraMode },
+		{ "player", Events::PlayerStatus },
+		{ "chat", Events::PlayerChat },
+		{ "ping", Events::PingTime },
+		{ "resource", Events::CreateResource },
+		{ "capture_resource", Events::CaptureResource },
+		{ "quit", Events::QuitGame }
+	};
+
+	int num = sizeof( eventMap ) / sizeof( EventMap );
+	for( int i=0; i< num; i++ )
+	{
+		if( stricmp( eventName, eventMap[i].name ) == 0 )
+			return eventMap[i].event;
+	}
+	return Events::NoMessage;
+}
+
+void InputManager2::AddKeyMapping( GameMode mode, const char* key, const char* event, const char* typeData, bool allowHold, int maxRepeatRate, int selectionData )
+{
+	SDLKey sdlKey = LookupSDLkeys( key );
+	if( sdlKey == SDLK_UNKNOWN )
+	{
+	}
+	else
+	{
+		GameModeKeySetIter iter;
+		iter = keyboardSetup.find( mode );
+		if( iter == keyboardSetup.end() )
+		{
+			GameModeKeyMappingPair pair (mode, KeySet() );
+			keyboardSetup.insert( pair );
+			iter = keyboardSetup.find( mode );
+		}
+		KeySet  setOfKeys = iter->second;
+
+		//verify that no duplicates
+		KeyMapping2 mapping;
+		mapping.keyPress = sdlKey;
+		mapping.allowHold = allowHold;
+		mapping.event = LookupEvent( event );
+		mapping.maxRepeatRate = maxRepeatRate;
+		strcpy( mapping.type, typeData );
+		mapping.selectionData = selectionData;
+
+		setOfKeys.push_back( mapping );
+		//GameEvent
+	}
+}

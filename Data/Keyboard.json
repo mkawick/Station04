@@ -2,11 +2,16 @@
 	"ini":{ "type": "keyboard",
 			"ship_controls" :
 				[
-				   { "key": "[", "event": "left" },
-				   { "key": "]", "event": "right" },
-				   { "key": ",", "event": "accelerate" },
-				   { "key": ".", "event": "fire_main" },
-				   { "key": "esc", "event": "escape" }
+				   { "key": "[", "event": "left", "hold": 1 },
+				   { "key": "]", "event": "right", "hold": 1 },
+				   { "key": ",", "event": "accelerate", "hold": 1 },
+				   { "key": ".", "event": "fire_main", "repeat": 4 },
+				   { "key": "esc", "event": "escape", "repeat": 0 },
+				   { "key": "1", "event": "view", "repeat": 0, "type": "ship", "selection": 0 },
+				   { "key": "2", "event": "view", "repeat": 0, "type": "station", "selection": 1 },
+				   { "key": "3", "event": "view", "repeat": 0, "type": "station", "selection": 2 },
+				   { "key": "4", "event": "view", "repeat": 0, "type": "station", "selection": 3 },
+				   { "key": "5", "event": "view", "repeat": 0, "type": "station", "selection": 0 },
 				],
 			"FE_Controls" :
 				[

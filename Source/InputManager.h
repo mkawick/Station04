@@ -6,6 +6,8 @@
 
 #pragma once
 #include "gameevent.h"
+#include <list>
+#include <hash_map>
 
 class InputManager;
 // ----------------------------------------------------
@@ -98,6 +100,46 @@ private:
 	bool	HandleKeyboard (GameData& data);
 	
 	KeyMapper	Mapper;
+};
+
+// ----------------------------------------------------
+
+
+struct KeyMapping2
+{
+	KeyMapping2() : keyPress ( SDLK_UNKNOWN ), event( 0 ), selectionData( 0 ), allowHold( 0 ), maxRepeatRate( 0 )
+	{
+		memset( type, 0, sizeof( type ) );
+	}
+	SDLKey keyPress;
+	int event;
+	char type[ 32 ];
+	int selectionData;
+	bool allowHold;
+	int maxRepeatRate;
+};
+
+typedef std::list< KeyMapping2 > KeySet;
+
+typedef std::pair <GameMode, KeySet> GameModeKeyMappingPair;
+typedef stdext::hash_map < GameMode, KeySet > GameModeKeySet;
+typedef GameModeKeySet::iterator GameModeKeySetIter;
+
+class InputManager2 : public Events:: MessageSenderReceiver
+{
+public:
+	InputManager2 ();
+
+	void	AddKeyMapping( GameMode mode, const char* key, const char* event, const char* typeData, bool allowHold, int maxRepeatRate, int selectionData = 0 );
+	void	SetGameMode( GameMode mode );// mode controled by string
+	
+	void	Update (GameData& restrict); // data
+	
+private:
+	void	ProcessMessages (GameData& data);
+	bool	HandleKeyboard (GameData& data);
+	
+	GameModeKeySet keyboardSetup;
 };
 
 // ----------------------------------------------------
