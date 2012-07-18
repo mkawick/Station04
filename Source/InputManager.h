@@ -120,6 +120,7 @@ struct KeyMapping2
 };
 
 typedef std::list< KeyMapping2 > KeySet;
+typedef std::list< KeyMapping2 >::iterator KeySetIter;
 
 typedef std::pair <GameMode, KeySet> GameModeKeyMappingPair;
 typedef stdext::hash_map < GameMode, KeySet > GameModeKeySet;
@@ -139,6 +140,7 @@ private:
 	void	ProcessMessages (GameData& data);
 	bool	HandleKeyboard (GameData& data);
 	
+	GameMode currentGameMode;
 	GameModeKeySet keyboardSetup;
 };
 

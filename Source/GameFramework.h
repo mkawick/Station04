@@ -45,6 +45,7 @@ public:
 	Quadtree& GetSpacePartition() { return SpacePartition; }
 	AssetLoadManager& GetAssets() { return AssetLoader; }
 	UUID	GetLocalPlayer();
+	GameData	GetGameData() { return GlobalGameData; }
 
 protected:
 	void	Init ();
@@ -59,7 +60,7 @@ protected:
 	void	SetupToDrawStrings ();
 	void	CleanUpFromStrings ();
 
-	
+
 	//---------------------------------------
 	
 protected:

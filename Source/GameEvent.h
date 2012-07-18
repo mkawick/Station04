@@ -41,13 +41,14 @@ namespace Events
 	class GameEvent// must be for  derived class
 	{
 	public:
+		GameEvent () : Message( NoMessage ) {}
 		~GameEvent ();
 		void			SetType (EventMessages& msg) {Message = msg;}
 		EventMessages	GetType () const {return Message;}
 		
 	protected:
 		EventMessages		Message;
-		GameEvent ();
+		
 	};
 	
 	//----------------------------------------------

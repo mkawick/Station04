@@ -855,13 +855,17 @@ Events::EventMessages LookupEvent( const char* eventName )
 	return Events::NoMessage;
 }
 
-void InputManager2::AddKeyMapping( GameMode mode, const char* key, const char* event, const char* typeData, bool allowHold, int maxRepeatRate, int selectionData )
+
+void InputManager2::AddKeyMapping( GameMode mode, 
+								  const char* key, 
+								  const char* event, 
+								  const char* typeData, 
+								  bool allowHold, 
+								  int maxRepeatRate, 
+								  int selectionData )
 {
 	SDLKey sdlKey = LookupSDLkeys( key );
-	if( sdlKey == SDLK_UNKNOWN )
-	{
-	}
-	else
+	if( sdlKey != SDLK_UNKNOWN )
 	{
 		GameModeKeySetIter iter;
 		iter = keyboardSetup.find( mode );
@@ -883,6 +887,287 @@ void InputManager2::AddKeyMapping( GameMode mode, const char* key, const char* e
 		mapping.selectionData = selectionData;
 
 		setOfKeys.push_back( mapping );
-		//GameEvent
 	}
+}
+InputManager2 :: InputManager2 () : currentGameMode( GameMode_Game )
+{
+	//FillinBaselineKeyMapper (Mapper);
+	Events::SwitchViewportEvent Viewport;
+	MessageSenderReceiver::SendMessages (Viewport);
+}
+
+// ----------------------------------------------------
+
+void		InputManager2 :: Update (GameData& GlobalGameData)
+{
+	SDL_PumpEvents();
+	
+	ProcessMessages (GlobalGameData);
+	HandleKeyboard (GlobalGameData);
+	UpdateAllClients ();
+}
+
+Events::GameEvent CreateGameEvent( const KeyMapping2& mapping )
+{
+	switch( mapping.event )
+	{
+	case Events::QuitGame:
+		return Events::GameQuitEvent();
+	case Events::SwitchViewport:
+		{
+			Events::SwitchViewportEvent Viewport;
+			if( stricmp( mapping.type, "ship" ) == 0 )
+			{
+				Viewport.SetView (Events::SwitchViewportEvent::ShipView);
+			}
+			else
+			{
+				Viewport.SetView (Events::SwitchViewportEvent::StationView);
+			}
+			if( mapping.selectionData )
+			{
+				Viewport.SetViewIndex (mapping.selectionData);
+			}
+		}
+	case Events::ApplyThrust:
+		{
+			Events::ManeuverEvent Man;
+			Man.SetManeuver (Events::ManeuverEvent::Thrust);
+			return Man;
+		}
+	case Events::Maneuvers:
+		{
+			Events::ManeuverEvent Man;
+			if( stricmp( mapping.type, "left" ) == 0 )
+			{
+				Man.SetManeuver (Events::ManeuverEvent::TurnLeft);
+			}
+			else
+			{
+				Man.SetManeuver (Events::ManeuverEvent::TurnRight);
+			}
+			return Man;
+		}
+	case Events::FireWeapon:
+		{
+			Events:: FireWeaponEvent Event;
+			PlayerDatabase* playerdb = GlobalGameFramework->GetGameData().GetPlayerDatabase();
+			Event.SetPlayerID (playerdb->GetCurrentPlayerID ());
+			return Event;
+		}
+	}
+	return Events::GameEvent();
+}
+// ----------------------------------------------------
+
+bool	InputManager2 :: HandleKeyboard (GameData& GlobalGameData)
+{
+	bool done = false;
+	SDL_Event event;
+	const int numEventsToHandle = 6;
+	SDL_Event events[ numEventsToHandle ];
+	//
+
+	GameModeKeySetIter iter;
+	iter = keyboardSetup.find( currentGameMode );
+	if( iter == keyboardSetup.end() )
+	{
+		Uint32 mask = SDL_KEYUPMASK | SDL_KEYDOWNMASK;
+		int NumEventsReturned = SDL_PeepEvents(events, numEventsToHandle, SDL_GETEVENT, mask);
+		return true;
+	}
+
+	// when there are keys to handled
+	KeySet  setOfKeys = iter->second;
+	
+	Uint32 mask = SDL_KEYUPMASK;
+	int NumEventsReturned = SDL_PeepEvents(events, numEventsToHandle, SDL_PEEKEVENT, mask);
+	if (NumEventsReturned > 0)// when they let go, remove all keys on stack
+	{
+		mask = SDL_KEYUPMASK | SDL_KEYDOWNMASK;
+		NumEventsReturned = SDL_PeepEvents(events, numEventsToHandle, SDL_GETEVENT, mask);
+	}
+	else
+	{	// do not remove event, so we can hold down the key
+		mask = SDL_KEYDOWNMASK;
+		NumEventsReturned = SDL_PeepEvents(events, numEventsToHandle, SDL_PEEKEVENT, mask);
+		bool ShouldKeyBeRemoved = false;
+		
+		for (int i=0; i<NumEventsReturned; i++)
+		{
+			event = events[i];			
+			
+			SDLKey key = event.key.keysym.sym;
+
+			KeySetIter it = setOfKeys.begin();
+			while (it != setOfKeys.end() )
+			{
+				const KeyMapping2& mappedKey = *it++;
+				if( mappedKey.keyPress == key )
+				{
+					Events::GameEvent event = CreateGameEvent( mappedKey );
+					if( event.GetType() != Events::NoMessage )
+					{
+						MessageSenderReceiver::SendMessages (event);
+						if( mappedKey.allowHold == true )
+							ShouldKeyBeRemoved = false;
+					}
+				}
+			}
+		}
+		if (ShouldKeyBeRemoved)
+		{
+			mask = SDL_KEYDOWNMASK;
+			NumEventsReturned = SDL_PeepEvents(events, numEventsToHandle, SDL_GETEVENT, mask);
+		}
+	/*	for (int i=0; i<NumEventsReturned; i++)
+		{
+			event = events[i];			
+			
+			SDLKey key = event.key.keysym.sym;
+			if (key == SDLK_UP)
+			{
+				//CameraPosition.x += PositionAdd;
+			}
+			else if (key == SDLK_DOWN)
+			{
+				//CameraPosition.x -= PositionAdd;
+			}
+			else if (key == SDLK_LEFT)
+			{
+				//CameraPosition.y -= PositionAdd;
+			}
+			else if (key == SDLK_RIGHT)
+			{
+				//CameraPosition.y += PositionAdd;
+			}
+			else if (key == SDLK_LEFTBRACKET) //'['
+			{
+				Events::ManeuverEvent Man;
+				Man.SetManeuver (Events::ManeuverEvent::TurnLeft);
+				MessageSenderReceiver::SendMessages (Man);
+				ShouldKeyBeRemoved = false;
+			}
+			else if (key == SDLK_RIGHTBRACKET) //']'
+			{
+				Events::ManeuverEvent Man;
+				Man.SetManeuver (Events::ManeuverEvent::TurnRight);
+				MessageSenderReceiver::SendMessages (Man);
+				ShouldKeyBeRemoved = false;
+			}
+			else if (key == SDLK_PERIOD) //'.'
+			{
+				Events::ManeuverEvent Man;
+				Man.SetManeuver (Events::ManeuverEvent::Thrust);
+				MessageSenderReceiver::SendMessages (Man);
+			}
+			else if (key == SDLK_COMMA) //','
+			{
+				Events:: FireWeaponEvent Event;
+				Event.SetPlayerID (playerdb->GetCurrentPlayerID ());
+				MessageSenderReceiver::SendMessages (Event);
+				ShouldKeyBeRemoved = false;
+			}
+			else if (key == SDLK_SEMICOLON) //';'
+			{
+				//DirectionalLightPosition.y += LightPositionAdd;
+			}
+			else if (key == '\'') //','
+			{
+				//DirectionalLightPosition.y -= LightPositionAdd;
+			}
+			else if (key == 'a' || key == 'A') 
+			{
+				//CameraAngle.yaw -= AngleAdd;
+			}
+			else if (key == 's' || key == 'S') 
+			{
+				//CameraAngle.pitch += AngleAdd;
+			}
+			else if (key == 'd' || key == 'D') 
+			{
+				//CameraAngle.yaw += AngleAdd;
+			}
+			else if (key == 'w' || key == 'W') 
+			{
+				//CameraAngle.pitch -= AngleAdd;
+			}
+			else if (key == SDLK_ESCAPE) 
+			{
+				Events:: GameQuitEvent Event;
+				MessageSenderReceiver::SendMessages (Event);
+
+				//done = true;
+			}
+			else if ((key == 'q' || key == 'Q') && (KMOD_ALT))
+			{
+				Events:: GameQuitEvent Event;
+				MessageSenderReceiver::SendMessages (Event);
+
+				//done = true;
+			}
+			else if (key == 'b' || key == 'B')
+			{
+				SourceIndex ++;
+				SourceIndex = SourceIndex %15;
+			}
+			else if (key == 'v' || key == 'V')
+			{
+				DstIndex ++;
+				DstIndex = DstIndex %15;
+			}
+			else if (key == '1')
+			{
+				Events::SwitchViewportEvent Viewport;
+				Viewport.SetView (Events::SwitchViewportEvent::ShipView);
+				MessageSenderReceiver::SendMessages (Viewport);
+				ShouldKeyBeRemoved = true;
+			}
+			else if (key == '2')
+			{
+				Events::SwitchViewportEvent Viewport;
+				Viewport.SetView (Events::SwitchViewportEvent::StationView);
+				Viewport.SetViewIndex (0);
+				MessageSenderReceiver::SendMessages (Viewport);
+				ShouldKeyBeRemoved = true;
+			}
+			else if (key == '3')
+			{
+				Events::SwitchViewportEvent Viewport;
+				Viewport.SetView (Events::SwitchViewportEvent::StationView);
+				Viewport.SetViewIndex (1);
+				MessageSenderReceiver::SendMessages (Viewport);
+				ShouldKeyBeRemoved = true;
+			}
+			else if (key == '4')
+			{
+				Events::SwitchViewportEvent Viewport;
+				Viewport.SetView (Events::SwitchViewportEvent::StationView);
+				Viewport.SetViewIndex (2);
+				MessageSenderReceiver::SendMessages (Viewport);
+				ShouldKeyBeRemoved = true;
+			}
+			else if (key == '5')
+			{
+				Events::SwitchViewportEvent Viewport;
+				Viewport.SetView (Events::SwitchViewportEvent::StationView);
+				Viewport.SetViewIndex (3);
+				MessageSenderReceiver::SendMessages (Viewport);
+				ShouldKeyBeRemoved = true;
+			}
+		}*/
+		/*if (ShouldKeyBeRemoved)
+		{
+			mask = SDL_KEYDOWNMASK;
+			NumEventsReturned = SDL_PeepEvents(events, numEventsToHandle, SDL_GETEVENT, mask);
+		}*/
+	}
+	return done;	
+}
+
+// ----------------------------------------------------
+
+void	InputManager2 :: ProcessMessages (GameData& GlobalGameData)
+{
+	this->UpdateAllClients ();
 }
