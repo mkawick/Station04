@@ -117,6 +117,7 @@ struct KeyMapping2
 	int selectionData;
 	bool allowHold;
 	int maxRepeatRate;
+	U32 modifiers;
 };
 
 typedef std::list< KeyMapping2 > KeySet;
@@ -131,7 +132,7 @@ class InputManager2 : public Events:: MessageSenderReceiver
 public:
 	InputManager2 ();
 
-	void	AddKeyMapping( GameMode mode, const char* key, const char* event, const char* typeData, bool allowHold, int maxRepeatRate, int selectionData = 0 );
+	void	AddKeyMapping( GameMode mode, const char* key, const char* event, const char* typeData, bool allowHold, int maxRepeatRate, U32 modifiers, int selectionData = 0 );
 	void	SetGameMode( GameMode mode );// mode controled by string
 	
 	void	Update (GameData& restrict); // data

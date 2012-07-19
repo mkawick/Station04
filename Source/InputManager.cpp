@@ -861,8 +861,9 @@ void InputManager2::AddKeyMapping( GameMode mode,
 								  const char* event, 
 								  const char* typeData, 
 								  bool allowHold, 
-								  int maxRepeatRate, 
-								  int selectionData )
+								  int maxRepeatRate,
+								  U32 modifiers, 
+								  int selectionData)
 {
 	SDLKey sdlKey = LookupSDLkeys( key );
 	if( sdlKey != SDLK_UNKNOWN )
@@ -885,6 +886,13 @@ void InputManager2::AddKeyMapping( GameMode mode,
 		mapping.maxRepeatRate = maxRepeatRate;
 		strcpy( mapping.type, typeData );
 		mapping.selectionData = selectionData;
+		mapping.modifiers = 0;
+		if( modifiers | KeyModifier_Alt )
+			mapping.modifiers |= KMOD_ALT;
+		if( modifiers | KeyModifier_Ctrl )
+			mapping.modifiers |= KMOD_CTRL;
+		if( modifiers | KeyModifier_Shift )
+			mapping.modifiers |= KMOD_SHIFT;
 
 		setOfKeys.push_back( mapping );
 	}
@@ -999,18 +1007,21 @@ bool	InputManager2 :: HandleKeyboard (GameData& GlobalGameData)
 			
 			SDLKey key = event.key.keysym.sym;
 
-			KeySetIter it = setOfKeys.begin();
+			KeySetIter it = setOfKeys.begin();// look for any matchers
 			while (it != setOfKeys.end() )
 			{
 				const KeyMapping2& mappedKey = *it++;
 				if( mappedKey.keyPress == key )
 				{
-					Events::GameEvent event = CreateGameEvent( mappedKey );
-					if( event.GetType() != Events::NoMessage )
+					if( event.key.keysym.mod & mappedKey.modifiers )
 					{
-						MessageSenderReceiver::SendMessages (event);
-						if( mappedKey.allowHold == true )
-							ShouldKeyBeRemoved = false;
+						Events::GameEvent event = CreateGameEvent( mappedKey );
+						if( event.GetType() != Events::NoMessage )
+						{
+							MessageSenderReceiver::SendMessages (event);
+							if( mappedKey.allowHold == true )
+								ShouldKeyBeRemoved = false;
+						}
 					}
 				}
 			}

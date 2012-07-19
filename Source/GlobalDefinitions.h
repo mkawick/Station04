@@ -3,6 +3,7 @@
  *  Station05
  */
 #pragma once
+#include "../Common/struct.h"
 
 enum ResourceTypes
 {
@@ -21,13 +22,17 @@ enum TechTree
 
 enum GameMode
 {
+	GameMode_none,
 	GameMode_Attract,
 	GameMode_Login,
 	GameMode_SelectAccount,
 	GameMode_Game,
 	GameMode_Logout,
-	GameMode_High_score
+	GameMode_HighScore,
+	GameMode_count
 };
+
+GameMode LookupGameMode( const char* modeName );
 
 enum KeyboardEvent
 {
@@ -36,3 +41,13 @@ enum KeyboardEvent
 	KeyboardEvent_FireMain,
 	KeyboardEvent_Thrust
 };
+
+enum KeyModifier
+{
+	KeyModifier_none = 0,
+	KeyModifier_Ctrl = 1 << 0,
+	KeyModifier_Alt  = 1 << 1,
+	KeyModifier_Shift= 1 << 2
+};
+
+U32 LookupKeyModifier( const char* KeyModifiers ); // separated by spaces, commas, ors

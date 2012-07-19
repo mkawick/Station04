@@ -15,6 +15,7 @@ using namespace std;
 #include <boost/scoped_array.hpp>
 #include <boost/functional/hash.hpp>
 #include "AssetLoadManager.h"
+#include "GlobalDefinitions.h"
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
@@ -199,8 +200,57 @@ bool AssetLoadManager :: LoadTextureFiles( json_t* filesObj, const char* filePat
 	return true;
 }
 
-bool AssetLoadManager :: LoadIniFiles( json_t* filesObj, const char* filePath )
+bool AssetLoadManager :: LoadIniFiles( json_t* root, const char* filePath )
 {
+	//json_t *		rootObj = json_object_get( root, "ini");
+	//if( rootObj )
+	{
+		json_t *		iniType = json_object_get( root, "type");
+		if( iniType )
+		{
+			const char* keyLookup = json_string_value( iniType );
+
+			if( stricmp( keyLookup, "keyboard" ) == 0 )
+			{
+				json_t * key_set = json_object_get( root, "key_set");
+				bool success = LoadKeyboardFile( key_set, filePath );
+				cout << "ERROR: keyboard ini file bad: " << filePath << endl;
+				return false;
+			}
+			else if( stricmp( keyLookup, "player_config" ) == 0 )
+			{
+			}
+			else if( stricmp( keyLookup, "network" ) == 0 )
+			{
+			}
+		}
+	}
+	/*if( json_is_object( filesObj ) )
+	{
+		json_t *		fileObj = json_object_get( filesObj, "ini");
+		json_t *		keyObj = json_object_get( filesObj, "key");
+	}
+	if( json_is_array( filesObj ) )
+	{
+		int numItems = json_array_size( filesObj );
+		for( int i=0; i< numItems; i++ )
+		{
+			json_t * arrayItem = json_array_get( filesObj, i );
+			if( json_is_object( arrayItem ) )
+			{
+			}
+		}
+	}
+
+	const char* keyLookup = NULL;
+	const char* fileName = NULL;
+	json_t *		fileObj = json_object_get( filesObj, "file");
+	json_t *		keyObj = json_object_get( filesObj, "key");
+	if( json_is_string( keyObj ) )
+		keyLookup = json_string_value( keyObj );
+	if( json_is_string( fileObj ) )
+		fileName = json_string_value( fileObj );*/
+
 	return false;
 }
 
@@ -210,6 +260,93 @@ bool AssetLoadManager :: LoadAudioFiles( json_t* filesObj, const char* filePath 
 }
 
 
+bool AssetLoadManager :: LoadKeyboardFile( json_t* keySetObj, const char* filePath )
+{
+	if( json_is_array( keySetObj ) )
+	{
+		int numItems = json_array_size( keySetObj );
+		for( int i=0; i< numItems; i++ )
+		{
+			json_t * keysetForMode = json_array_get( keySetObj, i );
+			if( json_is_object( keysetForMode ) )
+			{
+				const char* modeLookup = NULL;
+				json_t * modeObj = json_object_get( keysetForMode, "mode");
+				if( json_is_string( modeObj ) )
+					modeLookup = json_string_value( modeObj );
+				json_t * setObj = json_object_get( keysetForMode, "set");
+
+				GameMode mode = LookupGameMode( modeLookup );
+				if( mode == GameMode_none )
+				{
+					cout << "ERROR: keyboard ini file has bad mode: " << filePath <<", mode=" << modeLookup << endl;
+					return false;
+				}
+				if( json_is_array( setObj ) )
+				{
+					int numKeys = json_array_size( setObj );
+					for( int i=0; i< numKeys; i++ )
+					{
+						json_t * keyDefnObj = json_array_get( setObj, i );
+						if( json_is_object( keyDefnObj ) )
+						{
+							U32 modifiers = KeyModifier_none;
+							json_t * modifierObj = json_object_get( keyDefnObj, "modifier");
+							if( modifierObj )
+							{
+								const char* modifierString = json_string_value( modifierObj );
+								modifiers = LookupKeyModifier( modifierString );
+							}
+							json_t * keyboardObj = json_object_get( keyDefnObj, "key");
+							if( keyboardObj == NULL )
+							{
+								cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+								return false;
+							}
+							const char* keyString = json_string_value( keyboardObj );
+							if( keyString == NULL )
+							{
+								cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+								return false;
+							}
+							json_t * eventObj = json_object_get( keyDefnObj, "event");
+							const char* eventString = json_string_value( eventObj );
+							if( eventString == NULL )
+							{
+								cout << "ERROR: keyboard ini file has bad event: " << filePath <<", key=" << keyString << endl;
+								return false;
+							}
+							json_t * typeObj = json_object_get( keyDefnObj, "type");
+							const char* typeString = json_string_value( eventObj );
+
+							json_t * selectionObj = json_object_get( keyDefnObj, "selection");
+							int selection = static_cast<int> ( json_integer_value( selectionObj ) );
+
+							json_t * repeatObj = json_object_get( keyDefnObj, "repeat");
+							int repeat = static_cast<int> ( json_integer_value( repeatObj ) );
+
+							json_t * holdObj = json_object_get( keyDefnObj, "hold");
+							bool allowHold = json_integer_value( holdObj ) ? true : false;
+
+							//InputManager2::AddKeyMapping( mode, keyString, eventString, typeString, hold, repeat, selection, modifiers );
+						}
+						else
+						{
+							cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+							return false;
+						}
+					}
+				}
+				else
+				{
+					cout << "ERROR: keyboard ini file has bad set: " << filePath <<", mode=" << modeLookup << endl;
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
 //--------------------------------------------------------------------
 
 int AssetLoadManager :: LoadFromManifest( const char* filePath )

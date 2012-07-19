@@ -1,5 +1,5 @@
 {
-	"ini":{ "type": "keyboard",
+	"ini":{ "type": "player_config",
 			"screen_size" : { "width": 800, "height": 600 }
 		}
 }

@@ -84,6 +84,9 @@ public:
 	bool	LoadIniFiles( json_t* jsonObj, const char* filePath );
 	bool	LoadModel( json_t* item );
 	bool	LoadTexture( json_t* item );
+
+
+	bool	LoadKeyboardFile( json_t* keySetObj, const char* filePath );
 };
 
 //--------------------------------------------------------------------------

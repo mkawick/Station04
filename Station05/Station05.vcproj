@@ -501,6 +501,14 @@
 			Name="Project"
 			>
 			<File
+				RelativePath="..\Source\GlobalDefinitions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\GlobalDefinitions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Station05.cpp"
 				>
 			</File>
@@ -560,10 +568,6 @@
 		<Filter
 			Name="Tool"
 			>
-			<File
-				RelativePath="..\Source\GlobalDefinitions.h"
-				>
-			</File>
 			<Filter
 				Name="Json"
 				>
