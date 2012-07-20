@@ -12,6 +12,8 @@
 #include "PlayerStatusBars.h"
 
 //-----------------------------------------------
+typedef std::list <Player*> ListOfPlayers;
+typedef ListOfPlayers::iterator ListOfPlayersIter;
 // functions as a player manager
 class PlayerDatabase : public Events:: MessageSenderReceiver
 {
@@ -60,9 +62,9 @@ protected:
 	void			ProcessMessages (GameData& GlobalGameData);//inherited, send all messages to the appropriate players
 	
 	Events::PlayerStatusBars	StatusBars;
-	std::list <Player*>::iterator	FindPlayer (UUID PlayerID);
-	std::list <Player*>::iterator	CurrentPlayer;
-	std::list <Player*> PlayerList;
+	ListOfPlayersIter			FindPlayer (UUID PlayerID);
+	ListOfPlayersIter			CurrentPlayer;
+	ListOfPlayers PlayerList;
 };
 
 //-----------------------------------------------

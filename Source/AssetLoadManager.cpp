@@ -16,6 +16,7 @@ using namespace std;
 #include <boost/functional/hash.hpp>
 #include "AssetLoadManager.h"
 #include "GlobalDefinitions.h"
+#include "GameFramework.h"
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
@@ -317,7 +318,7 @@ bool AssetLoadManager :: LoadKeyboardFile( json_t* keySetObj, const char* filePa
 								return false;
 							}
 							json_t * typeObj = json_object_get( keyDefnObj, "type");
-							const char* typeString = json_string_value( eventObj );
+							const char* typeString = json_string_value( typeObj );
 
 							json_t * selectionObj = json_object_get( keyDefnObj, "selection");
 							int selection = static_cast<int> ( json_integer_value( selectionObj ) );
@@ -328,7 +329,7 @@ bool AssetLoadManager :: LoadKeyboardFile( json_t* keySetObj, const char* filePa
 							json_t * holdObj = json_object_get( keyDefnObj, "hold");
 							bool allowHold = json_integer_value( holdObj ) ? true : false;
 
-							//InputManager2::AddKeyMapping( mode, keyString, eventString, typeString, hold, repeat, selection, modifiers );
+							GlobalGameFramework->GetInput().AddKeyMapping( mode, keyString, eventString, typeString, allowHold, repeat, modifiers, selection );
 						}
 						else
 						{

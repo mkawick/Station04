@@ -47,6 +47,8 @@ public:
 	UUID	GetLocalPlayer();
 	GameData	GetGameData() { return GlobalGameData; }
 
+	InputManager& GetInput() { return Input; }
+
 protected:
 	void	Init ();
 	void	SetupGraphics ();

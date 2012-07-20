@@ -73,6 +73,7 @@ namespace Events
 	public:
 		enum ManeuverType {TurnLeft, TurnRight, StraffeRight, StraffeLeft, Thrust};
 		ManeuverEvent () {Message = Maneuvers;}
+		ManeuverEvent( const ManeuverEvent& man ): GameEvent( man ), Maneuver( man.Maneuver ) {}
 		
 		void			SetManeuver (ManeuverType type) {Maneuver = type;}
 		ManeuverType	GetManeuver () const {return Maneuver;}
