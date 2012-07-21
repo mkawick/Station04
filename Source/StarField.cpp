@@ -12,10 +12,11 @@
 #endif
 #include "StarField.h"
 #include <math.h>
+#include "GlobalDefinitions.h"
 
 //---------------------------------------------------------
 
-StarField :: StarField () : DrawList (0xFFFFFFFF)
+StarField :: StarField () : DrawList (InvalidDrawList)
 {
 	//int NumStars = NumStars;
 	/*Vector colors[] = 

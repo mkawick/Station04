@@ -207,7 +207,8 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	stations[3]->SetColor (Vector (0.6F, 1.0F, 0.7F));
 	for (int i=0; i<MaxStations; i++)
 	{
-		stations[i]->SetAngleOfRotation (Vector (0, 0, 0.6F-static_cast<float> (i)/10.0F));
+		float rotationrate = 0.06F-static_cast<float> (i)/100.0F;
+		stations[i]->SetAngleOfRotation (Vector (0, 0, rotationrate));
 		stations[i]->Setup ();
 	}
 	
@@ -217,7 +218,13 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	stations[2]->SetCenter (CreateVectorUpRightInHex (center, DistanceFromCenter));
 	stations[3]->SetCenter (CreateVectorUpLeftInHex (center, DistanceFromCenter));
 	
-	stations[0]->SetCurrentHitPoints(20);
+	for( int i=0; i<4; i++)
+	{
+		stations[i]->SetCurrentHitPoints( 100 -20*i );
+		stations[i]->SetShieldLevel( 0, 85 -20*i);
+		stations[i]->SetShieldLevel( 1, 80 -20*i);
+	}
+	/*stations[0]->SetCurrentHitPoints(20);
 	stations[1]->SetCurrentHitPoints(45);
 	stations[2]->SetCurrentHitPoints(60);
 	stations[3]->SetCurrentHitPoints(80);
@@ -231,7 +238,7 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	stations[2]->SetShieldLevel (1, 1);
 	
 	stations[3]->SetShieldLevel (0, 1);
-	stations[3]->SetShieldLevel (1, 1);
+	stations[3]->SetShieldLevel (1, 1);*/
 	
 	// based on shape, this configuration may change
 	

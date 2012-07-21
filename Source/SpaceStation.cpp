@@ -17,7 +17,8 @@
 #include "GlobalDefinitions.h"
 
 const float SpaceStation :: CylinderMultiplier = 0.5f;
-Vector		SpaceStation :: RotationAddition( 0, 0, 0.2F );
+const float MaxRotationAngle = 0.08;
+Vector		SpaceStation :: RotationAddition( 0, 0, 0.005F );
 //---------------------------------------------------------
 
 SpaceStation :: SpaceStation () : ShipArchetype ()
@@ -42,15 +43,15 @@ void	SpaceStation :: Rotate (RotationDir dir)
 	case CW:
 		{
 			RotationRate += RotationAddition;
-			if( RotationRate.z > 2 )
-				RotationRate.z = 2;
+			if( RotationRate.z > MaxRotationAngle )
+				RotationRate.z = MaxRotationAngle;
 		}
 		break;
 	case CCW:
 		{
 			RotationRate -= RotationAddition;
-			if( RotationRate.z < -2 )
-				RotationRate.z = -2;
+			if( RotationRate.z < -MaxRotationAngle )
+				RotationRate.z = -MaxRotationAngle;
 		}
 		break;
 	}

@@ -110,3 +110,5 @@ protected:
 
 //----------------------------------------------------------
 
+Matrix4		FromQuaternion( const Quaternion& quat );
+

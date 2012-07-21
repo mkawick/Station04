@@ -56,7 +56,7 @@ Asteroid*		AsteroidMgr :: CreateAsteroid ()
 Asteroid*		AsteroidMgr :: CreateAsteroid ( float x, float y, float z, Asteroid::Shape shape )
 {
 	int AngularVelocity = 20;
-	float AngularMultiplier = 0.02F;
+	float AngularMultiplier = 0.0001F;
 	float rx = (rand ()%AngularVelocity - (AngularVelocity/2)) * AngularMultiplier;
 	float ry = (rand ()%AngularVelocity - (AngularVelocity/2)) * AngularMultiplier;
 	float rz = (rand ()%AngularVelocity - (AngularVelocity/2)) * AngularMultiplier;

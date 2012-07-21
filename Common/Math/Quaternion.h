@@ -17,6 +17,8 @@ public:
 	Quaternion	(float x, float y, float z, float w);
 	Quaternion	(const Vector& v, float w);
 	Quaternion	(Angle yaw, Angle pitch, Angle roll);
+	Quaternion (float yaw, float pitch, float roll);
+
 	Quaternion	(const Quaternion&);
 	
 	// Assignment operators
@@ -43,9 +45,9 @@ public:
 	friend 
 	Vector				operator	*		(const Vector&  vect, const Quaternion& quat);
 	friend 
-	Quaternion			Slerp				(float fraction, const Quaternion& quat1, const Quaternion& quat2);
+	Quaternion			Slerp				(Quaternion quat1, Quaternion quat2, float fraction);
 	friend 
-	Quaternion			SlerpPrecise		(float fraction, const Quaternion& quat1, const Quaternion& quat2);
+	Quaternion			SlerpPrecise		(const Quaternion& quat1, const Quaternion& quat2, float fraction);
 	friend 
 	Quaternion			CreateQuaternionFromVectors (const Vector& vect1, const Vector& vect2);
 	
@@ -57,6 +59,7 @@ public:
 	float				Dot					(const Quaternion& quat) const;
 	Quaternion&			Set					(float _x, float _y, float _z, float _w);
 	Quaternion&			SetYawPitchRoll		(Angle yaw, Angle pitch, Angle roll);
+	Quaternion&			SetYawPitchRoll		(float yaw, float pitch, float roll);
 	Quaternion&			AxisAngle			(const Vector& vect, Angle angle); // axis MUST be normalized!
 	Quaternion&			SetIdentity			(); 
 	Quaternion&			Normalize			();
@@ -68,10 +71,10 @@ public:
 	float				SquareMagnitude		() const;
 	bool				IsNormal			() const;
 	
-	float				X					() const;
-	float				Y					() const;
-	float				Z					() const;
-	float				W					() const;
+	float				X					() const {return x;}
+	float				Y					() const {return y;}
+	float				Z					() const {return z;}
+	float				W					() const {return w;}
 	
 	void				X					(float valX);
 	void				Y					(float valY);
@@ -94,10 +97,10 @@ public:
 // utility functions
 //---------------------------------------------------------------------------------------------------------------------------------
 
-Quaternion operator * (float f, const Quaternion& restrict);
-Vector operator * (const Vector& v, const Quaternion& restrict);
-inline Quaternion Slerp (Quaternion q1, Quaternion q2, float fraction);
-inline Quaternion SlerpPrecise (float fraction, const Quaternion& quat1, const Quaternion& quat2);
-Quaternion CreateQuaternionFromVectors(const Vector& vect1, const Vector& vect2);	
+Quaternion			operator * (float f, const Quaternion& restrict);
+Vector				operator * (const Vector& v, const Quaternion& restrict);
+Quaternion			Slerp (Quaternion q1, Quaternion q2, float fraction);
+Quaternion			SlerpPrecise (const Quaternion& quat1, const Quaternion& quat2, float fraction);
+Quaternion			CreateQuaternionFromVectors(const Vector& vect1, const Vector& vect2);	
 //---------------------------------------------------------------------------------------------------------------------------------
 

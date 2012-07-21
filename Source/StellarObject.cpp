@@ -7,8 +7,10 @@
 #include <assert.h>
 #include "StellarObject.h"
 #include "GameData.h"
-//#include <octree.h>
 
+#include "../Common/Math/Angle.h"
+#include "../Common/Math/Quaternion.h"
+#include "../Common/Math/Matrix4.h"
 #include "../Source/GameFramework.h"
 //
 //----------------------------------------------
@@ -19,7 +21,7 @@ StellarObject :: StellarObject () : Color (0.5, 0.5, 0.5),
 									Velocity (0, 0, 0),
 									Angle (0, 0, 0),
 									RotationRate (0, 0, 0),
-									DrawList (0xFFFFFFFF),
+									DrawList (InvalidDrawList),
 									HitPointsLow (0),
 									HitPointsHigh (100),
 									HitPoints (HitPointsHigh)
@@ -52,9 +54,10 @@ void	StellarObject :: SetCenter ( const Vector& center)
 
 void	StellarObject :: Draw ()
 {
-	if (DrawList != 0xFFFFFFFF)
+	if (DrawList != InvalidDrawList)
 	{
-		glPushMatrix();
+		TempDraw();
+		/*glPushMatrix();
 			//glScalef (Scale, Scale, Scale);	// not currently needed
 		
 			glTranslatef (Center.x, Center.y, Center.z);
@@ -65,15 +68,56 @@ void	StellarObject :: Draw ()
 			
 			glCallList (DrawList);
 		
-		glPopMatrix();
+		glPopMatrix();*/
 	}
+}
+
+void	StellarObject :: TempDraw()
+{
+	/*Quaternion3D Rotation1=Quaternion3DMakeWithAxisAndAngle(Vector3DMake(-1.0f,0,0), DEGREES_TO_RADIANS(globalRotateX));
+	Quaternion3DNormalize(&Rotation1);
+
+	Quaternion3D Rotation2=Quaternion3DMakeWithAxisAndAngle(Vector3DMake(0.0f,-1.0f,0), DEGREES_TO_RADIANS(globalRotateY));
+	Quaternion3DNormalize(&Rotation2);
+
+
+	Matrix3D Mat;
+	Matrix3DSetIdentity(Mat);
+	Quaternion3DMultiply(&QAccum, &Rotation1);
+
+	Quaternion3DMultiply(&QAccum, &Rotation2);
+
+	Matrix3DSetUsingQuaternion3D(Mat, QAccum);
+	globalRotateX=0;
+	globalRotateY=0;
+
+	glMultMatrixf(Mat);*/
+
+	Quaternion quat;
+	quat.SetYawPitchRoll( Angle.z, Angle.x, Angle.y );
+
+	Matrix4 m1;// = FromQuaternion( quat );
+	Matrix4 m = m1.Rotation( quat );
+
+	glPushMatrix();
+
+	glTranslatef (Center.x, Center.y, Center.z);
+
+    // Multiply quaternion with current modelview matrix    
+    //glMultMatrixf(cameraQuaternion.toMatrix());
+	glMultMatrixf( (GLfloat*)&m );
+
+	glCallList (DrawList);
+
+    glPopMatrix();
+
 }
 
 //----------------------------------------------
 
 void	StellarObject :: Draw ( float positionx, float positiony, float positionz )
 {
-	if (DrawList != 0xFFFFFFFF)
+	if (DrawList != InvalidDrawList)
 	{
 		glPushMatrix();
 			//glScalef (Scale, Scale, Scale);	// not currently needed

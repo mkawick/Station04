@@ -576,3 +576,12 @@ inline Vector operator * ( const Vector& vec, const Matrix4& mtx)
 // -----------------------------------------------------------------------------
 
 
+Matrix4		FromQuaternion( const Quaternion& quat )
+{
+	Matrix4 m;
+	m.Rotation( quat );
+	return m;
+}
+
+// -----------------------------------------------------------------------------
+

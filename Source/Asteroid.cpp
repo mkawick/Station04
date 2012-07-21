@@ -72,7 +72,7 @@ Asteroid :: Asteroid (float _size, Shape _shape) : SizeModifiers (1, 1, 1), size
 
 void	Asteroid :: Reset (float size, Shape shape)
 {
-	if (DrawList != 0xFFFFFFFF)
+	if (DrawList != InvalidDrawList)
 	{
 		glDeleteLists (DrawList, 1);
 	}

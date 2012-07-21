@@ -5,6 +5,8 @@
 #pragma once
 #include "../Common/struct.h"
 
+const U32 InvalidDrawList = 0xFFFFFFFF;
+
 enum ResourceTypes
 {
 	ResourceType_None,

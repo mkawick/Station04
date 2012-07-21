@@ -20,10 +20,10 @@ public:
 	Angle			operator /		( const float scaler) const;
 	float			operator /		( const Angle& angle) const;
 	
-	inline          Angle&			operator +=		( const Angle& angle);
-	inline          Angle&			operator -=		( const Angle& angle);
-	inline          Angle&			operator *=		( const float scaler);
-	inline          Angle&			operator /=		( const float scaler);
+	Angle&			operator +=		( const Angle& angle);
+	Angle&			operator -=		( const Angle& angle);
+	Angle&			operator *=		( const float scaler);
+	Angle&			operator /=		( const float scaler);
 	
 	bool			operator ==		( const Angle& angle) const;
 	bool			operator !=		( const Angle& angle) const;
@@ -36,7 +36,7 @@ public:
 	float			AsDegrees() const;
 	float			AsPositiveRadians() const;
 	float			AsPositiveDegrees() const;
-	inline  void	Normalize();
+	void			Normalize();
 	
 	static Angle	FromDegrees(const float degrees);
 	static Angle	FromRadians(const float radians);

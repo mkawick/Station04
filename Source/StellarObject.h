@@ -42,6 +42,8 @@ public:
 	virtual void	Draw ( float positionx, float positiony, float positionz );
 	virtual void	Update ( GameData& );
 	
+void	StellarObject :: TempDraw();
+	
 	//---------------------------------------
 	
 	void			SetHitPointRange (float min, float max);
