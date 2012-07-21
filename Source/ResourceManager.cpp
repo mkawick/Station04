@@ -12,6 +12,7 @@
 #include "StellarResource.h"
 #include "AssetLoadManager.h"
 #include "GameFramework.h"
+#include "../Common/Math/MathFunctions.h"
 
 //#include "player.h"
 //#include "PlayerDatabase.h"
@@ -82,10 +83,22 @@ void	ResourceManager :: AddResource( ResourceTypes type, float amount, const Vec
 	resource->SetQuantity( amount );
 	resource->SetAngle( Vector( 0, 0, 180 ) );// loaded assets come in upside-down
 
+	Vector velocity, deceleration;
+	GetVelocityOfNewResource( velocity, deceleration );
+	resource->SetVelocity( velocity );
+	resource->SetAcceleration( deceleration );
+
 	AssetObject* asset = GlobalGameFramework->GetAssets().FindObject( "cone" );
 	resource->SetAsset( asset );
 
 	Resources.push_back( resource );
+}
+
+void	ResourceManager :: GetVelocityOfNewResource( Vector& velocity, Vector& deceleration ) const
+{
+	float speed = static_cast<float> (rand() % 12 ) * 0.01f + 0.05f;
+	Random2dVector( velocity, speed );
+	deceleration = velocity * -0.01f;// 1% speed loss
 }
 
 //---------------------------------------------------------

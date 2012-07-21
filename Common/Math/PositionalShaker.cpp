@@ -56,9 +56,5 @@ void	PositionalShaker::SetupCountDown()
 }
 void	PositionalShaker::SetupOffset()
 {
-	float angle = static_cast<float>( rand() % 720 ) *0.5f;
-	float angleInRads = ConvertToRadians( angle );
-	float x = cos( angleInRads ) * shakeMagnitude;
-	float y = sin( angleInRads ) * shakeMagnitude;
-	positionOffset.Set( x, y, 0 );
+	Random2dVector( positionOffset, shakeMagnitude );
 }

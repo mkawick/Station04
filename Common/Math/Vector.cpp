@@ -86,6 +86,14 @@ Vector&		Vector :: operator =			(const Vector& v)
 	return *this;
 }
 
+Vector&		Vector :: operator =			(const float v )
+{
+	x = v;
+	y = v;
+	z = v;
+	return *this;
+}
+
 //---------------------------------------------------------
 
 Vector&		Vector :: operator += (const Vector& v)

@@ -38,6 +38,7 @@ public:
 	void	CalculateMaxAABB();
 protected:
 	void	RandomizeContent ();
+	//void	RandomizeResources();
 	
 protected:
 	std::vector <Vector>	Points;

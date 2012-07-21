@@ -29,6 +29,7 @@ public:
 	void			SetColor ( const Vector& color ) {Color = color;}
 	void			SetCenter ( const Vector& center );
 	void			SetVelocity ( const Vector& vel ) {Velocity = vel;}
+	void			SetAcceleration ( const Vector& acc ) { Acceleration = acc; }
 	void			SetAngle ( const Vector& angle ) {Angle = angle;}
 	void			SetAngleOfRotation ( const Vector& rate ) {RotationRate = rate;}
 	
@@ -84,6 +85,7 @@ protected:
 	Vector							Color;			// r, g, b
 	Vector							Center;			// x, y, z
 	Vector							Velocity;		// ∆x, ∆y, ∆z
+	Vector							Acceleration;	// ∆vx, ∆vy, ∆vz
 	Vector							Angle;			// theta, phi, psi
 	Vector							RotationRate;	// ∆theta, ∆phi, ∆psi
 	GLuint							DrawList;		// used for optimization in drawing

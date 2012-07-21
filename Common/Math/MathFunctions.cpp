@@ -4,6 +4,8 @@
  */
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "MathFunctions.h"
 
 const float PI = 			3.1415927f;
@@ -237,5 +239,15 @@ Vector	CreateVectorDownRightInHex (Vector startposition, float distance)
 	return Vector (startposition.x+WidthBetweenCenters, startposition.y-HeightBetweenCenters, startposition.z);
 }
 
+//---------------------------------------------------------
+
+void	Random2dVector( Vector& v, float magnitude )
+{
+	float angle = static_cast<float>( rand() % 720 ) *0.5f;
+	float angleInRads = ConvertToRadians( angle );
+	float x = cos( angleInRads ) * magnitude;
+	float y = sin( angleInRads ) * magnitude;
+	v.Set( x, y, 0 );
+}
 //---------------------------------------------------------
 //---------------------------------------------------------

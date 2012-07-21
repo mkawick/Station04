@@ -40,6 +40,7 @@ public:
 	
 	// Assignment arithmetic operators
 	Vector&				operator =			(const Vector& v);
+	Vector&				operator =			(const float v );
 	Vector&				operator -=			(const Vector& v);
 	Vector&				operator +=			(const Vector& v);
 	Vector				operator *=			(float v);

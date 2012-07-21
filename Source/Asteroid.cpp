@@ -49,6 +49,7 @@ Asteroid :: Asteroid () : SizeModifiers (1, 1, 1), size(1), shape(Smoothe), Stel
 {
 	Reset (size, shape);
 	Partitioning.collisionFlag = CollisionFlags_Mining;
+	RandomizeContent ();
 }
 
 void	Asteroid ::CalculateMaxAABB()
@@ -64,6 +65,7 @@ Asteroid :: Asteroid (float _size, Shape _shape) : SizeModifiers (1, 1, 1), size
 {
 	Reset (size, shape);
 	Partitioning.collisionFlag = CollisionFlags_Asteroid;
+	RandomizeContent ();
 }
 
 //---------------------------------------------------------
@@ -166,7 +168,11 @@ void	Asteroid :: Update ( GameData& data )
 //---------------------------------------------------------
 
 void	Asteroid :: RandomizeContent ()
-{
+{		
+	for( int i=0; i<ResourceTypes_Count; i++ )
+	{
+		ResourceQuantities[ i ] = 200;
+	}
 }
 
 //---------------------------------------------------------
@@ -181,7 +187,15 @@ bool	Asteroid :: MineResource( ResourceTypes attemptedType )
 		case ResourceType_Aluminium:
 		case ResourceType_Copper:
 			{
-				Events::CreateResourceNodeEvent ResourceEvent( GetCenter(), ResourceType_DropiumCrystal, 3.0f );
+				float amountRemaining = ResourceQuantities[ attemptedType ];
+				if( amountRemaining <= 0 )
+					return false;
+
+				if( amountRemaining > 3.0 )
+					amountRemaining = 3.0f;
+				ResourceQuantities[ attemptedType ] -= amountRemaining;
+
+				Events::CreateResourceNodeEvent ResourceEvent( GetCenter(), ResourceType_DropiumCrystal, amountRemaining );
 				ResourceEvent.SetAsteroidIdFromWhichItCame( GetID() );
 				GlobalGameFramework->SendMessages (ResourceEvent);
 				shaker.Init( 200 );

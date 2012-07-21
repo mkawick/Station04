@@ -141,6 +141,7 @@ Vector	CreateVectorUpRightInHex (Vector startposition, float distance);
 Vector	CreateVectorDownInHex (Vector startposition, float distance);
 Vector	CreateVectorDownLeftInHex (Vector startposition, float distance);
 Vector	CreateVectorDownRightInHex (Vector startposition, float distance);
+void	Random2dVector( Vector& v, float magnitude = 1.0f );
 
 //-----------------------------------------------------------------------
 

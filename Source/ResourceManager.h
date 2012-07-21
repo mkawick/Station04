@@ -23,5 +23,6 @@ public:
 	void	ProcessMessages (GameData& data);
 
 protected:
+	void	GetVelocityOfNewResource( Vector& velocity, Vector& deceleration ) const;
 	std::list <StellarResource*>	Resources;
 };

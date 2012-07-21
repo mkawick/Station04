@@ -102,6 +102,12 @@ void	StellarObject :: Update (GameData& data)
 		GlobalGameFramework->GetSpacePartition().AddPartitionObject( &Partitioning );
 	}
 	Angle += RotationRate;
+	Velocity += Acceleration;
+	if( Velocity.Magnitude() <= 0.011 )
+	{
+		Velocity = 0.0f;
+		Acceleration = 0.0f;
+	}
 	
 	// this might be better handled by the weapon class (weaponbase.h)
 	
