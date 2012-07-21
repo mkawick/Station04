@@ -38,6 +38,7 @@ public:
 	
 	virtual void	Setup ();
 	virtual void	Draw ();
+	virtual void	Draw ( float positionx, float positiony, float positionz );
 	virtual void	Update ( GameData& );
 	
 	//---------------------------------------

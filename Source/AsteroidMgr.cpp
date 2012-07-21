@@ -149,14 +149,7 @@ void		AsteroidMgr :: CheckForDamage (GameData& data)
 
 //------------------------------------------
 void		AsteroidMgr :: ProcessMessages (GameData& GlobalGameData)//inherited, send all messages to the appropriate players
-{
-	/*//Player* player = *CurrentPlayer;
-	ShipArchetype* Ship = NULL;
-	if (player)
-	{
-		Ship = player->GetShip ();
-	}*/
-	
+{	
 	int NumMessages = ReceiveQueue.Count ();
 	for (int i=0; i<NumMessages; i++)
 	{
@@ -166,58 +159,13 @@ void		AsteroidMgr :: ProcessMessages (GameData& GlobalGameData)//inherited, send
 			case Events:: CreateResource:
 			{
 				const Events::CreateResourceNodeEvent* cr = reinterpret_cast <const Events::CreateResourceNodeEvent*>( msg );
+				/*cr->
 				if( cr->GetAsteroidId() )
 				{
 					DeleteAsteroid( cr->GetAsteroidId() );// for now
-				}
+				}*/
 			}
 			break;
-		/*	case Events :: ApplyThrust:
-				Ship->ApplyThrust ();
-				break;
-			case Events :: GameModeChange:
-				break;
-			case Events :: Maneuvers:
-			{
-				const Events::ManeuverEvent* me = reinterpret_cast <const Events::ManeuverEvent*> (msg);
-				Events::ManeuverEvent::ManeuverType maneuverType = me->GetManeuver ();
-				
-				if (maneuverType == Events::ManeuverEvent::TurnLeft)
-				{
-					Ship->Rotate (ShipArchetype::CCW);
-				}
-				if (maneuverType == Events::ManeuverEvent::TurnRight)
-				{
-					Ship->Rotate (ShipArchetype::CW);
-				}
-				if (maneuverType == Events::ManeuverEvent::Thrust)
-				{
-					Ship->ApplyThrust ();
-				}
-			}
-				break;
-			case Events :: SwitchViewport:
-			{
-				const Events::SwitchViewportEvent* sve = reinterpret_cast <const Events::SwitchViewportEvent*> (msg);
-				Events::SwitchViewportEvent::ViewportSetting viewtype = sve->GetView ();
-				int WhichStation = sve->GetViewIndex ();
-				
-				switch (viewtype)
-				{
-					case Events::SwitchViewportEvent::ShipView:
-						player->SetViewFocusToShip ();
-						break;
-					case Events::SwitchViewportEvent::StationView:
-						player->SetFocus (WhichStation);
-						break;
-						
-				}
-			}
-				break;
-			case Events :: FireWeapon:
-				//projectiles.AddBolt (gazelle);
-				//Ship->FireWeapon ();
-				break;*/
 		default:
 			break;
 		}

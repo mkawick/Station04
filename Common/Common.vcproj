@@ -213,6 +213,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Math\PositionalShaker.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\PositionalShaker.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Math\Quaternion.cpp"
 				>
 			</File>

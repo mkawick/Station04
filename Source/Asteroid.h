@@ -9,6 +9,7 @@
 #include "StellarObject.h"
 #include "GlobalDefinitions.h"
 #include "StellarResource.h"
+#include "../Common/Math/PositionalShaker.h"
 
 //-----------------------------------------------
 
@@ -21,6 +22,9 @@ public:
 	Asteroid (float size, Shape shape);
 	
 	void	Reset (float size, Shape shape);
+
+	void	Draw ();
+	void	Update ( GameData& );
 	
 	//-------------------------------------------------
 	void	SetID (int ID) {id = ID;}
@@ -42,6 +46,7 @@ protected:
 	float					ResourceQuantities[ ResourceTypes_Count ];
 	float					size;
 	Shape					shape;
+	PositionalShaker		shaker;
 };
 
 //-----------------------------------------------

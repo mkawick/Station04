@@ -145,6 +145,23 @@ void	Asteroid :: Reset (float size, Shape shape)
 	// since we no longer need the points except for intersection testing
 }
 
+void	Asteroid :: Draw ()
+{
+	if( shaker.isDoneShaking() )
+		StellarObject::Draw();
+	else
+	{
+		StellarObject::Draw( Center.x + shaker.pos().x,
+			Center.y + shaker.pos().y,
+			Center.z + shaker.pos().z);
+	}
+}
+
+void	Asteroid :: Update ( GameData& data )
+{
+	shaker.Update();
+	StellarObject::Update( data );
+}
 
 //---------------------------------------------------------
 
@@ -167,6 +184,7 @@ bool	Asteroid :: MineResource( ResourceTypes attemptedType )
 				Events::CreateResourceNodeEvent ResourceEvent( GetCenter(), ResourceType_DropiumCrystal, 3.0f );
 				ResourceEvent.SetAsteroidIdFromWhichItCame( GetID() );
 				GlobalGameFramework->SendMessages (ResourceEvent);
+				shaker.Init( 200 );
 				return true;
 			}
 			break;

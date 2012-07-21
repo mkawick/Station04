@@ -71,6 +71,26 @@ void	StellarObject :: Draw ()
 
 //----------------------------------------------
 
+void	StellarObject :: Draw ( float positionx, float positiony, float positionz )
+{
+	if (DrawList != 0xFFFFFFFF)
+	{
+		glPushMatrix();
+			//glScalef (Scale, Scale, Scale);	// not currently needed
+		
+			glTranslatef ( positionx, positiony, positionz);
+			
+			glRotatef (Angle.x, 1, 0, 0);
+			glRotatef (Angle.y, 0, 1, 0);
+			glRotatef (Angle.z, 0, 0, 1);
+			
+			glCallList (DrawList);
+		
+		glPopMatrix();
+	}
+}
+//----------------------------------------------
+
 void	StellarObject :: Update (GameData& data)
 {
 	if( Velocity.SquareMagnitude() > 0 )
