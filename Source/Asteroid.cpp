@@ -49,6 +49,7 @@ Asteroid :: Asteroid () : SizeModifiers (1, 1, 1), size(1), shape(Smoothe), Stel
 {
 	Reset (size, shape);
 	Partitioning.collisionFlag = CollisionFlags_Mining;
+	Partitioning.obj = this;
 	RandomizeContent ();
 }
 
@@ -64,7 +65,8 @@ void	Asteroid ::CalculateMaxAABB()
 Asteroid :: Asteroid (float _size, Shape _shape) : SizeModifiers (1, 1, 1), size(_size), shape(_shape), StellarObject()
 {
 	Reset (size, shape);
-	Partitioning.collisionFlag = CollisionFlags_Asteroid;
+	Partitioning.collisionFlag = CollisionFlags_Mining;
+	Partitioning.obj = this;
 	RandomizeContent ();
 }
 
@@ -195,7 +197,7 @@ bool	Asteroid :: MineResource( ResourceTypes attemptedType )
 					amountRemaining = 3.0f;
 				ResourceQuantities[ attemptedType ] -= amountRemaining;
 
-				Events::CreateResourceNodeEvent ResourceEvent( GetCenter(), ResourceType_DropiumCrystal, amountRemaining );
+				Events::CreateResourceNodeEvent ResourceEvent( GetCenter(), attemptedType, amountRemaining );
 				ResourceEvent.SetAsteroidIdFromWhichItCame( GetID() );
 				GlobalGameFramework->SendMessages (ResourceEvent);
 				shaker.Init( 200 );

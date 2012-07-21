@@ -6,6 +6,12 @@
 			   { "ignore": "../Data/Asteroids/Asteroid_01_Sm.obj", "key": "cone", "scale":0.2 },
 			   { "file": "../Data/CubeBar.obj", "key": "cube_bar", "scale":0.2 },
 			   { "file": "../Data/Ship01_Proxy/Ship01_Proxy.obj", "key": "cone2", "scale":0.2 },
+			   
+			   { "file": "../Data/Minerals/Iron.3ds", "key": "iron", "scale": 0.4 },
+			   { "file": "../Data/Minerals/Copper.3ds", "key": "copper", "scale": 0.4 },
+			   { "file": "../Data/Minerals/Hydrogen.3ds", "key": "hydrogen", "scale": 0.4 },
+			   { "file": "../Data/Minerals/Aluminium.3ds", "key": "aluminium", "scale": 0.4 },
+			   { "file": "../Data/Minerals/Dropsium.3ds", "key": "dropsium", "scale": 0.4 },
 			   { "file": "end", "key": "end" }
 			]
 }

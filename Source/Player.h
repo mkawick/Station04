@@ -59,6 +59,7 @@ public:
 	void					SetViewFocusToShip ();
 	float					AggregrateResource (ResourceTypes type) const;// look at all stations and pull the total of the accumulated resources
 	
+	void					AddResources( ResourceTypes type, float amount );
 	//-------------------------------------------
 	
 protected:

@@ -56,7 +56,7 @@ void	StellarObject :: Draw ()
 {
 	if (DrawList != InvalidDrawList)
 	{
-		TempDraw();
+		FinalDraw( Center.x, Center.y, Center.z );
 		/*glPushMatrix();
 			//glScalef (Scale, Scale, Scale);	// not currently needed
 		
@@ -72,42 +72,25 @@ void	StellarObject :: Draw ()
 	}
 }
 
-void	StellarObject :: TempDraw()
+void	StellarObject :: FinalDraw( float positionx, float positiony, float positionz )
 {
-	/*Quaternion3D Rotation1=Quaternion3DMakeWithAxisAndAngle(Vector3DMake(-1.0f,0,0), DEGREES_TO_RADIANS(globalRotateX));
-	Quaternion3DNormalize(&Rotation1);
-
-	Quaternion3D Rotation2=Quaternion3DMakeWithAxisAndAngle(Vector3DMake(0.0f,-1.0f,0), DEGREES_TO_RADIANS(globalRotateY));
-	Quaternion3DNormalize(&Rotation2);
-
-
-	Matrix3D Mat;
-	Matrix3DSetIdentity(Mat);
-	Quaternion3DMultiply(&QAccum, &Rotation1);
-
-	Quaternion3DMultiply(&QAccum, &Rotation2);
-
-	Matrix3DSetUsingQuaternion3D(Mat, QAccum);
-	globalRotateX=0;
-	globalRotateY=0;
-
-	glMultMatrixf(Mat);*/
-
 	Quaternion quat;
 	quat.SetYawPitchRoll( Angle.z, Angle.x, Angle.y );
 
-	Matrix4 m1;// = FromQuaternion( quat );
-	Matrix4 m = m1.Rotation( quat );
+	Matrix4 m = Matrix4::Rotation( quat );
 
 	glPushMatrix();
 
-	glTranslatef (Center.x, Center.y, Center.z);
+		//glTranslatef ( positionx, positiony, positionz );
 
-    // Multiply quaternion with current modelview matrix    
-    //glMultMatrixf(cameraQuaternion.toMatrix());
-	glMultMatrixf( (GLfloat*)&m );
+		/*m.TranslationX( positionx );
+		m.TranslationY( positiony );
+		m.TranslationZ( positionz );*/
+		m.SetTranslation( positionx, positiony, positionz );
 
-	glCallList (DrawList);
+		glMultMatrixf( (GLfloat*)&m );
+
+		glCallList (DrawList);
 
     glPopMatrix();
 
@@ -119,7 +102,8 @@ void	StellarObject :: Draw ( float positionx, float positiony, float positionz )
 {
 	if (DrawList != InvalidDrawList)
 	{
-		glPushMatrix();
+		FinalDraw( positionx, positiony, positionz );
+	/*	glPushMatrix();
 			//glScalef (Scale, Scale, Scale);	// not currently needed
 		
 			glTranslatef ( positionx, positiony, positionz);
@@ -130,7 +114,7 @@ void	StellarObject :: Draw ( float positionx, float positiony, float positionz )
 			
 			glCallList (DrawList);
 		
-		glPopMatrix();
+		glPopMatrix();*/
 	}
 }
 //----------------------------------------------

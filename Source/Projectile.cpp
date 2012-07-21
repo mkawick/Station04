@@ -193,9 +193,10 @@ void	PhaseBolt :: Update ()
 					if( obj->obj )
 					{
 						Asteroid* pAsteroid = reinterpret_cast<Asteroid*>( obj->obj );
-						if( pAsteroid )// this ust be improved.
+						if( pAsteroid )// this must be improved.
 						{
-							if( pAsteroid->MineResource( ResourceType_DropiumCrystal ) )
+							int whichResource = rand() % (ResourceTypes_Count - 1) + 1;
+							if( pAsteroid->MineResource( static_cast<ResourceTypes> (whichResource) ) )
 							{
 								//pAsteroid->Remove();
 							}

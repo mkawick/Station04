@@ -14,8 +14,8 @@
 #include "GameFramework.h"
 #include "../Common/Math/MathFunctions.h"
 
-//#include "player.h"
-//#include "PlayerDatabase.h"
+#include "player.h"
+#include "PlayerDatabase.h"
 //#include "shiparchetype.h"
 
 //---------------------------------------------------------
@@ -75,11 +75,34 @@ void	ResourceManager :: PostDrawCleanup ()
 }
 
 //---------------------------------------------------------
-void	ResourceManager :: AddResource( ResourceTypes type, float amount, const Vector& location )
+void	ResourceManager :: AddResource( ResourceTypes resourceType, float amount, const Vector& location )
 {
+	AssetObject* asset = NULL;
+
+	switch( resourceType )
+	{
+	case ResourceType_Iron:
+		asset = GlobalGameFramework->GetAssets().FindObject( "iron" );
+		break;
+	case ResourceType_DropiumCrystal:
+		asset = GlobalGameFramework->GetAssets().FindObject( "dropsium" );
+		break;
+	case ResourceType_Hydrogen:
+		asset = GlobalGameFramework->GetAssets().FindObject( "hydrogen" );
+		break;
+	case ResourceType_Aluminium:
+		asset = GlobalGameFramework->GetAssets().FindObject( "aluminium" );
+		break;
+	case ResourceType_Copper:
+		asset = GlobalGameFramework->GetAssets().FindObject( "copper" );
+		break;
+	}
+	if( asset == NULL )
+		return;
+
 	StellarResource* resource = new StellarResource();
 	resource->SetCenter( location );
-	resource->SetResource( type );
+	resource->SetResource( resourceType );
 	resource->SetQuantity( amount );
 	resource->SetAngle( Vector( 0, 0, 180 ) );// loaded assets come in upside-down
 
@@ -88,7 +111,10 @@ void	ResourceManager :: AddResource( ResourceTypes type, float amount, const Vec
 	resource->SetVelocity( velocity );
 	resource->SetAcceleration( deceleration );
 
-	AssetObject* asset = GlobalGameFramework->GetAssets().FindObject( "cone" );
+	float rotationSpeed = static_cast<float> (rand() % 12 ) * 0.01f + 0.05f;
+	Random2dVector( velocity, rotationSpeed );
+	resource->SetAngleOfRotation( velocity );
+
 	resource->SetAsset( asset );
 
 	Resources.push_back( resource );
@@ -120,6 +146,13 @@ void			ResourceManager :: ProcessMessages (GameData& GlobalGameData)//inherited,
 			case Events :: CaptureResource:
 			{
 				const Events::CaptureResourceEvent* cr = reinterpret_cast <const Events::CaptureResourceEvent*> (msg);
+				Player*	player = GlobalGameData.GetPlayerDb()->GetPlayer( cr->GetPlayerId() );
+				if( player )
+				{
+					ResourceTypes type = cr->Get()->GetResource();
+					float quantity = cr->Get()->GetQuantity();
+					player->AddResources( type, quantity );
+				}
 				Resources.remove( cr->Get() );
 
 			}

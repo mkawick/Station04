@@ -13,7 +13,7 @@ class StellarResource : public StellarObject
 public:
 	StellarResource ();
 	
-	//void	Update () {}// these are currently undefined
+	//void	Update ( GameData& );
 	void	Draw ();
 	
 	void			SetResource (ResourceTypes type) {Resource = type;}

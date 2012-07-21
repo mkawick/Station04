@@ -21,6 +21,9 @@ public:
 	enum	EngineStates {Off, Engaging, On, ShuttingOff};
 	
 	ShipArchetype ();
+
+	void			SetOwner( UUID id ) { PlayerId = id; }
+	UUID			GetOwner() const {return PlayerId; }
 	
 	int				GetShieldLevel () const;
 	void			SetBodyColor (Vector color);
@@ -68,6 +71,7 @@ protected:
 	Vector			ExhaustPosition;
 	int				ShieldLevel [2];//
 	//unsigned int	DrawList;
+	UUID			PlayerId;
 	
 	bool			IsApplyingThrust;
 	Events::GameEventQueue	EventQueue;

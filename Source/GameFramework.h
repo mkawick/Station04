@@ -42,12 +42,12 @@ public:
 	
 	//---------------------------------------
 	
-	Quadtree& GetSpacePartition() { return SpacePartition; }
-	AssetLoadManager& GetAssets() { return AssetLoader; }
-	UUID	GetLocalPlayer();
-	GameData	GetGameData() { return GlobalGameData; }
+	Quadtree&			GetSpacePartition() { return SpacePartition; }
+	AssetLoadManager&	GetAssets() { return AssetLoader; }
+	UUID				GetLocalPlayer();
+	GameData			GetGameData() { return GlobalGameData; }
 
-	InputManager& GetInput() { return Input; }
+	InputManager&		GetInput() { return Input; }
 
 protected:
 	void	Init ();

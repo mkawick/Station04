@@ -11,6 +11,8 @@ StellarResource::StellarResource() : StellarObject (),
 									Quantity( 0 ),
 									Asset( NULL )
 {
+	Partitioning.collisionFlag = CollisionFlags_Resource;
+	Partitioning.obj = this;
 }
 
 void StellarResource::Draw()
@@ -20,6 +22,11 @@ void StellarResource::Draw()
 		Asset->Render( Center.x, Center.y, Center.z, Angle.x, Angle.y, Angle.z, 1 );
 	}
 }
+
+/*void StellarResource::Update ( GameData& data);
+{
+	StellarObject::Update( data );
+}*/
 /*
 StellarResource::~StellarResource()
 {

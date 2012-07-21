@@ -138,8 +138,12 @@ namespace Events
 		
 		void				Set( StellarResource* res ) { resource = res; }
 		StellarResource*	Get() const { return resource; }
+		void				SetPlayerId( UUID pid ) { PlayerID = pid; }
+		UUID				GetPlayerId() const { return PlayerID; }
+
 	protected:
-		StellarResource* resource;
+		StellarResource*	resource;
+		UUID				PlayerID;
 	};
 
 	//----------------------------------------------

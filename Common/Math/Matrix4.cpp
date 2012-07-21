@@ -189,26 +189,26 @@ inline void Matrix4::SetE(int row, int col, float val)
 }
 
 // -----------------------------------------------------------------------------
-inline Matrix4& Matrix4::SetIdentity()
+Matrix4& Matrix4::SetIdentity()
 {
 	m12 = m13 = m14 = m21 = m23 = m24 = m31 = m32 = m34 = m41 = m42 = m43 = 0.f;
 	m11 = m22 = m33 = m44 = 1.f;
 	return *this;
 }
 
-inline Matrix4& Matrix4::SetTranslation (float x, float y, float z)
+Matrix4& Matrix4::SetTranslation (float x, float y, float z)
 {
 	SetRow(3,Vector(x,y,z));
 	return *this;
 }
 
-inline Matrix4& Matrix4::SetTranslation (const Vector& v)
+Matrix4& Matrix4::SetTranslation (const Vector& v)
 {
 	SetRow(3,v);
 	return *this;
 }
 
-inline Matrix4& Matrix4::SetYawPitchRoll (Angle yaw, Angle pitch, Angle roll)
+Matrix4& Matrix4::SetYawPitchRoll (Angle yaw, Angle pitch, Angle roll)
 {
 	float s0 = sin(pitch.AsRadians());
 	float s1 = sin(roll.AsRadians());
@@ -232,7 +232,7 @@ inline Matrix4& Matrix4::SetYawPitchRoll (Angle yaw, Angle pitch, Angle roll)
 	return *this;
 }
 
-inline Matrix4& Matrix4::SetEulerXYZ (Angle rx, Angle ry, Angle rz)
+Matrix4& Matrix4::SetEulerXYZ (Angle rx, Angle ry, Angle rz)
 {
 	float s0 = sin(rx.AsRadians());
 	float s1 = sin(ry.AsRadians());
@@ -455,7 +455,7 @@ inline	Matrix4			Matrix4 :: Rotation	(const Quaternion& q)
 	// 	return rm.AsMatrix4();
 }
 
-inline Matrix4	Matrix4::TranslationX (float dist)
+Matrix4	Matrix4::TranslationX (float dist)
 {
 	return Matrix4(		
 				   1,		0,		0,		0,
@@ -464,7 +464,7 @@ inline Matrix4	Matrix4::TranslationX (float dist)
 				   dist,	0.0,	0.0,	1	);
 }
 
-inline Matrix4	Matrix4::TranslationY (float dist)
+Matrix4	Matrix4::TranslationY (float dist)
 {
 	return Matrix4(		
 				   1,		0,		0,		0,
@@ -473,7 +473,7 @@ inline Matrix4	Matrix4::TranslationY (float dist)
 				   0.0,	dist,	0.0,	1	);
 }
 
-inline Matrix4	Matrix4::TranslationZ (float dist)
+Matrix4	Matrix4::TranslationZ (float dist)
 {
 	return Matrix4(		
 				   1,		0,		0,		0,
@@ -482,7 +482,7 @@ inline Matrix4	Matrix4::TranslationZ (float dist)
 				   0.0,	0.0,	dist,	1	);
 }
 
-inline Matrix4	Matrix4::Translation (float x, float y, float z)
+Matrix4	Matrix4::Translation (float x, float y, float z)
 {
 	return Matrix4(		
 				   1,	0,	0,	0,
@@ -491,7 +491,7 @@ inline Matrix4	Matrix4::Translation (float x, float y, float z)
 				   x,	y,	z,	1	);
 }
 
-inline Matrix4	Matrix4::Translation (const Vector& v)
+Matrix4	Matrix4::Translation (const Vector& v)
 {
 	return Matrix4(		
 				   1,		0,		0,		0,
@@ -501,7 +501,7 @@ inline Matrix4	Matrix4::Translation (const Vector& v)
 }
 
 
-inline Matrix4	Matrix4::ScaleX   (float x)
+Matrix4	Matrix4::ScaleX   (float x)
 {
 	return Matrix4(		
 				   x,		0,		0,		0,

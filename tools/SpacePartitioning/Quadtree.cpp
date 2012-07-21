@@ -110,7 +110,7 @@ list<PartitionObject*>  FilterList( list<PartitionObject*>& listOfObjects, U32 c
 	list<PartitionObject*>::iterator it = listOfObjects.begin();
 	while( it != listOfObjects.end() )
 	{
-		if( ( (*it)->collisionFlag | collisionFlags ) != CollisionFlags_None )
+		if( ( (*it)->collisionFlag & collisionFlags ) != CollisionFlags_None )
 		{
 			temp.push_back( *it );
 		}
@@ -132,7 +132,7 @@ void CopyFilterList( list<PartitionObject*>& sourceObjects, list<PartitionObject
 	list<PartitionObject*>::iterator it = sourceObjects.begin();
 	while( it != sourceObjects.end() )
 	{
-		if( ( (*it)->collisionFlag | collisionFlags ) != CollisionFlags_None )
+		if( ( (*it)->collisionFlag & collisionFlags ) != CollisionFlags_None )
 		{
 			destList.push_back( *it );
 		}

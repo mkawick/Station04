@@ -35,6 +35,8 @@ public:
 	bool			AddPlayer( ShipArchetype* playersShip, UUID uuid );
 	ShipArchetype*  GetPlayerShip( UUID uuid );
 
+	PlayerDatabase* GetPlayerDb() { return PlayerDB;}
+
 protected:
 	PlayerDatabase* PlayerDB;
 	StaticGameData* StaticGameDatum;

@@ -6,19 +6,25 @@
 
 #include "stdafx.h"
 #include <windows.h>
+#include <math.h>
+#include <list>
+using namespace std;
+
 #ifndef __gl_h_
 #include "../tools/SDL/include/SDL_opengl.h"
 #endif
 #include "Gazelle.h"
 #include "GameData.h"
-#include <math.h>
 
+#include "GameFramework.h"
 
 //----------------------------------------------
 //----------------------------------------------
 
 Gazelle :: Gazelle () :	ShipArchetype (), BodyWidth (2), BodyLength (10)
 {
+	Partitioning.collisionFlag = CollisionFlags_Resource;// for testing only, a gazelle is not a resource collecting ship
+	Partitioning.obj = this;
 }
 
 //----------------------------------------------
@@ -54,10 +60,53 @@ void			Gazelle :: ApplyThrust ()
 	v *= 100;
 	Velocity += v;
 	
-	if (Velocity.Magnitude () > 80)
+	float speed = Velocity.Magnitude ();
+	
+	if( speed )
 	{
-		Velocity.Normalize ();
-		Velocity *= 80;
+		if (speed > 80)
+		{
+			Velocity.Normalize ();
+			Velocity *= 80;// max out the velocity
+		}
+	}
+	list<PartitionObject*> listOfPossibleCollisionObjects;
+	GlobalGameFramework->GetSpacePartition().GetObjectsAtMin( listOfPossibleCollisionObjects, Center.x, Center.y, CollisionFlags_Resource );
+
+	list<PartitionObject*>::iterator it = listOfPossibleCollisionObjects.begin();
+	if( it != listOfPossibleCollisionObjects.end() )
+	{
+		float cx = Center.x, cy = Center.y;
+		float lenSquared = BodyLength*0.5F;
+		//lenSquared *= lenSquared;
+
+		while( it != listOfPossibleCollisionObjects.end() )
+		{
+			PartitionObject* po = *it++;
+			float radiusSquared = ABS( po->cx() - po->x1 );
+			//radiusSquared *= radiusSquared;
+			
+			float dist = DIST( po->cx() - cx, po->cy() - cy );
+			if( dist - ( radiusSquared + lenSquared ) < 0 )
+			{
+				if( po->obj )// we must test object type here... big disaster waiting otherwise
+				{
+					StellarResource* pResource = reinterpret_cast<StellarResource*>( po->obj );
+					if( pResource )// this must be improved.
+					{
+						Events::CaptureResourceEvent resourceCap;
+						resourceCap.Set( pResource );
+						resourceCap.SetPlayerId( GetOwner() );
+						GlobalGameFramework->SendMessages (resourceCap);
+						/*int whichResource = rand() % (ResourceTypes_Count - 1) + 1;
+						if( pResource->MineResource( static_cast<ResourceTypes> (whichResource) ) )
+						{
+							//pAsteroid->Remove();
+						}*/
+					}
+				}
+			}
+		}
 	}
 	IsApplyingThrust = true;
 }

@@ -274,7 +274,7 @@ void	GameFramework :: Init ()
 	
 	Player* player = playerdb->CreatePlayer ("Joe", Vector (0, 0, 0), StellarCartography::Up);
 	playerdb->AddPlayer(player);
-	playerdb->SetLocalPlayer( player->GetUnitID () );
+	playerdb->SetLocalPlayer( player->GetUnitId () );
 	//Scorey* playerShip = new Scorey();
 	//player->SetShip( playerShip );
 }

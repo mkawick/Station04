@@ -204,6 +204,10 @@ float					Player :: AggregrateResource ( ResourceTypes type) const
 	return total;
 }
 
+void					Player :: AddResources( ResourceTypes type, float amount )
+{
+}
+
 //-----------------------------------------------
 std::list<SpaceStation*>::iterator	Player :: FindStation (SpaceStation*s)
 {

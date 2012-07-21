@@ -173,7 +173,7 @@ void			PlayerDatabase :: ProcessMessages (GameData& GlobalGameData)//inherited, 
 
 void			PlayerDatabase :: AddPlayer (Player* player)
 {
-	std::list <Player*>::iterator it = FindPlayer (player->GetUnitID ());
+	std::list <Player*>::iterator it = FindPlayer (player->GetUnitId ());
 	if (it != PlayerList.end ())
 	{
 		return;// already here
@@ -200,6 +200,7 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	for (int i=0; i<MaxStations; i++)
 	{
 		stations[i] = new SpaceStation ();
+		stations[i]->SetOwner( player->GetUnitId() );
 	}
 	stations[0]->SetColor (Vector (1, 0.3F, 0.3F));
 	stations[1]->SetColor (Vector (1, 0, 1));
@@ -220,7 +221,7 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	
 	for( int i=0; i<4; i++)
 	{
-		stations[i]->SetCurrentHitPoints( 100 -20*i );
+		stations[i]->SetCurrentHitPoints( (float) (100 -20*i) );
 		stations[i]->SetShieldLevel( 0, 85 -20*i);
 		stations[i]->SetShieldLevel( 1, 80 -20*i);
 	}
@@ -247,6 +248,8 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	gazelle->SetCockpitColors (Vector (0, 0.5F, 0.5F), Vector (0.2F, 0.2F, 0.2F));
 	gazelle->SetShieldColor (Vector (0, 0, 0.5F));
 	gazelle->SetAngle (Vector (0, 0, 1));
+
+	gazelle->SetOwner( player->GetUnitId() );
 	
 	gazelle->SetCurrentHitPoints (100);
 	gazelle->SetCenter (center + Vector (6, 5, 0));
@@ -290,7 +293,7 @@ UUID			PlayerDatabase :: GetCurrentPlayerID ()
 {
 	assert (CurrentPlayer != PlayerList.end ());
 	Player* player = *CurrentPlayer;
-	return player->GetUnitID ();
+	return player->GetUnitId ();
 }
 
 //-------------------------------------------
@@ -344,7 +347,7 @@ std::list <Player*>::iterator	PlayerDatabase :: FindPlayer (UUID PlayerID)
 	while (it != PlayerList.end ())
 	{
 		Player* player = *it;
-		if (player->GetUnitID () == PlayerID)
+		if (player->GetUnitId () == PlayerID)
 			return it;
 		
 		it++;

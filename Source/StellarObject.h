@@ -42,8 +42,6 @@ public:
 	virtual void	Draw ( float positionx, float positiony, float positionz );
 	virtual void	Update ( GameData& );
 	
-void	StellarObject :: TempDraw();
-	
 	//---------------------------------------
 	
 	void			SetHitPointRange (float min, float max);
@@ -65,6 +63,7 @@ void	StellarObject :: TempDraw();
 	virtual void	CalculateMaxAABB(){ Partitioning.x1=Partitioning.x2=Center.x; Partitioning.y1=Partitioning.y2=Center.y;}
 protected:
 	
+	void			FinalDraw( float positionx, float positiony, float positionz );
 	//---------------------------------------
 	virtual void	SetupMaterialsAndLighting ();
 	//---------------------------------------

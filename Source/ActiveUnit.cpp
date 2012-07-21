@@ -9,7 +9,7 @@
 //-----------------------------------------------
 ActiveUnit :: ActiveUnit () : Leader (NULL)
 {
-	UnitID = UuidGenerate ();
+	UnitId = UuidGenerate ();
 }
 
 //-----------------------------------------------

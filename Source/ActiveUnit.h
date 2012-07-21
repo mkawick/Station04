@@ -30,13 +30,13 @@ public:
 	void					SetController (Controlled c);
 	Controlled				GetControlled () const;
 	
-	UUID					GetUnitID () const {return UnitID;}
+	UUID					GetUnitId () const {return UnitId;}
 	void					SetName (std::string name);
 	const std::string&		GetName () const {return UnitName;}
 	
 protected:
 	Controlled				ControlledBy;
-	UUID					UnitID;
+	UUID					UnitId;
 	std::string				UnitName;
 	
 	ShipArchetype*			Ship;
