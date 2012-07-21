@@ -33,6 +33,9 @@ namespace Events
 		PingTime,
 		CreateResource,
 		CaptureResource,
+		UI_ShipConfig,
+		UI_Map,
+		UI_MyStatus,
 		QuitGame
 	};
 
@@ -48,23 +51,22 @@ namespace Events
 		
 	protected:
 		EventMessages		Message;
-		
 	};
 	
 	//----------------------------------------------
 	
 	class DebugTextEvent : public GameEvent
-		{
-		public:
-			DebugTextEvent () {Message = DebugText;}
-			
-			void				SetMessageText (const char* text);
-			const char*			GetMessageText () const {return MessageText;}
-			
-		protected:
-			enum		{MaxStringLength = 54};// arbitrary size but small enough
-			char		MessageText[MaxStringLength];
-		};
+	{
+	public:
+		DebugTextEvent () {Message = DebugText;}
+		
+		void				SetMessageText (const char* text);
+		const char*			GetMessageText () const {return MessageText;}
+		
+	protected:
+		enum		{MaxStringLength = 54};// arbitrary size but small enough
+		char		MessageText[MaxStringLength];
+	};
 	
 	//----------------------------------------------
 
@@ -168,6 +170,34 @@ namespace Events
 		ViewportSetting		View;
 		int		ViewIndex;
 	};
+	//----------------------------------------------
+
+	class UIShipConfigEvent : public GameEvent
+	{
+	public:
+		UIShipConfigEvent () {Message = UI_ShipConfig;}
+		
+	protected:
+	};
+	//----------------------------------------------
+
+	class UIMapEvent : public GameEvent
+	{
+	public:
+		UIMapEvent () {Message = UI_Map;}
+		
+	protected:
+	};
+	//----------------------------------------------
+
+	class UIMyStatusEvent : public GameEvent
+	{
+	public:
+		UIMyStatusEvent () {Message = UI_MyStatus;}
+		
+	protected:
+	};
+
 
 	//----------------------------------------------
 	//----------------------------------------------

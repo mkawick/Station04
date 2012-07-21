@@ -102,7 +102,10 @@ Events::EventMessages LookupEvent( const char* eventName )
 		{ "ping", Events::PingTime },
 		{ "resource", Events::CreateResource },
 		{ "capture_resource", Events::CaptureResource },
-		{ "quit", Events::QuitGame }
+		{ "quit", Events::QuitGame },
+		{ "uishipconfig", Events::UI_ShipConfig },
+		{ "uimap", Events::UI_Map },
+		{ "uimystatus", Events::UI_MyStatus }
 	};
 
 	int num = sizeof( eventMap ) / sizeof( EventMap );
@@ -229,7 +232,26 @@ bool InputManager :: CreateGameEvent( GameData& GlobalGameData, const KeyMapping
 			MessageSenderReceiver::SendMessages ( Event );
 			return true;
 		}
+	case Events::UI_ShipConfig:
+		{
+			Events::UIShipConfigEvent Event;
+			MessageSenderReceiver::SendMessages ( Event );
+			return true;
+		}
+	case Events::UI_Map:
+		{
+			Events::UIMapEvent Event;
+			MessageSenderReceiver::SendMessages ( Event );
+			return true;
+		}
+	case Events::UI_MyStatus:
+		{
+			Events::UIMyStatusEvent Event;
+			MessageSenderReceiver::SendMessages ( Event );
+			return true;
+		}
 	}
+
 	return false;
 }
 // ----------------------------------------------------
