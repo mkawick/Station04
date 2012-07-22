@@ -1,0 +1,32 @@
+{
+	"ini":
+	{ "type": "keyboard",
+	    "key_set": 
+		[
+			{
+			"mode": "game",
+			"set":
+				[
+				   { "key": "[", "event": "maneuver", "type": "left", "hold": 1 },
+				   { "key": "]", "event": "maneuver", "type": "right", "hold": 1 },
+				   { "key": ",", "event": "thrust", "hold": 1 },
+				   { "key": ".", "event": "fire", "type": "main", "repeat": 4, "hold": 0 },
+				   { "key": "esc", "event": "quit", "repeat": 0 },
+				   { "key": "q", "event": "quit", "modifier": "alt" },
+				   { "key": "1", "event": "view", "repeat": 0, "type": "ship", "selection": 0 },
+				   { "key": "2", "event": "view", "repeat": 0, "type": "station", "selection": 1 },
+				   { "key": "3", "event": "view", "repeat": 0, "type": "station", "selection": 2 },
+				   { "key": "4", "event": "view", "repeat": 0, "type": "station", "selection": 3 },
+				   { "key": "5", "event": "view", "repeat": 0, "type": "station", "selection": 0 }
+				]
+			},
+			{
+			"mode": "attract",
+			"set":
+				[
+					{ "key": "enter", "event": "select" }
+				]
+			}
+		]		
+	}
+}

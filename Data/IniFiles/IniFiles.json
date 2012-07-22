@@ -1,0 +1,9 @@
+{
+	"files":
+			[
+				{ "manifest": "../Data/IniFiles/keyboard.json", "key": "keyboard" },
+				{ "manifest": "../Data/IniFiles/networking.json", "key": "network" },
+				{ "manifest": "../Data/IniFiles/player_config.json", "key": "player" }
+			   
+			]
+}

@@ -315,7 +315,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="ResourceMgmt"
+			Name="AssetMgmt"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
@@ -328,31 +328,47 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Data\FileManifest.json"
+				RelativePath="..\Data\IniFiles\FileManifest.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\GraphicsFileManifest.json"
+				RelativePath="..\Data\IniFiles\GraphicsFileManifest.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\IniFiles.json"
+				RelativePath="..\Data\IniFiles\IniFiles.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\Keyboard.json"
+				RelativePath="..\Data\IniFiles\Keyboard.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\Networking.json"
+				RelativePath="..\Data\IniFiles\Networking.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\Player_Config.json"
+				RelativePath="..\Data\IniFiles\Player_Config.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\TexturesFileManifest.json"
+				RelativePath="..\Data\IniFiles\test.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\IniFiles\TexturesFileManifest.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\IniFiles\UI.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\IniFiles\UI_InGameSetup.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\IniFiles\UI_StatusMenu.json"
 				>
 			</File>
 		</Filter>
