@@ -161,5 +161,30 @@ void			ResourceManager :: ProcessMessages (GameData& GlobalGameData)//inherited,
 	}
 }
 
+Vector		ResourceManager :: GetResourceColor( ResourceTypes type )
+{
+	Vector color;
+
+	switch( type )
+	{
+	case ResourceType_Iron:
+		color.Set( 0.467f, 0.0734f, 0.055f );
+		break;
+	case ResourceType_DropiumCrystal:
+		color.Set( 0.451f, 0.933f, 0.257f );
+		break;
+	case ResourceType_Hydrogen:
+		color.Set( 1.0f, 0.03f, 0.0f );
+		break;
+	case ResourceType_Aluminium:
+		color.Set( 0.772f, 0.906f, 0.933f );
+		break;
+	case ResourceType_Copper:
+		color.Set( 0.6f, 0.137f, 0.05f );
+		break;
+	}
+	return color;
+}
+
 //---------------------------------------------------------
 //---------------------------------------------------------

@@ -22,6 +22,8 @@ public:
 	void	PostDrawCleanup ();
 	void	ProcessMessages (GameData& data);
 
+	Vector	GetResourceColor( ResourceTypes type );
+
 protected:
 	void	GetVelocityOfNewResource( Vector& velocity, Vector& deceleration ) const;
 	std::list <StellarResource*>	Resources;

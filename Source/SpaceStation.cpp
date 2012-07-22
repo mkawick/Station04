@@ -17,7 +17,7 @@
 #include "GlobalDefinitions.h"
 
 const float SpaceStation :: CylinderMultiplier = 0.5f;
-const float MaxRotationAngle = 0.08;
+const float MaxRotationAngle = 0.08f;
 Vector		SpaceStation :: RotationAddition( 0, 0, 0.005F );
 //---------------------------------------------------------
 

@@ -7,6 +7,8 @@
 #include <windows.h>
 #include "../tools/GL/include/glut.h"
 #include "PlayerStatusBars.h"
+
+#include "GameFramework.h"
 #include "GameData.h"
 #include "PlayerDatabase.h"
 #include "SpaceStation.h"
@@ -16,7 +18,8 @@ using namespace Events;
 
 PlayerStatusBars :: PlayerStatusBars (): PlayerShipTracking (0),
 										PlayerShipShieldTracking (0),
-										NumberOfStationsBeingTracked (0)
+										NumberOfStationsBeingTracked (0),
+										player( NULL )
 {
 	SetFrameColor (Vector (0.48F, 0.38F, 0));
 	SetTextColor (Vector (0.8F, 0.8F, 0));
@@ -45,6 +48,16 @@ void	PlayerStatusBars :: SetScreenDimensions (int Left, int Top, int Right, int 
 	ScreenDimensions.Corners[1].y = static_cast< float> ( Bottom );
 }
 
+//----------------------------------------------------------------
+
+void	PlayerStatusBars :: SetResourceDisplay (int Left, int Top, int Right, int Bottom)
+{
+	ResourceDisplay.Corners[0].x = static_cast< float> ( Left );
+	ResourceDisplay.Corners[0].y = static_cast< float> ( Top );
+	ResourceDisplay.Corners[1].x = static_cast< float> ( Right );
+	ResourceDisplay.Corners[1].y = static_cast< float> ( Bottom );
+}
+
 //----------------------------------------------
 
 void	PlayerStatusBars :: SetScreenPosition (int l, int t, int r, int b)
@@ -70,11 +83,10 @@ void	PlayerStatusBars :: Draw ()
 	// from the height, subtract the height and top position arriving at a value
 	// less than the height of the screen
 	int top = static_cast<int>( ViewportParams[3] - (ScreenPosition.Corners[1].y + ScreenPosition.Corners[0].y) );
-
     int left = static_cast<int>( ScreenPosition.Corners[0].x );
     int width = static_cast<int>( ScreenPosition.Corners[1].x );
     int height = static_cast<int>( ScreenPosition.Corners[1].y );
-	glViewport( left, top, width, height );
+	glViewport( left, top, width, height );// place the render screen on the bigger screen
 	
 	// preparation for drawing
 	glDisable (GL_LIGHTING);
@@ -93,6 +105,8 @@ void	PlayerStatusBars :: Draw ()
 	DrawPlayerShipValues ();
 	DrawPlayerStationValues ();
 	DrawBackground ();
+
+	DrawResources ();
 	
 	glPopMatrix ();
 	glMatrixMode (GL_MODELVIEW);
@@ -118,7 +132,7 @@ void	PlayerStatusBars :: PostDrawCleanup ()
 void	PlayerStatusBars :: Update (GameData& GlobalGameData)
 {
 	PlayerDatabase* playerDb = GlobalGameData.GetPlayerDatabase();
-	Player* player = playerDb->GetCurrentPlayer ();
+	player = playerDb->GetCurrentPlayer ();
 	
 	if (player == NULL)
 	{
@@ -221,22 +235,35 @@ void	PlayerStatusBars :: DrawPlayerShipValues ()
 	float MeterRight = MeterLeft + MeterWidth;
 	
 	Vector DisplayColor = CalculateColor (ShipColor, WarningColor, DangerColor, PlayerShipTracking);
-	DrawBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  PlayerShipTracking*0.01f);
+	DrawVerticalBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  PlayerShipTracking*0.01f);
 	
-	DrawBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  PlayerShipShieldTracking*0.01f);
+	DrawVerticalBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  PlayerShipShieldTracking*0.01f);
 }
 
 //----------------------------------------------
 
-void	PlayerStatusBars :: DrawBar (const Vector& Color, float left, float top, float right, float bottom, float Health)
+void	PlayerStatusBars :: DrawVerticalBar (const Vector& Color, float left, float top, float right, float bottom, float value )
 {
-	float Height = (bottom-top)* (1-Health) + top;
+	float Height = (bottom-top)* (1-value) + top;
 	glColor3f (Color.r, Color.g, Color.b);
 	glBegin (GL_QUADS);// the shield will need to be slightly higher and wider
 		glVertex2f (left, Height);
 		glVertex2f (left, bottom);
 		glVertex2f (right, bottom);
 		glVertex2f (right, Height);
+	glEnd ();
+}
+//----------------------------------------------
+
+void	PlayerStatusBars :: DrawHorizontalBar (const Vector& Color, float left, float top, float right, float bottom, float value )
+{
+	float Width = (right-left)* (1-value) + top;
+	glColor3f (Color.r, Color.g, Color.b);
+	glBegin (GL_QUADS);// the shield will need to be slightly higher and wider
+		glVertex2f (left, top);
+		glVertex2f (left, bottom);
+		glVertex2f (Width, bottom);
+		glVertex2f (Width, top);
 	glEnd ();
 }
 
@@ -264,9 +291,9 @@ void		PlayerStatusBars :: DrawPlayerStationValues ()
 		MeterRight += MeterWidth + 30;
 		
 		Vector DisplayColor = CalculateColor (StationColor, WarningColor, DangerColor, StationTracking[i]);
-		DrawBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  StationTracking[i]*0.01f);
+		DrawVerticalBar (DisplayColor, MeterLeft-10, MeterHeight+10, MeterRight-10, Bottom,  StationTracking[i]*0.01f);
 		
-		DrawBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  StationShieldTracking[i]*0.01f);
+		DrawVerticalBar (ShieldColor, MeterLeft, MeterHeight, MeterRight, Bottom,  StationShieldTracking[i]*0.01f);
 	}
 }
 
@@ -290,6 +317,36 @@ void	PlayerStatusBars :: DrawBackground ()
 		glVertex2f (right, bottom);
 		glVertex2f (right, top);
 	glEnd ();*/
+}
+
+void	PlayerStatusBars :: DrawResources ()
+{
+	if( player == NULL )
+		return;
+	//PlayerDatabase* playerDb = GlobalGameFramework-> GetGameData().GetPlayerDatabase();
+	//Player* player = playerDb->GetCurrentPlayer ();
+
+	float Left = ResourceDisplay.Corners[0].x+1;
+	float Top = ResourceDisplay.Corners[0].y+1;
+	float Right = ResourceDisplay.Corners[1].x-1;
+	float Bottom = ResourceDisplay.Corners[1].y-1;
+	
+	float ScreenWidth = Right-Left;
+	float ScreenHeight = Bottom-Top;
+	
+	float MeterWidth = ScreenWidth / 8;// includes deadspace around meter
+	float MeterHeight = ScreenHeight - ScreenHeight*11/16;
+	
+	float MeterLeft = MeterWidth/2+Left + 50;
+	float MeterRight = MeterLeft + MeterWidth;
+
+	for(int i=0; i< ResourceTypes_Count; i++ )
+	{
+		ResourceTypes type = (ResourceTypes)i;
+		float quantity = player->AggregrateResource( type );
+		Vector	resourceColor = GlobalGameFramework->GetResourceManager().GetResourceColor( type );
+		DrawHorizontalBar (resourceColor, MeterLeft, MeterHeight, MeterRight, Bottom,  quantity*0.01f);
+	}
 }
 
 //----------------------------------------------

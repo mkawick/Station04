@@ -20,6 +20,7 @@ ShipArchetype :: ShipArchetype () : IsApplyingThrust (false), StellarObject()
 {
 	ShieldLevel[0] = 3;
 	ShieldLevel[1] = 3;
+	memset( ResourceStorage, 0, sizeof( ResourceStorage ) );
 }
 
 

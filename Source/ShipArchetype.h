@@ -43,6 +43,10 @@ public:
 	virtual void	Draw () = 0;
 	virtual void	Update (GameData&) = 0;
 	virtual void	PostDrawCleanup () = 0;
+
+	void			SetResourceStorage( ResourceTypes type, float quantity ) { ResourceStorage[type] = quantity; }
+	float			GetResourceStorage( ResourceTypes type ) const {return ResourceStorage[ type ]; }
+	void			AddResourceStorage( ResourceTypes type, float quantity ) { ResourceStorage[type] += quantity; }
 	
 protected:
 	void		SetMaterialsAndColorForShipBody ();
@@ -62,17 +66,14 @@ protected:
 						float x2, float y2, float z2);
 	void		AddTri (Vector* CornerPoints);// calculates nomals too
 	
-	Vector			BodyColor, CockpitFrameColor, CockpitWindowColor;
-	Vector			ShieldColor;
-	std::list <Vector>	NationalColors;
-	//Vector			Center;
-	//Vector			Angle;
-	//Vector			MovementVector;
-	Vector			ExhaustPosition;
-	int				ShieldLevel [2];//
-	//unsigned int	DrawList;
-	UUID			PlayerId;
+	Vector					BodyColor, CockpitFrameColor, CockpitWindowColor;
+	Vector					ShieldColor;
+	std::list <Vector>		NationalColors;
+	Vector					ExhaustPosition;
+	int						ShieldLevel [2];//
+	UUID					PlayerId;
 	
-	bool			IsApplyingThrust;
+	bool					IsApplyingThrust;
 	Events::GameEventQueue	EventQueue;
+	float					ResourceStorage[ ResourceTypes_Count ];
 };

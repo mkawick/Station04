@@ -255,7 +255,8 @@ void	GameFramework :: Init ()
 	spacemap.SetScreenPosition (10, 10, 120, 90);
 	
 	PlayerDatabase* playerdb = GlobalGameData.GetPlayerDatabase();
-	playerdb->SetScreenDimensions (0, 0, ScreenWidth, ScreenHeight);
+	playerdb->SetScreenDimensions ( 0, 0, ScreenWidth, ScreenHeight );
+	//playerdb->Set (0, 0, ScreenWidth, ScreenHeight);
 	playerdb->SetPositionForPlayerStatusBars (10, 105, 120, 90);
 	
 	spacemap.SetScreenDimensions (0, 0, ScreenWidth, ScreenHeight, DistanceFromCenter);

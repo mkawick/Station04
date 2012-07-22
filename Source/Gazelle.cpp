@@ -70,6 +70,12 @@ void			Gazelle :: ApplyThrust ()
 			Velocity *= 80;// max out the velocity
 		}
 	}
+	
+	IsApplyingThrust = true;
+}
+
+void		Gazelle :: CheckForResourceCapture()
+{
 	list<PartitionObject*> listOfPossibleCollisionObjects;
 	GlobalGameFramework->GetSpacePartition().GetObjectsAtMin( listOfPossibleCollisionObjects, Center.x, Center.y, CollisionFlags_Resource );
 
@@ -98,19 +104,12 @@ void			Gazelle :: ApplyThrust ()
 						resourceCap.Set( pResource );
 						resourceCap.SetPlayerId( GetOwner() );
 						GlobalGameFramework->SendMessages (resourceCap);
-						/*int whichResource = rand() % (ResourceTypes_Count - 1) + 1;
-						if( pResource->MineResource( static_cast<ResourceTypes> (whichResource) ) )
-						{
-							//pAsteroid->Remove();
-						}*/
 					}
 				}
 			}
 		}
 	}
-	IsApplyingThrust = true;
 }
-
 //----------------------------------------------
 
 void			Gazelle :: Update (GameData& GlobalGameData)
@@ -131,6 +130,8 @@ void			Gazelle :: Update (GameData& GlobalGameData)
 	Velocity = Velocity.AsNormal () * Speed;
 	
 	Center += Velocity;
+
+	CheckForResourceCapture();
 }
 
 //----------------------------------------------

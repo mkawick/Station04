@@ -201,11 +201,19 @@ float					Player :: AggregrateResource ( ResourceTypes type) const
 		total += station->GetResourcesStored (type);
 		//total += resource.GetQuantity ();
 	}
+	if( Ship )
+	{
+		total += Ship->GetResourceStorage( type );
+	}
 	return total;
 }
 
 void					Player :: AddResources( ResourceTypes type, float amount )
 {
+	if( Ship )
+	{
+		Ship->AddResourceStorage( type, amount );
+	}
 }
 
 //-----------------------------------------------

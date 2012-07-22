@@ -9,7 +9,7 @@ const U32 InvalidDrawList = 0xFFFFFFFF;
 
 enum ResourceTypes
 {
-	ResourceType_None,
+	ResourceType_None = -1,
 	ResourceType_Iron,
 	ResourceType_DropiumCrystal, // used for energy bonding
 	ResourceType_Hydrogen, // used for straight energy

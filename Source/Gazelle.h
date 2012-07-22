@@ -28,6 +28,8 @@ public:
 	void			Draw ();
 	void			Update (GameData&);
 	void			PostDrawCleanup ();
+
+	void			CheckForResourceCapture();
 	
 	//---------------------------------------
 	

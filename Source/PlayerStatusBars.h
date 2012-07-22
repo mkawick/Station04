@@ -73,6 +73,7 @@ namespace Events
 		void	SetDisplayFormat (eDisplayFormat format) {DisplayFormat = format;}
 		void	SetScreenPosition (int Left, int Top, int Right, int Bottom);
 		void	SetScreenDimensions (int Left, int Top, int Right, int Bottom);
+		void	SetResourceDisplay (int Left, int Top, int Right, int Bottom);
 
 		// ----------------------------------------------------------------------		
 		
@@ -98,17 +99,21 @@ namespace Events
 		void	PrepToDrawText ();
 		void	CleanupFromDrawingText ();
 		
-		void	DrawBar (const Vector& Color, float left, float top, float right, float bottom, float Health);
+		void	DrawVerticalBar (const Vector& Color, float left, float top, float right, float bottom, float value );
+		void	DrawHorizontalBar (const Vector& Color, float left, float top, float right, float bottom, float value );
 		
 		void	DrawFrame ();
 		void	DrawBackground ();
 		void	DrawUserName ();
 		void	DrawPlayerShipValues ();
 		void	DrawPlayerStationValues ();
+		void	DrawResources ();
+
 		enum	{MaxTrackingValues = 10};
 		
 		ScreenRect		ScreenPosition;
 		ScreenRect		ScreenDimensions;
+		ScreenRect		ResourceDisplay;
 		float			Width, Height;
 		
 		eDisplayFormat	DisplayFormat;
@@ -118,6 +123,8 @@ namespace Events
 		float			PlayerShipTracking;
 		float			StationShieldTracking [10];
 		float			StationTracking [10];
+		Player*			player;
+		//float			ResourceQuantities[ResourceTypes_Count];
 		
 		Vector			TextColor, FrameColor;
 		Vector			ShipColor, StationColor, ShieldColor;

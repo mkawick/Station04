@@ -118,6 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\tools\SDL\include;..\tools\Assimp\Include;..\tools\json"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -136,7 +137,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="..\tools\GL\lib\glut32.lib ..\tools\GL\lib\freeglut.lib ..\tools\GL\lib\glee.lib ..\tools\Assimp\bin\release\assimp.lib ..\tools\SDL\lib\SDL.lib"
 				LinkIncremental="1"
+				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
