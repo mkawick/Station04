@@ -668,6 +668,34 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="DataView"
+			>
+			<File
+				RelativePath=".\DataView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DataView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DataViewManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DataViewManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerShipDataView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerShipDataView.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\README.md"
 			>
