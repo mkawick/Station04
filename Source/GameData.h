@@ -37,6 +37,8 @@ public:
 
 	PlayerDatabase* GetPlayerDb() { return PlayerDB;}
 
+	void			Update();
+
 protected:
 	PlayerDatabase* PlayerDB;
 	StaticGameData* StaticGameDatum;

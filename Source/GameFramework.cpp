@@ -110,8 +110,7 @@ void	GameFramework :: MainLoop ()
 void	GameFramework :: Update ()
 {
 	PlayerDatabase* playerdb = GlobalGameData.GetPlayerDatabase();
-	playerdb->Update (GlobalGameData);
-	playerdb->PostDrawCleanup ();
+	GlobalGameData.Update();
 	
 	starfield.Update ();
 	viewport.SetCameraAngle (CameraAngle);

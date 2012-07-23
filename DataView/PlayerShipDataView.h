@@ -20,10 +20,11 @@ public:
 	~PlayerShipDataView();
 	const char* GetName() const { return DataViewName; }
 
-	int		GetNumRows() const { return 0; }
 	int		GetNumColumns() const { return Column_Count; }
-	bool	GetColumnName( std::string& name ) const { return false; }
-	bool	GetData( int row, int column, std::string& data ) const {return false;}
+
+	int		GetNumRows() const;
+	bool	GetColumnName( int column, std::string& name ) const;
+	bool	GetData( int row, int column, std::string& data ) const;
 private:
 	static const char*		DataViewName;
 };

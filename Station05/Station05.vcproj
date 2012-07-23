@@ -672,27 +672,27 @@
 			Name="DataView"
 			>
 			<File
-				RelativePath=".\DataView.cpp"
+				RelativePath="..\DataView\DataView.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DataView.h"
+				RelativePath="..\DataView\DataView.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DataViewManager.cpp"
+				RelativePath="..\DataView\DataViewManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DataViewManager.h"
+				RelativePath="..\DataView\DataViewManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\PlayerShipDataView.cpp"
+				RelativePath="..\DataView\PlayerShipDataView.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\PlayerShipDataView.h"
+				RelativePath="..\DataView\PlayerShipDataView.h"
 				>
 			</File>
 		</Filter>

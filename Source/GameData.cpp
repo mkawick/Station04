@@ -25,3 +25,14 @@ GameData :: ~GameData ()
 }
 
 //-----------------------------------------------
+
+#include "../DataView/PlayerShipDataView.h"
+void		GameData :: Update()
+{
+	PlayerDatabase* playerdb = GetPlayerDatabase();
+	playerdb->Update (*this);
+	playerdb->PostDrawCleanup ();
+
+	PlayerShipDataView view;
+	int numRows = view.GetNumRows();
+}

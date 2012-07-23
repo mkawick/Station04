@@ -30,7 +30,7 @@ public:
 
 	virtual int		GetNumRows() const { return 0; }
 	virtual int		GetNumColumns() const { return 0; }
-	virtual bool	GetColumnName( std::string& name ) const { return false; }
+	virtual bool	GetColumnName( int column, std::string& name ) const { return false; }
 	virtual bool	GetData( int row, int column, std::string& data ) const {return false;}
 
 public:

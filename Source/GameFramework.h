@@ -5,12 +5,14 @@
 
 #pragma once
 
+#include <math.h>
+
 #include "../tools/SDL/include/SDL.h"
 #include "../tools/SDL/include/SDL_keysym.h"
 
 #include "../common/Math/vector.h"
+#include "../tools/SpacePartitioning/Quadtree.h"
 #include "SpaceStation.h"
-#include <math.h>
 
 //#include "room.h"
 #include "starfield.h"
@@ -26,7 +28,6 @@
 #include "GameData.h"
 #include "AssetLoadManager.h"
 #include "ResourceManager.h"
-#include "../tools/SpacePartitioning/Quadtree.h"
 
 //----------------------------------------------
 
@@ -45,7 +46,7 @@ public:
 	Quadtree&			GetSpacePartition() { return SpacePartition; }
 	AssetLoadManager&	GetAssets() { return AssetLoader; }
 	UUID				GetLocalPlayer();
-	GameData			GetGameData() { return GlobalGameData; }
+	GameData&			GetGameData() { return GlobalGameData; }
 
 	InputManager&		GetInput() { return Input; }
 	ResourceManager&	GetResourceManager() { return SpaceResources; }
