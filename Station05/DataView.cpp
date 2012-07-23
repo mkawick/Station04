@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "DataView.h"
 
-const char*		DataView::DataViewName = "None";
+//const char*		DataView::DataViewName = "None";
 DataView::DataView()
 {
 }

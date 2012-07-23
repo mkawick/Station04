@@ -11,10 +11,12 @@ public:
 	virtual void	OnUpdate(){}
 	virtual void	OnRowChange( int row ){}
 };
+//-------------------------------------------------------------------
 
 typedef std::list< DataViewObserver* >		DataViewObserverList;
 typedef DataViewObserverList::iterator		DataViewObserverListIter;
 
+//-------------------------------------------------------------------
 // The data view is an abstraction that the UI can use to 
 class DataView
 {
@@ -22,7 +24,7 @@ public:
 	DataView();
 	~DataView();
 
-	virtual const char* GetName() const { return DataViewName; }
+	virtual const char* GetName() const { return NULL; }
 	virtual void	OnUpdate();
 	virtual void	OnRowChange( int row );
 
@@ -34,6 +36,9 @@ public:
 public:
 	
 protected:
-	static const char*		DataViewName;
 	DataViewObserverList	Registrants;
 };
+//-------------------------------------------------------------------
+
+typedef std::list< DataView* >  DataViewList;
+typedef DataViewList::iterator  DataViewListIter;

@@ -1,10 +1,18 @@
 #pragma once
-
+#include <list>
+#include "DataView.h"
 
 
 class DataViewManager
 {
 public:
-	DataViewManager(void);
-	~DataViewManager(void);
+	DataViewManager();
+	~DataViewManager();
+
+	void	AddView( DataView* view );
+
+	void	OnUpdate();
+protected:
+
+	DataViewList ListOfViews;
 };
