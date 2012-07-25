@@ -1,5 +1,7 @@
 #pragma once
 #include <list>
+#include <hash_map>
+#include "../Common/struct.h"
 
 // This class exists to allow a observer on data, often for the UI.
 // It provides a nice abstraction allowing a UI element to observe
@@ -46,3 +48,5 @@ protected:
 
 typedef std::list< DataView* >  DataViewList;
 typedef DataViewList::iterator  DataViewListIter;
+typedef stdext::hash_map< U32, DataView* > DataViewLookup; 
+typedef std::pair <U32, DataView*> U32DataViewMappingPair;

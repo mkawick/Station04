@@ -11,8 +11,11 @@ public:
 
 	void	AddView( DataView* view );
 
+	DataView* GetDataView( const std::string& name );
+
 	void	OnUpdate();
 protected:
 
 	DataViewList ListOfViews;
+	DataViewLookup ViewLookup;
 };
