@@ -47,7 +47,7 @@ void			Gazelle :: Rotate (RotationDir dir)
 
 //----------------------------------------------
 
-void			Gazelle :: SetAngleOfRotation (Vector angle)
+void			Gazelle :: SetAngularVelocity (Vector angle)
 {
 }
 

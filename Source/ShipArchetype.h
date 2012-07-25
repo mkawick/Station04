@@ -19,13 +19,15 @@ public:
 	enum    WingTypes {FrontLeft, FrontRight, RearLeft, RearRight};
 	enum	EngineTypes {Thruster, Ion, BurntGas, Explosive};
 	enum	EngineStates {Off, Engaging, On, ShuttingOff};
+	enum	{ NumShields = 2 };
 	
 	ShipArchetype ();
 
+	virtual const char* GetName() const { return ""; }
 	void			SetOwner( UUID id ) { PlayerId = id; }
 	UUID			GetOwner() const {return PlayerId; }
 	
-	int				GetShieldLevel () const;
+	int				GetShieldLevel ( int which = -1 ) const;// default sums the shields
 	void			SetBodyColor (Vector color);
 	void			SetCockpitColors (Vector FrameColor, Vector WindowsColor);
 	void			SetNationalColors (Vector* colors, int NumColors);
@@ -70,7 +72,7 @@ protected:
 	Vector					ShieldColor;
 	std::list <Vector>		NationalColors;
 	Vector					ExhaustPosition;
-	int						ShieldLevel [2];//
+	int						ShieldLevel [NumShields];//
 	UUID					PlayerId;
 	
 	bool					IsApplyingThrust;

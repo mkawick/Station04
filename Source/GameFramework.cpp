@@ -376,6 +376,10 @@ void	GameFramework :: PrintText (const char* text)
 	TextOut.AddText (text);
 }
 
+UUID	GameFramework :: GetLocalPlayer() const 
+{ 
+	return GlobalGameData.GetPlayerDatabase()->GetCurrentPlayerID(); 
+}
 //----------------------------------------------------
 
 void	GameFramework :: SetupToDrawStrings ()

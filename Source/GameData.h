@@ -26,8 +26,8 @@ class GameData
 public:
 	GameData ();
 	~GameData ();
-	StaticGameData*	GetStaticGameData () {return StaticGameDatum;}
-	PlayerDatabase* GetPlayerDatabase () {return PlayerDB;}
+	StaticGameData*	GetStaticGameData () const {return StaticGameDatum;}
+	PlayerDatabase* GetPlayerDatabase () const {return PlayerDB;}
 
 	int				GetTimeElapsedInMS() const {return TimeInMS;}
 	void			SetTimeElapsed(int _TimeInMS) {TimeInMS = _TimeInMS;}

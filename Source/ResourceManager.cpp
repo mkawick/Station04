@@ -113,7 +113,7 @@ void	ResourceManager :: AddResource( ResourceTypes resourceType, float amount, c
 
 	float rotationSpeed = static_cast<float> (rand() % 12 ) * 0.01f + 0.05f;
 	Random2dVector( velocity, rotationSpeed );
-	resource->SetAngleOfRotation( velocity );
+	resource->SetAngularVelocity( velocity );
 
 	resource->SetAsset( asset );
 

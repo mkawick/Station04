@@ -42,12 +42,12 @@ public:
 	void	PrintText (const char* text);
 	
 	//---------------------------------------
+
+	UUID				GetLocalPlayer() const;
 	
 	Quadtree&			GetSpacePartition() { return SpacePartition; }
-	AssetLoadManager&	GetAssets() { return AssetLoader; }
-	UUID				GetLocalPlayer();
+	AssetLoadManager&	GetAssets() { return AssetLoader; }	
 	GameData&			GetGameData() { return GlobalGameData; }
-
 	InputManager&		GetInput() { return Input; }
 	ResourceManager&	GetResourceManager() { return SpaceResources; }
 

@@ -26,9 +26,13 @@ ShipArchetype :: ShipArchetype () : IsApplyingThrust (false), StellarObject()
 
 //---------------------------------------------------------
 
-int				ShipArchetype :: GetShieldLevel () const// overall 0-100, not individually
+int				ShipArchetype :: GetShieldLevel ( int which ) const// overall 0-100, not individually
 {
-	int value = (ShieldLevel[0] + ShieldLevel[1]) * 17;
+	int value = 0;
+	if( which == -1 )
+		value = (ShieldLevel[0] + ShieldLevel[1]);
+	if( which < NumShields )
+		value = ShieldLevel[ which ];
 	if (value > 100)
 		value = 100;
 	return value;

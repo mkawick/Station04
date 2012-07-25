@@ -203,54 +203,28 @@ bool AssetLoadManager :: LoadTextureFiles( json_t* filesObj, const char* filePat
 
 bool AssetLoadManager :: LoadIniFiles( json_t* root, const char* filePath )
 {
-	//json_t *		rootObj = json_object_get( root, "ini");
-	//if( rootObj )
+	json_t *		iniType = json_object_get( root, "type");
+	if( iniType )
 	{
-		json_t *		iniType = json_object_get( root, "type");
-		if( iniType )
-		{
-			const char* keyLookup = json_string_value( iniType );
+		const char* keyLookup = json_string_value( iniType );
 
-			if( stricmp( keyLookup, "keyboard" ) == 0 )
+		if( stricmp( keyLookup, "keyboard" ) == 0 )
+		{
+			json_t * key_set = json_object_get( root, "key_set");
+			bool success = LoadKeyboardFile( key_set, filePath );
+			if( success == false )
 			{
-				json_t * key_set = json_object_get( root, "key_set");
-				bool success = LoadKeyboardFile( key_set, filePath );
 				cout << "ERROR: keyboard ini file bad: " << filePath << endl;
 				return false;
 			}
-			else if( stricmp( keyLookup, "player_config" ) == 0 )
-			{
-			}
-			else if( stricmp( keyLookup, "network" ) == 0 )
-			{
-			}
 		}
-	}
-	/*if( json_is_object( filesObj ) )
-	{
-		json_t *		fileObj = json_object_get( filesObj, "ini");
-		json_t *		keyObj = json_object_get( filesObj, "key");
-	}
-	if( json_is_array( filesObj ) )
-	{
-		int numItems = json_array_size( filesObj );
-		for( int i=0; i< numItems; i++ )
+		else if( stricmp( keyLookup, "player_config" ) == 0 )
 		{
-			json_t * arrayItem = json_array_get( filesObj, i );
-			if( json_is_object( arrayItem ) )
-			{
-			}
+		}
+		else if( stricmp( keyLookup, "network" ) == 0 )
+		{
 		}
 	}
-
-	const char* keyLookup = NULL;
-	const char* fileName = NULL;
-	json_t *		fileObj = json_object_get( filesObj, "file");
-	json_t *		keyObj = json_object_get( filesObj, "key");
-	if( json_is_string( keyObj ) )
-		keyLookup = json_string_value( keyObj );
-	if( json_is_string( fileObj ) )
-		fileName = json_string_value( fileObj );*/
 
 	return false;
 }

@@ -209,7 +209,7 @@ Player*			PlayerDatabase :: CreatePlayer (const char* name, Vector center, Stell
 	for (int i=0; i<MaxStations; i++)
 	{
 		float rotationrate = 0.06F-static_cast<float> (i)/100.0F;
-		stations[i]->SetAngleOfRotation (Vector (0, 0, rotationrate));
+		stations[i]->SetAngularVelocity (Vector (0, 0, rotationrate));
 		stations[i]->Setup ();
 	}
 	

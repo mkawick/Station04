@@ -18,10 +18,11 @@ class Gazelle : public ShipArchetype
 public:
 	Gazelle ();
 	
+	const char*		GetName() const { return "Gazelle"; }
 	//---------------------------------------
 	
 	void			Rotate (RotationDir dir);
-	void			SetAngleOfRotation (Vector angle);	
+	void			SetAngularVelocity (Vector angle);	
 	
 	void			ApplyThrust ();
 	void			Setup ();

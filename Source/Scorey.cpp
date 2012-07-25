@@ -41,7 +41,7 @@ void			Scorey :: Rotate (RotationDir dir)
 
 //----------------------------------------------
 
-void			Scorey :: SetAngleOfRotation (Vector angle)
+void			Scorey :: SetAngularVelocity (Vector angle)
 {
 }
 

@@ -31,9 +31,12 @@ public:
 	void			SetVelocity ( const Vector& vel ) {Velocity = vel;}
 	void			SetAcceleration ( const Vector& acc ) { Acceleration = acc; }
 	void			SetAngle ( const Vector& angle ) {Angle = angle;}
-	void			SetAngleOfRotation ( const Vector& rate ) {RotationRate = rate;}
+	void			SetAngularVelocity ( const Vector& rate ) {RotationRate = rate;}
 	
 	const Vector&	GetCenter () const {return Center;}
+	const Vector&	GetVelocity () const { return Velocity;}
+	const Vector&	GetAcceleration () const { return Acceleration; }
+	const Vector&	GetAngle () const { return Angle;}
 	
 	//---------------------------------------
 	

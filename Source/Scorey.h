@@ -18,11 +18,11 @@ class Scorey : public ShipArchetype
 {
 public:
 	Scorey ();
-	
+	const char*		GetName() const { return "Scorey"; }
 	//---------------------------------------
 	
 	void			Rotate (RotationDir dir);
-	void			SetAngleOfRotation (Vector angle);	
+	void			SetAngularVelocity (Vector angle);	
 	
 	void			ApplyThrust ();
 	void			Setup ();

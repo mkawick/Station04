@@ -218,54 +218,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Gazelle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Gazelle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Projectile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Projectile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\ProjectileMgr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\ProjectileMgr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\ResourceManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\ResourceManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Scorey.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Scorey.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\ShipArchetype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\ShipArchetype.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\SpaceMap.cpp"
 				>
 			</File>
@@ -305,14 +257,74 @@
 				RelativePath="..\Source\StellarObject.h"
 				>
 			</File>
-			<File
-				RelativePath="..\Source\StellarResource.cpp"
+			<Filter
+				Name="Ships"
 				>
-			</File>
-			<File
-				RelativePath="..\Source\StellarResource.h"
+				<File
+					RelativePath="..\Source\Gazelle.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Gazelle.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Scorey.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Scorey.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\ShipArchetype.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\ShipArchetype.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Resources"
 				>
-			</File>
+				<File
+					RelativePath="..\Source\ResourceManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\ResourceManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\StellarResource.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\StellarResource.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Projectiles"
+				>
+				<File
+					RelativePath="..\Source\Projectile.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Projectile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\ProjectileMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\ProjectileMgr.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="AssetMgmt"

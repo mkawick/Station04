@@ -71,7 +71,7 @@ Asteroid*		AsteroidMgr :: CreateAsteroid ( float x, float y, float z, Asteroid::
 	
 	asteroid->SetCenter (Vector (x, y, z));
 	asteroid->SetColor (Color);
-	asteroid->SetAngleOfRotation (Vector (rx, ry, rz));
+	asteroid->SetAngularVelocity (Vector (rx, ry, rz));
 
 	asteroid->Setup();
 	

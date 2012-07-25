@@ -10,6 +10,8 @@ class DataViewObserver
 public:
 	virtual void	OnUpdate(){}
 	virtual void	OnRowChange( int row ){}
+	virtual void	OnDatumChanged( int row, int column, const char* strValue ){}
+	virtual void	OnDatumChanged( int row, int column, const std::string& strValue ){}
 };
 //-------------------------------------------------------------------
 
@@ -27,6 +29,8 @@ public:
 	virtual const char* GetName() const { return NULL; }
 	virtual void	OnUpdate();
 	virtual void	OnRowChange( int row );
+	virtual void	OnDatumChanged( int row, int column, const char* strValue );
+	virtual void	OnDatumChanged( int row, int column, const std::string& strValue );
 
 	virtual int		GetNumRows() const { return 0; }
 	virtual int		GetNumColumns() const { return 0; }
