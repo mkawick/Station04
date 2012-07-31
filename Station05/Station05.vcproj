@@ -488,14 +488,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\PlayerStatusBars.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\PlayerStatusBars.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\PositionalCircles.cpp"
 				>
 			</File>
@@ -705,6 +697,18 @@
 			</File>
 			<File
 				RelativePath="..\DataView\PlayerShipDataView.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="UI"
+			>
+			<File
+				RelativePath="..\Source\PlayerStatusBars.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\PlayerStatusBars.h"
 				>
 			</File>
 		</Filter>
