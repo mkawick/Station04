@@ -201,15 +201,25 @@ bool	AssetLoadManager :: LoadTexture( json_t* item )
 	if( stricmp( fileName, "end" ) == 0 )
 		return true;
 
-	TCHAR dirName[MAX_PATH];	
-	GetCurrentDirectory( MAX_PATH, dirName );
+	//TCHAR dirName[MAX_PATH];	
+	//GetCurrentDirectory( MAX_PATH, dirName );
 	if( keyLookup && fileName )
 	{
 		GLuint texture = ::LoadTexture( fileName );
 
 		if ( texture != -1 ) 
 		{
-			return true;
+			boost::hash<std::string> string_hash;
+			std::size_t hash = string_hash( keyLookup );
+
+			//AssetObject* asset = new AssetObject();
+			//if( asset->Load( filePath ) == true )
+			{
+				textures.insert( TexturePair( hash, texture ) );
+				return true;
+			}
+			//return UINT_MAX;
+			//return true;
 		}
 	}
 
@@ -442,6 +452,22 @@ AssetObject* AssetLoadManager :: FindObject( const char* key )
 	return asset;
 }
 
+GLuint	AssetLoadManager :: FindTexture( const char* key )
+{
+	boost::hash<std::string> string_hash;
+
+    std::size_t hash = string_hash( key );
+
+	TexturePairIter iter;
+	iter = textures.find( hash );
+	if( iter == textures.end() )
+		return NULL;
+
+	GLuint texture = (iter)->second;
+
+	return texture;
+}
+
 //--------------------------------------------------------------------
 
 U32	AssetLoadManager :: Load( const char* key, const char* filePath )
@@ -488,6 +514,28 @@ void AssetLoadManager :: Draw()
 		1.0, 1000.0);  // Znear and Zfar 
 	glViewport(0, 0, width, height);
 }*/
+
+void	AssetLoadManager :: RenderTexture( GLuint texture, const Vector2D& ul, const Vector2D& br )
+{
+	glBindTexture (GL_TEXTURE_2D, texture);
+
+    glEnable(GL_TEXTURE_2D);
+
+	glBegin(GL_QUADS);
+
+	glTexCoord2f (0.0, 0.0);
+	glVertex3f ( ul.x, ul.y, 0.0 );
+	glTexCoord2f (1.0, 0.0);
+	glVertex3f ( br.x, ul.y, 0.0 );
+	glTexCoord2f (1.0, 1.0);
+	glVertex3f ( br.x, br.y, 0.0 );
+	glTexCoord2f (0.0, 1.0);
+	glVertex3f ( ul.x, br.y, 0.0 );
+	
+	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
+}
 
 #define aisgl_min(x,y) (x<y?x:y)
 #define aisgl_max(x,y) (y>x?y:x)

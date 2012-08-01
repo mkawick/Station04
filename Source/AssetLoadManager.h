@@ -18,6 +18,7 @@
 using namespace std;
 
 // forward decl
+struct Vector2D;
 
 //--------------------------------------------------------------------------
 
@@ -56,6 +57,9 @@ protected:
 
  typedef pair <U32, AssetObject*> AssetPair;
  typedef stdext::hash_map < U32, AssetObject* >::iterator  AssetPairIter;
+
+ typedef pair <U32, GLuint> TexturePair;
+ typedef stdext::hash_map < U32, GLuint >::iterator  TexturePairIter;
 //--------------------------------------------------------------------------
 
 class AssetLoadManager : public ConfigFileLoader::FileLoader
@@ -66,13 +70,16 @@ public:
 
 	int		LoadFromManifest( const char* manifestFile );
 	AssetObject* FindObject( const char* key );
+	GLuint	FindTexture( const char* key );
 
 	void	Draw();
 	void	Draw( int id );
+	void	RenderTexture( GLuint texture, const Vector2D& ul, const Vector2D& br );
 
 protected:
 	U32		Load( const char* keyLoopup, const char* filePath );
 
+	stdext::hash_map< U32, GLuint >			textures; 
 	stdext::hash_map< U32, AssetObject* >	assets;
 	aiLogStream								loggingStream, loggingStream2;
 

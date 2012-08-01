@@ -10,6 +10,7 @@
 struct Vector2D
 {
 	Vector2D () : x(0), y(0) {}
+	Vector2D ( float _x, float _y ) : x( _x ), y( _y ) {}
 	void	Set (float _x, float _y) {x = _x, y = _y;}
 	float x, y;
 };

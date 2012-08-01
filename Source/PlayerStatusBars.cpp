@@ -13,6 +13,8 @@
 #include "PlayerDatabase.h"
 #include "SpaceStation.h"
 
+#include "AssetLoadManager.h"
+
 using namespace Events;
 UI::UI_Image image;
 //----------------------------------------------
@@ -37,10 +39,7 @@ PlayerStatusBars :: PlayerStatusBars (): PlayerShipTracking (0),
 		StationShieldTracking [i] = 0;
 		StationTracking [i] = 0;
 	}
-	if( image.IsValid() == false )
-	{
-		image.Load( "D:/Develop/VisualStudio/SDL/Station05/Data/Asteroids/Asteriod01_Color.bmp" );
-	}
+	
 }
 
 //----------------------------------------------------------------
@@ -82,6 +81,11 @@ void	PlayerStatusBars :: SetScreenPosition (int l, int t, int r, int b)
 
 void	PlayerStatusBars :: Draw ()
 {
+	/*
+	if( image.IsValid() == false )
+	{
+		image.Load( "D:/Develop/VisualStudio/SDL/Station05/Data/Asteroids/Asteriod01_Color.bmp" );
+	}*/
 	image.Draw();
 	GLint ViewportParams [4];
 	glGetIntegerv(GL_VIEWPORT, ViewportParams);// store until we restore later
@@ -418,7 +422,7 @@ void	PlayerStatusBars :: SetNumberOfStations (int Num)
 
 void	UI::UI_Image :: Load( const char* path )
 {
-	SDL_Surface *bmp;
+	/*SDL_Surface *bmp;
 	bmp = SDL_LoadBMP( path );
 
 	if(bmp == NULL)
@@ -452,15 +456,25 @@ void	UI::UI_Image :: Load( const char* path )
 	}
 	SDL_FreeSurface( bmp );
 
-	errorCode = glGetError();
+	errorCode = glGetError();*/
+	texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
+		//GetResourceManager().GetResourceColor( type );
 }
 
 void	UI::UI_Image ::Draw()
 {
 	if( IsValid() == false )
+	{
+		//Load();
+		texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
 		return;
+	}
+	else
+	{
+		GlobalGameFramework->GetAssets().RenderTexture( texture, Vector2D(-10, 0 ), Vector2D( 10, 10 ) );
+	}
 
-	glBindTexture (GL_TEXTURE_2D, texture);
+/*	glBindTexture (GL_TEXTURE_2D, texture);
 
     glEnable(GL_TEXTURE_2D);
 
@@ -477,5 +491,5 @@ void	UI::UI_Image ::Draw()
 	
 	glEnd();
 
-	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_TEXTURE_2D);*/
 }
