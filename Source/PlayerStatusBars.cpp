@@ -427,25 +427,29 @@ void	UI::UI_Image :: Load( const char* path )
 	}
 
 	SDL_LockSurface( bmp );
-	//int bpp = bmp->format->BitsPerPixel;
+	int bpp = bmp->format->BitsPerPixel;
+	int height = bmp->h;
+	int width = bmp->w;
+	void* ptrToPixels = bmp->pixels;
 	SDL_UnlockSurface( bmp );
 
-	//GLuint texture;
 	GLenum errorCode;
+	if( height != 0 && width != 0 && ptrToPixels != NULL )
+	{
+		glGenTextures( 1, &texture );
+		glBindTexture(GL_TEXTURE_2D, texture);
 
-	glGenTextures( 1, &texture );
-	glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+		glTexImage2D( GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ptrToPixels );
 
-	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-	glTexImage2D( GL_TEXTURE_2D, 0, 3, bmp->w, bmp->h, 0, GL_RGB, GL_UNSIGNED_BYTE, bmp->pixels );
-
+	}
 	SDL_FreeSurface( bmp );
 
 	errorCode = glGetError();
@@ -453,8 +457,6 @@ void	UI::UI_Image :: Load( const char* path )
 
 void	UI::UI_Image ::Draw()
 {
-    //glClear(GL_COLOR_BUFFER_BIT);
-
 	if( IsValid() == false )
 		return;
 
@@ -465,32 +467,15 @@ void	UI::UI_Image ::Draw()
 	glBegin(GL_QUADS);
 
 	glTexCoord2f (0.0, 0.0);
-	glVertex3f (0.0, 0.0, 0.0);
+	glVertex3f (-10.0, 0.0, 0.0);
 	glTexCoord2f (1.0, 0.0);
 	glVertex3f (10.0, 0.0, 0.0);
 	glTexCoord2f (1.0, 1.0);
 	glVertex3f (10.0, 10.0, 0.0);
 	glTexCoord2f (0.0, 1.0);
-	glVertex3f (0.0, 10.0, 0.0);
-
-	/*glTexCoord2f(0,1);
-	glVertex2f(-1,1);
-	glTexCoord2f(1,1);
-	glVertex2f(1,1);
-	glTexCoord2f(1,0);
-	glVertex2f(1,-1);
-	glTexCoord2f(0,0);
-	glVertex2f(-1,-1);*/
+	glVertex3f (-10.0, 10.0, 0.0);
 	
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
-
-	//glFlush();
-	//glutSwapBuffers();
-
-	//int angle = 1;
-	//glRotatef(angle, 1.0, 0.0, 0.0); 
-	//glRotatef(angle, 0.0, 1.0, 0.0); 
-	//glRotatef(angle, 0.0, 0.0, 1.0); 
 }

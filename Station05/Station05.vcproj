@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\tools\GL\lib\glut32.lib ..\tools\GL\lib\freeglut.lib ..\tools\GL\lib\glee.lib ..\tools\Assimp\bin\debug\assimp.lib ..\tools\SDL\lib\SDL.lib"
+				AdditionalDependencies="..\tools\GL\lib\glut32.lib ..\tools\GL\lib\freeglut.lib ..\tools\GL\lib\glee.lib ..\tools\Assimp\bin\debug\assimp.lib ..\tools\SDL\lib\SDL.lib Shlwapi.lib"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\tools\GL\lib\glut32.lib ..\tools\GL\lib\freeglut.lib ..\tools\GL\lib\glee.lib ..\tools\Assimp\bin\release\assimp.lib ..\tools\SDL\lib\SDL.lib"
+				AdditionalDependencies="..\tools\GL\lib\glut32.lib ..\tools\GL\lib\freeglut.lib ..\tools\GL\lib\glee.lib ..\tools\Assimp\bin\release\assimp.lib ..\tools\SDL\lib\SDL.lib Shlwapi.lib"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"

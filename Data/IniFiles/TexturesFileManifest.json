@@ -1,6 +1,7 @@
 {
 	"textures":
 			[
+			   { "file": "D:/Develop/VisualStudio/SDL/Station05/Data/Asteroids/Asteriod01_Color.bmp", "key": "scribble" },
 			   { "file": "../Data/Asteroids/Asteriod01_Color.tga", "key": "tex01" },
 			   { "file": "../Data/Asteroids/Asteriod01_Normal.tga", "key": "tex02" },
 			   { "file": "end", "key": "end" }

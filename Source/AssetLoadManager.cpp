@@ -5,6 +5,7 @@
 
 #include "StdAfx.h"
 #include <windows.h>
+#include <Shlwapi.h>
 #include "../tools/GL/include/glut.h"
 #include <stdlib.h>
 #include "../tools/SDL/include/SDL.h"
@@ -14,9 +15,13 @@ using namespace std;
 
 #include <boost/scoped_array.hpp>
 #include <boost/functional/hash.hpp>
+//#include <boost/filesystem.hpp>
+
 #include "AssetLoadManager.h"
 #include "GlobalDefinitions.h"
 #include "GameFramework.h"
+
+#include "../Common/TGA_Loader.h"
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
@@ -85,7 +90,97 @@ bool	AssetLoadManager :: LoadModel( json_t* item )
 	return false;
 }
 
+GLuint LoadTGATexture( const char *TexName )
+{
+	TGA_Loader Img;        // Image loader
+	GLuint Texture;
 
+	// Load our Texture
+	if( Img.Load( TexName ) != IMG_OK )
+		return -1;
+
+	glGenTextures(1,&Texture);            // Allocate space for texture
+	glBindTexture(GL_TEXTURE_2D,Texture); // Set our Tex handle as current
+
+	// Create the texture
+	if( Img.GetBPP() == 24 )
+	{
+		glTexImage2D( GL_TEXTURE_2D, 0, 3, Img.GetWidth(), Img.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, Img.GetImg() );
+	}
+	else if( Img.GetBPP() == 32 )
+	{
+		glTexImage2D( GL_TEXTURE_2D, 0, 4, Img.GetWidth(), Img.GetHeight(),0, GL_RGBA, GL_UNSIGNED_BYTE, Img.GetImg() );
+	}
+	else
+	 return -1;
+
+	// Specify filtering and edge actions
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+
+	return Texture;
+}
+
+GLuint LoadBMPTexture( const char* fileName )
+{
+	SDL_Surface *bmp;
+	bmp = SDL_LoadBMP( fileName );
+
+	if(bmp == NULL)
+	{
+		return -1;
+	}
+
+	SDL_LockSurface( bmp );
+	int bpp = bmp->format->BitsPerPixel;
+	int height = bmp->h;
+	int width = bmp->w;
+	void* ptrToPixels = bmp->pixels;
+	SDL_UnlockSurface( bmp );
+
+	GLuint Texture;
+	GLenum errorCode;
+	if( height != 0 && width != 0 && ptrToPixels != NULL )
+	{
+		glGenTextures( 1, &Texture );
+		glBindTexture(GL_TEXTURE_2D, Texture);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+		glTexImage2D( GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ptrToPixels );
+
+	}
+	SDL_FreeSurface( bmp );
+
+	errorCode = glGetError();
+
+	return Texture;
+}
+
+GLuint LoadTexture( const char *TexName )
+{
+	//boost::filesystem::path const boostName( TexName );
+	const char* extension = PathFindExtensionA( TexName );
+	//boostName.stem().c_str();
+	if( stricmp( extension, ".tga" ) == 0 )
+	{
+		return LoadTGATexture( TexName );
+	}
+
+	if( stricmp( extension, ".bmp" ) == 0 )
+	{
+		return LoadBMPTexture( TexName );
+	}
+	return -1;
+}
 
 bool	AssetLoadManager :: LoadTexture( json_t* item )
 {
@@ -106,16 +201,14 @@ bool	AssetLoadManager :: LoadTexture( json_t* item )
 	if( stricmp( fileName, "end" ) == 0 )
 		return true;
 
+	TCHAR dirName[MAX_PATH];	
+	GetCurrentDirectory( MAX_PATH, dirName );
 	if( keyLookup && fileName )
 	{
-		const aiScene*	scene = aiImportFile( fileName, aiProcessPreset_TargetRealtime_MaxQuality );
+		GLuint texture = ::LoadTexture( fileName );
 
-		if (scene) 
+		if ( texture != -1 ) 
 		{
-			/*GetBoundingBox( &scene_min, &scene_max );
-			scene_center.x = (scene_min.x + scene_max.x) / 2.0f;
-			scene_center.y = (scene_min.y + scene_max.y) / 2.0f;
-			scene_center.z = (scene_min.z + scene_max.z) / 2.0f;*/
 			return true;
 		}
 	}
@@ -357,7 +450,6 @@ U32	AssetLoadManager :: Load( const char* key, const char* filePath )
 
     std::size_t hash = string_hash( key );
 
-	//int id = assets.size();
 	AssetObject* asset = new AssetObject();
 	if( asset->Load( filePath ) == true )
 	{
@@ -538,11 +630,11 @@ void AssetObject::RecursiveRender (const struct aiScene *sc, const struct aiNode
 	// draw all meshes assigned to this node
 	for (; n < nd->mNumMeshes; ++n) 
 	{
-		const struct aiMesh* mesh = scene->mMeshes[nd->mMeshes[n]];
+		const struct aiMesh* mesh = scene->mMeshes[ nd->mMeshes[n] ];
 		if( mesh == NULL )
 			continue;
 
-		ApplyMaterial(sc->mMaterials[mesh->mMaterialIndex]);
+		ApplyMaterial( sc->mMaterials[mesh->mMaterialIndex] );
 
 		if(mesh->mNormals == NULL) 
 		{
