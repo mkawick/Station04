@@ -54,18 +54,14 @@ unsigned long  GetTimeInMilliSeconds ()// return the time elapsed
 #endif
 }
 
-int		SourceIndex = 0;
-int		DstIndex = 0;
 double	LastTime = 0;
 //----------------------------------------------------
 
-GameFramework :: GameFramework (int Width, int Height)
+GameFramework :: GameFramework (int Width, int Height) : 
+                    AwaitingExit( false ),
+                    ScreenWidth( Width ), 
+                    ScreenHeight( Height )
 {
-	//IsKeyPressed = false;
-	AwaitingExit = false;
-	
-	ScreenWidth = Width, ScreenHeight = Height;
-	//NumStations = 4;
 	DistanceFromStations = 15.0f;
 	//CameraPosition.Set (0, 0, DistanceFromStations);
 	viewport.SetCameraPosition (Vector (0, 0, DistanceFromStations));
@@ -97,7 +93,7 @@ void	GameFramework :: MainLoop ()
 		
 		Update ();
 		
-		SDL_Delay (10);
+		//SDL_Delay (10);
 	}
 	
 	// Clean up the SDL library 

@@ -69,6 +69,22 @@ SDLKey LookupSDLkeys( const char * key )
 		{ "s", SDLK_s },
 		{ "t", SDLK_t },
 		{ "u", SDLK_u },
+        { "u", SDLK_v },
+        { "u", SDLK_w },
+        { "u", SDLK_x },
+        { "u", SDLK_y },
+        { "u", SDLK_z },
+
+        { "f1", SDLK_F1 },
+        { "f2", SDLK_F2 },
+        { "f3", SDLK_F3 },
+        { "f4", SDLK_F4 },
+        { "f5", SDLK_F5 },
+        { "f6", SDLK_F6 },
+        { "f7", SDLK_F7 },
+        { "f8", SDLK_F8 },
+        { "f9", SDLK_F9 },
+        { "f10", SDLK_F10 },
 	};
 
 	int num = sizeof( keyMap ) / sizeof( KeyMap );
