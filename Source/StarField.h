@@ -17,6 +17,9 @@ class StarField
 {
 public:
 	StarField ();
+    ~StarField ();
+
+    void    Shutdown();
 	
 	void	SetCenter (Vector v);
 	void	Setup ();
@@ -25,9 +28,9 @@ public:
 	
 protected:
 	enum {NumStars = 4500, Range = 10000};
-	Vector Center;
-	unsigned int DrawList;
-	int		Top, Bottom, Left, Right;
+	Vector          Center;
+	unsigned int    DrawList;
+	int		        Top, Bottom, Left, Right;
 	
 	
 	Star	CreateStar ();

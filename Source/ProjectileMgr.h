@@ -16,6 +16,8 @@ class ProjectileMgr : public Events:: MessageSenderReceiver
 {
 public:
 	ProjectileMgr ();
+    ~ProjectileMgr ();
+    void Shutdown();
 	
 	void	Setup ();
 	void	Draw ();

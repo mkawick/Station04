@@ -10,4 +10,5 @@ public:
 	AudioManager ();
 	~AudioManager ();
 	void	Update (GameData& restrict); // data
+    void    Shutdown() {}
 };

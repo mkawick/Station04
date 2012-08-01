@@ -71,13 +71,27 @@ GameFramework :: GameFramework (int Width, int Height) :
 
 	GlobalGameFramework = this;// used throughout the init process
 
-	AssetLoader.LoadFromManifest( "../Data/IniFiles/IniFiles.json" );
+	assetLoader.LoadFromManifest( "../Data/IniFiles/IniFiles.json" );
 
 	Init ();
 
-	AssetLoader.LoadFromManifest("../Data/IniFiles/FileManifest.json" );
+	assetLoader.LoadFromManifest("../Data/IniFiles/FileManifest.json" );
 	
 	//AssetLoader.LoadFromManifest("../Data/IniFiles/UI.json");
+}
+
+GameFramework :: ~GameFramework()
+{
+    network.Shutdown();
+    spaceResources.Shutdown();
+    assetLoader.Shutdown();
+    asteroids.Shutdown();
+    PlayerDatabase* playerdb = GlobalGameData.GetPlayerDatabase();
+    playerdb->ClearAllPlayers();
+    starfield.Shutdown();
+    spacemap.Shutdown();
+    projectiles.Shutdown();
+    audio.Shutdown();
 }
 
 //----------------------------------------------------
@@ -153,7 +167,7 @@ void	GameFramework :: Update ()
 	LastTime = CurrentTime;
 	Input.Update (GlobalGameData);
 
-	SpaceResources.Update( GlobalGameData );
+	spaceResources.Update( GlobalGameData );
 	
 	// positional
 	/*Vector camera = viewport.GetCameraPosition() ;
@@ -361,7 +375,7 @@ void	GameFramework :: SetupMessagingTopology ()
 	playerdb->AddClient (this);
 	playerdb->AddClient (&asteroids);
 
-	AddClient( &SpaceResources );
+	AddClient( &spaceResources );
 	AddClient( &asteroids );
 }
 
@@ -473,7 +487,7 @@ void	GameFramework :: DrawAllObjects ()
 	spacemap.Draw ();
 	projectiles.Draw ();
 	asteroids.Draw ();
-	SpaceResources.Draw();
+	spaceResources.Draw();
 	
 	// --------------------------------------
 	

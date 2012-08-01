@@ -47,6 +47,8 @@ class SpaceMap
 public:
 	SpaceMap ();
 	~SpaceMap ();
+    void    Shutdown();
+
 	void	SetColor (Vector color);
 	void	SetFocusColor (Vector color);
 	void	SetHighlightedColor (Vector color);

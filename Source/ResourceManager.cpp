@@ -26,7 +26,12 @@ ResourceManager :: ResourceManager ()
 }
 ResourceManager :: ~ResourceManager ()
 {
-	std::list <StellarResource*>::iterator it = Resources.begin();
+	Shutdown();
+}
+
+void    ResourceManager :: Shutdown()
+{
+    std::list <StellarResource*>::iterator it = Resources.begin();
 	while( it != Resources.end() )
 	{
 		StellarResource* obj = *it++;

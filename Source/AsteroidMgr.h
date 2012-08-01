@@ -15,6 +15,7 @@ class AsteroidMgr : public Events:: MessageSenderReceiver
 public:
 	AsteroidMgr ();
 	~AsteroidMgr ();
+    void    Shutdown();
 	
 	//---------------------------------------
 	

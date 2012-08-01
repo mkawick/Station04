@@ -14,6 +14,7 @@ class ResourceManager : public Events:: MessageSenderReceiver
 public:
 	ResourceManager();
 	~ResourceManager();
+    void    Shutdown();
 
 	void	AddResource( ResourceTypes type, float amount, const Vector& location );
 

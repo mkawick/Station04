@@ -37,14 +37,21 @@ AssetLoadManager :: AssetLoadManager()
 
 AssetLoadManager :: ~AssetLoadManager()
 {
-	for( AssetPairIter it = assets.begin(); it != assets.end(); it++ )
+	Shutdown();
+}
+
+void    AssetLoadManager :: Shutdown()
+{
+    for( AssetPairIter it = assets.begin(); it != assets.end(); it++ )
 	{
 		delete it->second;
 	}
+    assets.clear();
     for( TexturePairIter it = textures.begin(); it != textures.end(); it++ )
 	{
 		glDeleteTextures( 1, &it->second );
 	}
+    textures.clear();
 	aiDetachAllLogStreams();
 }
 

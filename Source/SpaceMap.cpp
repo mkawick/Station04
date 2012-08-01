@@ -81,9 +81,15 @@ SpaceMap :: SpaceMap () : SelectedRegion (0), GL_Surface(0L)
 
 SpaceMap :: ~SpaceMap ()
 {
-	if (GL_Surface != 0L)
+	Shutdown();
+}
+
+void    SpaceMap :: Shutdown()
+{
+    if (GL_Surface != 0L)
 	{
 		SDL_FreeSurface (GL_Surface);
+        GL_Surface = 0;
 	}
 }
 

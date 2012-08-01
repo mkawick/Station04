@@ -31,6 +31,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	GameFramework Game (1200, 800);
 	
 	Game.MainLoop ();
-	exit(0);
+	//exit(0);
 	return 0;
 }

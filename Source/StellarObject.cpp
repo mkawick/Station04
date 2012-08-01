@@ -31,6 +31,7 @@ StellarObject :: StellarObject () : Color (0.5, 0.5, 0.5),
 StellarObject :: ~StellarObject ()
 {
 	GlobalGameFramework->GetSpacePartition().Remove( &Partitioning );
+    glDeleteLists( DrawList, 1 );
 }
 
 //----------------------------------------------

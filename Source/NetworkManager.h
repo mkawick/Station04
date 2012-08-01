@@ -11,4 +11,5 @@ public:
 	NetworkManager ();
 	~NetworkManager ();
 	void	Update (GameData& restrict); // data
+    void    Shutdown() {}
 };

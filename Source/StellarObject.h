@@ -24,7 +24,7 @@ class StellarObject
 {
 public:
 	StellarObject ();
-	~StellarObject ();
+	virtual ~StellarObject ();
 	
 	void			SetColor ( const Vector& color ) {Color = color;}
 	void			SetCenter ( const Vector& center );

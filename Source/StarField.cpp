@@ -28,6 +28,16 @@ StarField :: StarField () : DrawList (InvalidDrawList)
 	};*/
 }
 
+StarField :: ~StarField ()
+{
+    Shutdown();
+}
+
+void    StarField :: Shutdown()
+{
+    glDeleteLists( DrawList, 1 );
+}
+
 //---------------------------------------------------------
 
 void	StarField :: SetCenter (Vector v)

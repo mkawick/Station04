@@ -21,6 +21,20 @@ ProjectileMgr :: ProjectileMgr ()
 	//ListOfBolts.push_back (PhaseBolt);
 }
 
+ProjectileMgr :: ~ProjectileMgr ()
+{
+	
+}
+void    ProjectileMgr :: Shutdown()
+{
+    /*std::list <PhaseBolt> :: iterator it = ListOfBolts.begin ();
+	while (it != ListOfBolts.end ())
+	{
+	}*/
+
+    ListOfBolts.clear();
+}
+
 //---------------------------------------------------------
 
 void	ProjectileMgr :: Setup ()

@@ -22,13 +22,19 @@ AsteroidMgr :: AsteroidMgr () : AsteroidIDs (0)
 
 AsteroidMgr :: ~AsteroidMgr ()
 {
-	std::list <Asteroid*>::iterator it = AsteroidField.begin ();
+	Shutdown();
+}
+
+void    AsteroidMgr :: Shutdown()
+{
+    std::list <Asteroid*>::iterator it = AsteroidField.begin ();
 	
 	while (it != AsteroidField.end ())
 	{
 		Asteroid* asteroid = *it++;
 		delete asteroid;
 	}
+    AsteroidField.clear();
 }
 
 //------------------------------------------

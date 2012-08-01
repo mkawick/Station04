@@ -67,6 +67,7 @@ class AssetLoadManager : public ConfigFileLoader::FileLoader
 public:
 	AssetLoadManager();
 	~AssetLoadManager();
+    void    Shutdown();
 
 	int		LoadFromManifest( const char* manifestFile );
 	AssetObject* FindObject( const char* key );

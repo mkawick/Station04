@@ -35,7 +35,8 @@ class GameFramework : public Events::MessageSenderReceiver
 {
 public:
 	GameFramework (int ScreenWidth, int ScreenHeight);
-	
+	~GameFramework();
+
 	//---------------------------------------
 	
 	void	MainLoop ();// once entered, there is no return, except to end
@@ -46,10 +47,10 @@ public:
 	UUID				GetLocalPlayer() const;
 	
 	Quadtree&			GetSpacePartition() { return SpacePartition; }
-	AssetLoadManager&	GetAssets() { return AssetLoader; }	
+	AssetLoadManager&	GetAssets() { return assetLoader; }	
 	GameData&			GetGameData() { return GlobalGameData; }
 	InputManager&		GetInput() { return Input; }
-	ResourceManager&	GetResourceManager() { return SpaceResources; }
+	ResourceManager&	GetResourceManager() { return spaceResources; }
 
 protected:
 	void	Init ();
@@ -91,9 +92,9 @@ protected:
 	AsteroidMgr			asteroids;
 	InputManager		Input;
 	DebugText			TextOut;
-	ResourceManager		SpaceResources;
+	ResourceManager		spaceResources;
 
-	AssetLoadManager	AssetLoader;
+	AssetLoadManager	assetLoader;
 	Quadtree			SpacePartition;
 };
 
