@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldServer", "WorldServer\WorldServer.vcproj", "{199F906E-D475-4E9B-8F09-FE98FD7241BF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {213B4100-7A7B-4A44-B9FB-3A6BF6345D79}
@@ -18,8 +18,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZoneServer", "ZoneServer\Zo
 		{213B4100-7A7B-4A44-B9FB-3A6BF6345D79} = {213B4100-7A7B-4A44-B9FB-3A6BF6345D79}
 		{1187FD8D-7CC8-4719-929F-6AC38CE66779} = {1187FD8D-7CC8-4719-929F-6AC38CE66779}
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonLibs", "CommonLibs", "{7F0E1128-02C0-47A0-82E6-97E9D6CF11B4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcproj", "{1187FD8D-7CC8-4719-929F-6AC38CE66779}"
 EndProject
