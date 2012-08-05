@@ -292,6 +292,15 @@ void	GameFramework :: Init ()
 
 void	GameFramework :: Shutdown()
 {
+	if( DrawingContext )
+	{
+		SDL_Delay (100);
+
+		SDL_FreeSurface( DrawingContext );
+		//SDL_GL_DeleteContext( DrawingContext );
+		//SDL_DestroyWindow(mainwindow);
+
+	}
 	SDL_Quit();	
 	SDL_Delay (100);
 }
@@ -301,10 +310,10 @@ void	GameFramework :: SetupGraphics ()
 {
 	Uint8  BitsPerPixel = 32;
 	Uint32 videoflags = SDL_OPENGL | SDL_DOUBLEBUF;// | SDL_FULLSCREEN;SDL_SWSURFACE;//
-	int error = SDL_Init(SDL_INIT_EVERYTHING);
-	DrawingContext = SDL_SetVideoMode(ScreenWidth, ScreenHeight, BitsPerPixel, videoflags);
+	int error = SDL_Init( SDL_INIT_EVERYTHING );
+	DrawingContext = SDL_SetVideoMode( ScreenWidth, ScreenHeight, BitsPerPixel, videoflags );
 	
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+	SDL_GL_SetAttribute( SDL_GL_SWAP_CONTROL, 1 );
 	
 	if (DrawingContext == NULL) 
 	{
