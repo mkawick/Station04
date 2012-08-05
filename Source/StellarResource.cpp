@@ -15,6 +15,10 @@ StellarResource::StellarResource() : StellarObject (),
 	Partitioning.obj = this;
 }
 
+StellarResource::~StellarResource ()
+{
+}
+
 void StellarResource::Draw()
 {
 	if( Asset )

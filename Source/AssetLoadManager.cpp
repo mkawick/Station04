@@ -528,24 +528,20 @@ void AssetLoadManager :: Draw()
 
 void	AssetLoadManager :: RenderTexture( GLuint texture, const Vector2D& ul, const Vector2D& br )
 {
-	glBindTexture (GL_TEXTURE_2D, texture);
+	glBindTexture( GL_TEXTURE_2D, texture );
 
-    glEnable(GL_TEXTURE_2D);
+    glEnable( GL_TEXTURE_2D );
 
-	glBegin(GL_QUADS);
+	glBegin( GL_QUADS );
 
-	glTexCoord2f (0.0, 0.0);
-	glVertex3f ( ul.x, ul.y, 0.0 );
-	glTexCoord2f (1.0, 0.0);
-	glVertex3f ( br.x, ul.y, 0.0 );
-	glTexCoord2f (1.0, 1.0);
-	glVertex3f ( br.x, br.y, 0.0 );
-	glTexCoord2f (0.0, 1.0);
-	glVertex3f ( ul.x, br.y, 0.0 );
+	glTexCoord2f (0.0, 0.0);	glVertex3f ( ul.x, ul.y, 0.0 );
+	glTexCoord2f (1.0, 0.0);	glVertex3f ( br.x, ul.y, 0.0 );
+	glTexCoord2f (1.0, 1.0);	glVertex3f ( br.x, br.y, 0.0 );
+	glTexCoord2f (0.0, 1.0);	glVertex3f ( ul.x, br.y, 0.0 );
 	
 	glEnd();
 
-	glDisable(GL_TEXTURE_2D);
+	glDisable( GL_TEXTURE_2D );
 }
 
 #define aisgl_min(x,y) (x<y?x:y)
@@ -585,6 +581,12 @@ AssetObject :: ~AssetObject()
 	{
 		aiReleaseImport( scene );
 	}
+
+	if( DrawList )
+	{
+		glDeleteLists( DrawList, 1 );
+	}
+	DrawList = 0;
 }
 
 

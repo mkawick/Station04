@@ -92,6 +92,8 @@ GameFramework :: ~GameFramework()
     spacemap.Shutdown();
     projectiles.Shutdown();
     audio.Shutdown();
+
+	//glDeleteLists (DrawList, 1);
 }
 
 //----------------------------------------------------
@@ -111,8 +113,7 @@ void	GameFramework :: MainLoop ()
 	}
 	
 	// Clean up the SDL library 
-	SDL_Quit();	
-	SDL_Delay (100);
+	Shutdown();
 }
 
 //----------------------------------------------------
@@ -289,6 +290,11 @@ void	GameFramework :: Init ()
 	//player->SetShip( playerShip );
 }
 
+void	GameFramework :: Shutdown()
+{
+	SDL_Quit();	
+	SDL_Delay (100);
+}
 //----------------------------------------------------
 
 void	GameFramework :: SetupGraphics ()

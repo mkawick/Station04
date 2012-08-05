@@ -40,6 +40,12 @@ void			PlayerDatabase ::SetPositionForPlayerStatusBars (float l, float t, float 
 
 void			PlayerDatabase :: ClearAllPlayers ()// clear the db of all players
 {
+	std::list <Player*>::iterator it = PlayerList.begin ();
+	while (it != PlayerList.end ())
+	{
+		Player* player = *it++;
+		delete player;
+	}
 	PlayerList.clear ();
 	CurrentPlayer = PlayerList.end();
 }

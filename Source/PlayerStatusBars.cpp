@@ -471,7 +471,7 @@ void	UI::UI_Image ::Draw()
 	}
 	else
 	{
-		GlobalGameFramework->GetAssets().RenderTexture( texture, Vector2D(-10, 0 ), Vector2D( 10, 10 ) );
+		GlobalGameFramework->GetAssets().RenderTexture( texture, Vector2D( 0, 0 ), Vector2D( 10, 10 ) );
 	}
 
 /*	glBindTexture (GL_TEXTURE_2D, texture);

@@ -27,6 +27,13 @@ Player :: ~Player ()
 	{
 		delete Ship;
 	}
+	std::list<SpaceStation*>:: iterator it = Stations.begin ();
+	int Count = 0;
+	while (it != Stations.end ())
+	{
+		delete *it;
+		it++;
+	}
 }
 
 //-----------------------------------------------

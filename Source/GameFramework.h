@@ -55,6 +55,8 @@ public:
 protected:
 	void	Init ();
 	void	SetupGraphics ();
+	void	Shutdown();
+
 	void	Update ();
 	void	KeyDetect ();
 	void	Draw ();

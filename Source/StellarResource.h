@@ -12,6 +12,7 @@ class StellarResource : public StellarObject
 {
 public:
 	StellarResource ();
+	~StellarResource ();
 	
 	//void	Update ( GameData& );
 	void	Draw ();
