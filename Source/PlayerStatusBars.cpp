@@ -14,9 +14,10 @@
 #include "SpaceStation.h"
 
 #include "AssetLoadManager.h"
+#include "UI_Toolbox.h"
 
 using namespace Events;
-UI::UI_Image image;
+UI_Toolbox::UI_Image image;
 //----------------------------------------------
 
 PlayerStatusBars :: PlayerStatusBars (): PlayerShipTracking (0),
@@ -419,77 +420,3 @@ void	PlayerStatusBars :: SetNumberOfStations (int Num)
 //----------------------------------------------
 //----------------------------------------------
 
-
-void	UI::UI_Image :: Load( const char* path )
-{
-	/*SDL_Surface *bmp;
-	bmp = SDL_LoadBMP( path );
-
-	if(bmp == NULL)
-	{
-		return;
-	}
-
-	SDL_LockSurface( bmp );
-	int bpp = bmp->format->BitsPerPixel;
-	int height = bmp->h;
-	int width = bmp->w;
-	void* ptrToPixels = bmp->pixels;
-	SDL_UnlockSurface( bmp );
-
-	GLenum errorCode;
-	if( height != 0 && width != 0 && ptrToPixels != NULL )
-	{
-		glGenTextures( 1, &texture );
-		glBindTexture(GL_TEXTURE_2D, texture);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
-
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-		glTexImage2D( GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ptrToPixels );
-
-	}
-	SDL_FreeSurface( bmp );
-
-	errorCode = glGetError();*/
-	texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
-		//GetResourceManager().GetResourceColor( type );
-}
-
-void	UI::UI_Image ::Draw()
-{
-	if( IsValid() == false )
-	{
-		//Load();
-		texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
-		return;
-	}
-	else
-	{
-		GlobalGameFramework->GetAssets().RenderTexture( texture, Vector2D( 0, 0 ), Vector2D( 10, 10 ) );
-	}
-
-/*	glBindTexture (GL_TEXTURE_2D, texture);
-
-    glEnable(GL_TEXTURE_2D);
-
-	glBegin(GL_QUADS);
-
-	glTexCoord2f (0.0, 0.0);
-	glVertex3f (-10.0, 0.0, 0.0);
-	glTexCoord2f (1.0, 0.0);
-	glVertex3f (10.0, 0.0, 0.0);
-	glTexCoord2f (1.0, 1.0);
-	glVertex3f (10.0, 10.0, 0.0);
-	glTexCoord2f (0.0, 1.0);
-	glVertex3f (-10.0, 10.0, 0.0);
-	
-	glEnd();
-
-	glDisable(GL_TEXTURE_2D);*/
-}

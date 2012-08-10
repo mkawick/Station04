@@ -412,22 +412,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DebugText.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DebugText.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Drawing.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Drawing.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\GameData.cpp"
 				>
 			</File>
@@ -485,14 +469,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\PlayerDatabase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\PositionalCircles.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\PositionalCircles.h"
 				>
 			</File>
 			<File
@@ -704,11 +680,43 @@
 			Name="UI"
 			>
 			<File
+				RelativePath="..\Source\DebugText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DebugText.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Drawing.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Drawing.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\PlayerStatusBars.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\PlayerStatusBars.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\PositionalCircles.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\PositionalCircles.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\UI_Toolbox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\UI_Toolbox.h"
 				>
 			</File>
 		</Filter>
