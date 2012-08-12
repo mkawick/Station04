@@ -137,6 +137,7 @@ void	GameFramework :: Update ()
 	
 	//gazelle.PostDrawCleanup();
 	TextOut.Update ();
+	ui.Update( GlobalGameData );
 	double CurrentTime = GetTimeInMilliSeconds ();	
 	
 	// set up the FPS counter
@@ -164,7 +165,7 @@ void	GameFramework :: Update ()
 
 	GlobalGameData.SetTimeElapsed ( static_cast<int>( TimeDiff ));
 
-	TextOut.AddText (str.c_str (), 690, 12);
+	TextOut.AddText (str.c_str (), 690, 582);
 	LastTime = CurrentTime;
 	Input.Update (GlobalGameData);
 
@@ -184,10 +185,12 @@ void	GameFramework :: Update ()
 
 void	GameFramework :: RenderInstructions()
 {
-	TextOut.AddText (". = fire", 620, 24);
-	TextOut.AddText (", = thrust", 620, 38);
-	TextOut.AddText ("[ = turn left", 620, 52);
-	TextOut.AddText ("] = turn right", 620, 66);
+	int x = 610;
+	int y = 520;
+	TextOut.AddText (". = fire", x, y+42);
+	TextOut.AddText (", = thrust", x, y+28);
+	TextOut.AddText ("[ = turn left", x, y+14);
+	TextOut.AddText ("] = turn right", x, y);
 }
 
 //----------------------------------------------------
@@ -274,7 +277,7 @@ void	GameFramework :: Init ()
 	spacemap.SetScreenPosition (10, 10, 120, 90);
 	
 	TextOut.SetScreenDiensions (ScreenWidth, ScreenHeight);
-	TextOut.SetScreenPosition (16, 120);
+	TextOut.SetScreenPosition (16, 520);
 	
 	spacemap.SetColor (Vector (0.48f, 0.38f, 0));
 	spacemap.SetFocusColor (Vector (0, 0.88f, 0));
@@ -475,12 +478,14 @@ void	GameFramework :: Draw ()
 	
 	DrawAllObjects ();
 
-	print( 200, 200, "Damn sexy");
+	//print( 200, 200, "Damn sexy");
 	//AssetLoader.FindObject("cubes")->Render( 0,0,0, 0,45,0, 1.0 );
 
 	//AssetLoader.FindObject("cone")->Render( -5,5,0, 0,0,0, 1.0 );
 	//AssetLoader.Draw();
 	
+	ui.Draw();
+
 	TextOut.Draw ();
 	
 	
@@ -488,9 +493,6 @@ void	GameFramework :: Draw ()
 	
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
-
-	
-
 	SDL_GL_SwapBuffers();
 	//glutSwapBuffers ();
 }

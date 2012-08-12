@@ -1,12 +1,15 @@
-#pragma once
+/*
+ *  GameFramework.h
+ *  Station05
+ */
 
-#include "GeneralDataTypes.h"
+#pragma once
 #include <list>
 #include <hash_map>
 #include "UI_Toolbox.h"
+#include "GeneralDataTypes.h"
 
 class GameData;
-//typedef std::list< UI_Element* > UiElementList;
 typedef stdext::hash_map< U32, UI_Toolbox::UiElementList > UiByGameMode;
 
 class UI_Framework

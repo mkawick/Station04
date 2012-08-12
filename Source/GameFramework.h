@@ -8,7 +8,7 @@
 #include <math.h>
 
 #include "../tools/SDL/include/SDL.h"
-#include "../tools/SDL/include/SDL_keysym.h"
+//#include "../tools/SDL/include/SDL_keysym.h"
 
 #include "../common/Math/vector.h"
 #include "../tools/SpacePartitioning/Quadtree.h"
@@ -28,6 +28,7 @@
 #include "GameData.h"
 #include "AssetLoadManager.h"
 #include "ResourceManager.h"
+#include "UI_Framework.h"
 
 //----------------------------------------------
 
@@ -95,6 +96,10 @@ protected:
 	InputManager		Input;
 	DebugText			TextOut;
 	ResourceManager		spaceResources;
+
+	//-------------- testing only ---------------------
+	UI_Framework		ui;
+	//-------------- testing only ---------------------
 
 	AssetLoadManager	assetLoader;
 	Quadtree			SpacePartition;

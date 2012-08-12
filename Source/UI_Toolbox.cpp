@@ -1,8 +1,12 @@
+/*
+ *  GameFramework.h
+ *  Station05
+ */
 #include "StdAfx.h"
 
 #include "UI_Toolbox.h"
 #include "PlayerDatabase.h"
-
+#include "GameFramework.h"
 
 using namespace UI_Toolbox;
 

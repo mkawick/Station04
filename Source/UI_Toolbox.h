@@ -1,10 +1,15 @@
+/*
+ *  GameFramework.h
+ *  Station05
+ */
 #pragma once
 #include <list>
 #include <windows.h>
+#include "../common/math/vector.h"
 #include "../tools/GL/include/glut.h"
-#include "GameFramework.h"
 #include "GameData.h"
-
+#include "GeneralDataTypes.h"
+#include "GameEvent.h"
 
 namespace UI_Toolbox
 {

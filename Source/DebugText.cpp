@@ -16,9 +16,9 @@
 //----------------------------------------------------
 
 DebugText :: DebugText () : 
-						MaxMessages (8), 
+						MaxMessages (16), 
 						MostRecentlyAddedMessageIndex (-1), 
-						FontChoosen (GLUT_BITMAP_HELVETICA_12),
+						FontChoosen (GLUT_BITMAP_HELVETICA_10),
 						FontLeading (12),
 						x (16), y (16), 
 						ScreenWidth (640), ScreenHeight(480)
@@ -44,7 +44,10 @@ void	DebugText :: SetScreenPosition (int _x, int _y)
 	int SpaceBetweenLines = 2 * MaxMessages;
 	int PixelsAvailablePerlineOfText = ((y-SpaceBetweenLines)/MaxMessages);
 	
-	if (PixelsAvailablePerlineOfText< 12)	
+	FontChoosen = GLUT_BITMAP_HELVETICA_10;
+	FontLeading = 10;
+
+	/*if (PixelsAvailablePerlineOfText< 12)	
 	{
 		FontChoosen = GLUT_BITMAP_HELVETICA_10;
 		FontLeading = 10;
@@ -58,7 +61,7 @@ void	DebugText :: SetScreenPosition (int _x, int _y)
 	{
 		FontChoosen = GLUT_BITMAP_HELVETICA_18;
 		FontLeading = 18;
-	}
+	}*/
 }
 
 //----------------------------------------------------
@@ -112,24 +115,49 @@ void	DebugText :: Draw ()
 
 void	DebugText :: PrepToDraw ()
 {
-	glDisable (GL_LIGHTING);	
+	/*glDisable (GL_LIGHTING);	
 	glColor3f (1.0, 1.0, 0.0);	
 	glBlendColor (1.0, 1.0, 1.0, 1.0);
 	glMatrixMode (GL_PROJECTION);
 	glPushMatrix ();
 	
 	glLoadIdentity ();
-	glOrtho (0, ScreenWidth, 0, ScreenHeight, -100, 500);
+	glOrtho (0, ScreenWidth, 0, ScreenHeight, -100, 500);*/
+
+	//Assume we are in MODEL_VIEW already
+	glPushMatrix ();
+	glLoadIdentity ();
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix ();
+	glLoadIdentity();
+
+	GLint viewport [4];
+	glGetIntegerv (GL_VIEWPORT, viewport);
+	gluOrtho2D (0,viewport[2], viewport[3], 0);
+	
+	glDepthFunc (GL_ALWAYS);
+	//glColor3f (1,1,1);
+	glDisable (GL_LIGHTING);
+	glDisable (GL_BLEND);
+
+	glColor3f (1.0, 1.0, 0.0);	
+	glBlendColor (1.0, 1.0, 1.0, 1.0);
 }
 
 //----------------------------------------------------
 
 void	DebugText :: CleanupFromDrawing ()
 {
+	glEnable (GL_BLEND);	
+	glEnable (GL_LIGHTING);
+	glDepthFunc (GL_LESS);
 	glPopMatrix ();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix ();
+	/*glPopMatrix ();
 	glMatrixMode (GL_MODELVIEW);
 	
-	glEnable (GL_LIGHTING);
+	glEnable (GL_LIGHTING);*/
 }
 
 //----------------------------------------------------
