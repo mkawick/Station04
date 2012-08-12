@@ -248,6 +248,7 @@ void	GameFramework :: ProcessMessages (GameData& GlobalGameData)
 }
 
 //----------------------------------------------------
+void print(int x, int y, const char *string);
 
 void	GameFramework :: Init ()
 {
@@ -296,12 +297,12 @@ void	GameFramework :: Shutdown()
 	{
 		SDL_Delay (100);
 
-		SDL_FreeSurface( DrawingContext );
+		//SDL_FreeSurface( DrawingContext );
 		//SDL_GL_DeleteContext( DrawingContext );
 		//SDL_DestroyWindow(mainwindow);
 
 	}
-	SDL_Quit();	
+	SDL_Quit();	// invokes SDL_FreeSurface
 	SDL_Delay (100);
 }
 //----------------------------------------------------
@@ -474,18 +475,21 @@ void	GameFramework :: Draw ()
 	
 	DrawAllObjects ();
 
+	print( 200, 200, "Damn sexy");
 	//AssetLoader.FindObject("cubes")->Render( 0,0,0, 0,45,0, 1.0 );
 
 	//AssetLoader.FindObject("cone")->Render( -5,5,0, 0,0,0, 1.0 );
 	//AssetLoader.Draw();
 	
 	TextOut.Draw ();
-
+	
 	
 	////////////////////////////////////////////////
 	
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
+
+	
 
 	SDL_GL_SwapBuffers();
 	//glutSwapBuffers ();

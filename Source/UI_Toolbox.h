@@ -1,16 +1,26 @@
 #pragma once
+#include <list>
+#include <windows.h>
+#include "../tools/GL/include/glut.h"
+#include "GameFramework.h"
+#include "GameData.h"
+
 
 namespace UI_Toolbox
 {
 	enum	eStatusBarFormat { GraphLike, LeftSided, TopDown, RightSided };
 
+	class UI_Element;
+	typedef std::list< UI_Element* > UiElementList;
 	//-----------------------------------------------
 	class UI_Element
 	{
 	protected:
 		enum Style{ Frame, Separator, Line, Bar };
 
+	public:
 		UI_Element() : style( Frame ) {}
+		~UI_Element();
 		void			SetFrameColor( const Vector& color ) { frameColor = color; }
 		const Vector&	GetFrameColor() const { return frameColor; }
 		void			SetFillColor( const Vector& color ) { fillColor = color; }
@@ -31,11 +41,12 @@ namespace UI_Toolbox
 		void			DrawFilledRect (const Vector& Color, float left, float top, float right, float bottom );
 
 	protected:
-		Style		style;
-		float		lineWidth;
-		ScreenRect	screenPosition;
-		Vector		frameColor;
-		Vector		fillColor;
+		UiElementList	children;
+		Style			style;
+		float			lineWidth;
+		ScreenRect		screenPosition;
+		Vector			frameColor;
+		Vector			fillColor;
 	};
 
 	//-----------------------------------------------
@@ -75,13 +86,28 @@ namespace UI_Toolbox
 	};
 
 	//-----------------------------------------------
-	class UI_Button : public UI_Element
+
+	class UI_EventElement : public UI_Element
+	{
+	public:
+		UI_EventElement();
+		void	SetOnClickEvent( int _event ) { event = _event; }
+		bool	MouseClick( float x, float y, bool isDown = true );
+		bool	KeyEvent( int key, bool isDown = true );
+	protected:
+		int			event;
+		int			keyEvent;
+	};
+
+	//-----------------------------------------------
+
+	class UI_Button : public UI_EventElement
 	{
 	public:
 		enum ButtonStyle { Check, Standard };
 
 		UI_Button () : 
-			UI_Element(), buttonStyle( Standard ), text() {}
+			UI_EventElement(), buttonStyle( Standard ), text() {}
 
 		void	SetStyle( ButtonStyle _buttonStyle ) { buttonStyle = _buttonStyle; }
 		void	SetText( const char* _text ) { text.SetText( _text ); }
@@ -90,6 +116,7 @@ namespace UI_Toolbox
 	private:
 		ButtonStyle buttonStyle;
 		UI_Label	text;
+		
 	};
 
 	//-----------------------------------------------

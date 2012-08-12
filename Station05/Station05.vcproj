@@ -712,6 +712,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\UI_Framework.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\UI_Framework.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\UI_Toolbox.cpp"
 				>
 			</File>

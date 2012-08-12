@@ -88,36 +88,36 @@ void	PlayerStatusBars :: Draw ()
 		image.Load( "D:/Develop/VisualStudio/SDL/Station05/Data/Asteroids/Asteriod01_Color.bmp" );
 	}*/
 	image.Draw();
-	GLint ViewportParams [4];
+	GLint ViewportParams [4];// we're going to change the viewport, so let's save the old one to restore it.
 	glGetIntegerv(GL_VIEWPORT, ViewportParams);// store until we restore later
-	
-	// from the height, subtract the height and top position arriving at a value
-	// less than the height of the screen
-	int top = static_cast<int>( ViewportParams[3] - (ScreenPosition.Corners[1].y + ScreenPosition.Corners[0].y) );
-    int left = static_cast<int>( ScreenPosition.Corners[0].x );
-    int width = static_cast<int>( ScreenPosition.Corners[1].x );
-    int height = static_cast<int>( ScreenPosition.Corners[1].y );
-	glViewport( left, top, width, height );// place the render screen on the bigger screen
-	
+
 	// preparation for drawing
 	glDisable (GL_LIGHTING);
 	glDisable (GL_BLEND);
-	glMatrixMode (GL_PROJECTION);
+	glMatrixMode (GL_PROJECTION);// 2d mode
 	glPushMatrix ();
 	
-	glLoadIdentity ();
-	
-	glOrtho (ScreenDimensions.Corners[0].x, ScreenDimensions.Corners[1].x, 
-			 ScreenDimensions.Corners[1].y, ScreenDimensions.Corners[0].y, 
-			 -50, 200);
+		glLoadIdentity ();
 
-	DrawFrame ();
-	DrawUserName ();
-	DrawPlayerShipValues ();
-	DrawPlayerStationValues ();
-	DrawBackground ();
+		// from the height, subtract the height and top position arriving at a value
+		// less than the height of the screen
+		int top = static_cast<int>( ViewportParams[3] - (ScreenPosition.Corners[1].y + ScreenPosition.Corners[0].y) );
+		int left = static_cast<int>( ScreenPosition.Corners[0].x );
+		int width = static_cast<int>( ScreenPosition.Corners[1].x );
+		int height = static_cast<int>( ScreenPosition.Corners[1].y );
+		glViewport( left, top, width, height );// place the render screen on the bigger screen
+		
+		glOrtho (ScreenDimensions.Corners[0].x, ScreenDimensions.Corners[1].x, 
+				 ScreenDimensions.Corners[1].y, ScreenDimensions.Corners[0].y, 
+				 -50, 200);
 
-	DrawResources ();
+		DrawFrame ();
+		DrawUserName ();
+		DrawPlayerShipValues ();
+		DrawPlayerStationValues ();
+		DrawBackground ();
+
+		DrawResources ();
 	
 	glPopMatrix ();
 	glMatrixMode (GL_MODELVIEW);

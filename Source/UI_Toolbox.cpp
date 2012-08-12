@@ -1,12 +1,21 @@
 #include "StdAfx.h"
-#include <windows.h>
-#include "../tools/GL/include/glut.h"
-#include "GameFramework.h"
-#include "GameData.h"
-#include "PlayerDatabase.h"
+
 #include "UI_Toolbox.h"
+#include "PlayerDatabase.h"
+
 
 using namespace UI_Toolbox;
+
+UI_Element :: ~UI_Element()
+{
+	UiElementList::iterator it = children.begin();
+
+	while(it != children.end() )
+	{
+		delete *it;
+		it++;
+	}
+}
 
 void	UI_Element :: SetScreenPosition (int Left, int Top, int Right, int Bottom)
 {
