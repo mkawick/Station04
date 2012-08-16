@@ -1,8 +1,8 @@
 {
 	"files":
 			[
-				{ "manifest": "../Data/IniFiles/UI_InGameSetup.json", "key": "keyboard" },
-			    { "manifest": "../Data/IniFiles/UI_StatusMenu.json", "key": "network" }
-			   
+				{ "manifest": "../Data/IniFiles/UIKeys_InGameSetup.json", "key": "keyboard" },
+			    { "manifest": "../Data/IniFiles/UIKeys_StatusMenu.json", "key": "attract" },
+			    { "manifest": "../Data/IniFiles/UIStatus_PlayerStatus.json", "key": "ui_status" }
 			]
 }

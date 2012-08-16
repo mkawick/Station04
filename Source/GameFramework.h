@@ -52,6 +52,7 @@ public:
 	GameData&			GetGameData() { return GlobalGameData; }
 	InputManager&		GetInput() { return Input; }
 	ResourceManager&	GetResourceManager() { return spaceResources; }
+	UI_Framework&		GetUI() { return ui; }
 
 protected:
 	void	Init ();

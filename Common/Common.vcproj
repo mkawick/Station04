@@ -163,6 +163,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\LinkedListContainer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\struct.h"
 				>
 			</File>

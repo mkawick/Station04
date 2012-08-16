@@ -1,0 +1,11 @@
+{
+	"ini":
+	{ 
+		"type": "ui_status",
+		"mode": "game",
+	    "UI": 
+		[
+		   { "Tool": "UI_Element", "framecolor": [0,1,1,0.5], "type": "Line", "position": [0,0,200,200] }
+		]		
+	}
+}

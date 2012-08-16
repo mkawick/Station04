@@ -376,11 +376,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Data\IniFiles\UI_InGameSetup.json"
+				RelativePath="..\Data\IniFiles\UI_StatusMenu.json"
 				>
 			</File>
 			<File
-				RelativePath="..\Data\IniFiles\UI_StatusMenu.json"
+				RelativePath="..\Data\IniFiles\UIKeys_InGameSetup.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\IniFiles\UIKeys_StatusMenu.json"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\IniFiles\UIStatus_PlayerStatus.json"
 				>
 			</File>
 		</Filter>
@@ -441,10 +449,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\InputManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\LinkedListContainer.h"
 				>
 			</File>
 			<File

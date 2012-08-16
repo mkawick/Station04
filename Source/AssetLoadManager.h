@@ -11,8 +11,8 @@
 
 #include "../Common/struct.h"
 
-#include "../tools/json/jansson.h"
 #include "../common/ConfigFileLoader.h"
+#include "../tools/json/jansson.h"
 #include <hash_map>
 #include <iostream>
 using namespace std;

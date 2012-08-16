@@ -47,6 +47,7 @@ protected:
 	void	PrepToDraw ();
 	void	CleanupFromDrawing ();
 	int		FindTextByPosition (int x, int y) const;
+	void	RenderString( int x, int y, const char* string );
 	
 	int							MostRecentlyAddedMessageIndex;
 	int							MaxMessages;

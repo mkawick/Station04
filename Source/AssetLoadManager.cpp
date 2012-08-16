@@ -7,17 +7,18 @@
 #include <windows.h>
 #include <Shlwapi.h>
 #include "../tools/GL/include/glut.h"
-#include <stdlib.h>
 #include "../tools/SDL/include/SDL.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
+#include <stdlib.h>
 
 #include <boost/scoped_array.hpp>
 #include <boost/functional/hash.hpp>
 //#include <boost/filesystem.hpp>
 
 #include "AssetLoadManager.h"
+
 #include "GlobalDefinitions.h"
 #include "GameFramework.h"
 
@@ -324,8 +325,7 @@ bool AssetLoadManager :: LoadIniFiles( json_t* root, const char* filePath )
 
 		if( stricmp( keyLookup, "keyboard" ) == 0 )
 		{
-			json_t * key_set = json_object_get( root, "key_set");
-			bool success = LoadKeyboardFile( key_set, filePath );
+			bool success = GlobalGameFramework->GetInput().LoadIniFile( root, filePath );
 			if( success == false )
 			{
 				cout << "ERROR: keyboard ini file bad: " << filePath << endl;
@@ -338,6 +338,15 @@ bool AssetLoadManager :: LoadIniFiles( json_t* root, const char* filePath )
 		else if( stricmp( keyLookup, "network" ) == 0 )
 		{
 		}
+		else if( stricmp( keyLookup, "ui_status" ) == 0 )
+		{
+			bool success = GlobalGameFramework->GetUI().LoadIniFile( root, filePath );
+			if( success == false )
+			{
+				cout << "ERROR: player status ui ini file bad: " << filePath << endl;
+				return false;
+			}
+		}
 	}
 
 	return false;
@@ -348,7 +357,7 @@ bool AssetLoadManager :: LoadAudioFiles( json_t* filesObj, const char* filePath 
 	return false;
 }
 
-
+/*
 bool AssetLoadManager :: LoadKeyboardFile( json_t* keySetObj, const char* filePath )
 {
 	if( json_is_array( keySetObj ) )
@@ -435,7 +444,8 @@ bool AssetLoadManager :: LoadKeyboardFile( json_t* keySetObj, const char* filePa
 		}
 	}
 	return true;
-}
+}*/
+
 //--------------------------------------------------------------------
 
 int AssetLoadManager :: LoadFromManifest( const char* filePath )

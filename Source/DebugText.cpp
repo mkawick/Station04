@@ -65,7 +65,15 @@ void	DebugText :: SetScreenPosition (int _x, int _y)
 }
 
 //----------------------------------------------------
-
+void	DebugText :: RenderString( int x, int y, const char* string )
+{
+	glRasterPos2f (static_cast< float > ( x ), static_cast< float > ( y ) );
+	while (*string)
+	{
+		glutBitmapCharacter (FontChoosen, *string);
+		string++;
+	}
+}
 
 void	DebugText :: Draw ()
 {
@@ -84,28 +92,18 @@ void	DebugText :: Draw ()
 	{
 		if (WhichMsg < 0)
 			WhichMsg = NumMessages-1;
-		const char* text = ListOfMessages [WhichMsg].c_str ();
-		glRasterPos2f (static_cast< float > ( x ), static_cast< float > ( yPosition ) );
+		const char* string = ListOfMessages [WhichMsg].c_str ();
+		RenderString( x, yPosition, string );
 		yPosition += FontLeading;
-		while (*text)
-		{
-			glutBitmapCharacter (FontChoosen, *text);
-			text++;
-		}
 	}
 	
 	// draw positional text
 	const int NumTextByPosition = TextByPosition.size ();
 	for (int i=0; i<NumTextByPosition; i++)
 	{
-		const char* text = TextByPosition [i].Text.c_str ();
+		const char* string = TextByPosition [i].Text.c_str ();
 		Vector position = TextByPosition [i].Position;
-		glRasterPos2f (position.x, position.y);
-		while (*text)
-		{
-			glutBitmapCharacter (FontChoosen, *text);
-			text++;
-		}
+		RenderString( static_cast<int>( position.x ), position.y, string );
 	}
 	
 	CleanupFromDrawing ();

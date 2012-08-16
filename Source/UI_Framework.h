@@ -8,6 +8,7 @@
 #include <hash_map>
 #include "UI_Toolbox.h"
 #include "GeneralDataTypes.h"
+#include "../tools/json/jansson.h"
 
 class GameData;
 typedef stdext::hash_map< U32, UI_Toolbox::UiElementList > UiByGameMode;
@@ -26,10 +27,10 @@ public:
 
 
 	void	Draw();
-
-	
 	
 	U32		AddElement( int GameMode, UI_Toolbox::UI_Element* pElement, U32 parentId );
+
+	bool	LoadIniFile( json_t* root, const char* filePath );
 
 	void	DrawOld();
 

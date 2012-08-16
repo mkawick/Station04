@@ -9,6 +9,9 @@
 #include <list>
 #include <hash_map>
 
+#include "../tools/json/jansson.h"
+//struct json_t;
+
 // ----------------------------------------------------
 
 struct KeyMapping
@@ -42,6 +45,8 @@ public:
 	void	SetGameMode( GameMode mode );// mode controled by string
 	
 	void	Update (GameData& restrict); // data
+
+	bool	LoadIniFile( json_t* keySetObj, const char* filePath );
 	
 private:
 	bool	CreateGameEvent( GameData& GlobalGameData, const KeyMapping& mapping );

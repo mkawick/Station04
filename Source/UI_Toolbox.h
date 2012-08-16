@@ -21,7 +21,7 @@ namespace UI_Toolbox
 	class UI_Element
 	{
 	protected:
-		enum Style{ Frame, Separator, Line, Bar };
+		enum FrameStyle{ Frame, Separator, Line, Bar };
 
 	public:
 		UI_Element() : style( Frame ) {}
@@ -47,7 +47,7 @@ namespace UI_Toolbox
 
 	protected:
 		UiElementList	children;
-		Style			style;
+		FrameStyle		style;
 		float			lineWidth;
 		ScreenRect		screenPosition;
 		Vector			frameColor;

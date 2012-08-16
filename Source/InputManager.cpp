@@ -12,6 +12,7 @@
 #include "Gamedata.h"
 #include "PlayerDatabase.h"
 #include "GameFramework.h"
+#include "../tools/json/jansson.h"
 
 extern unsigned long  GetTimeInMilliSeconds ();
 
@@ -347,3 +348,95 @@ void	InputManager :: ProcessMessages (GameData& GlobalGameData)
 {
 	this->UpdateAllClients ();
 }
+
+// ----------------------------------------------------
+
+bool	InputManager :: LoadIniFile( json_t* root, const char* filePath )
+{
+	json_t * keySetObj = json_object_get( root, "key_set");
+	if( json_is_array( keySetObj ) )
+	{
+		int numItems = json_array_size( keySetObj );
+		for( int i=0; i< numItems; i++ )
+		{
+			json_t * keysetForMode = json_array_get( keySetObj, i );
+			if( json_is_object( keysetForMode ) )
+			{
+				const char* modeLookup = NULL;
+				json_t * modeObj = json_object_get( keysetForMode, "mode");
+				if( json_is_string( modeObj ) )
+					modeLookup = json_string_value( modeObj );
+				json_t * setObj = json_object_get( keysetForMode, "set");
+
+				GameMode mode = LookupGameMode( modeLookup );
+				if( mode == GameMode_none )
+				{
+					cout << "ERROR: keyboard ini file has bad mode: " << filePath <<", mode=" << modeLookup << endl;
+					return false;
+				}
+				if( json_is_array( setObj ) )
+				{
+					int numKeys = json_array_size( setObj );
+					for( int i=0; i< numKeys; i++ )
+					{
+						json_t * keyDefnObj = json_array_get( setObj, i );
+						if( json_is_object( keyDefnObj ) )
+						{
+							U32 modifiers = KeyModifier_none;
+							json_t * modifierObj = json_object_get( keyDefnObj, "modifier");
+							if( modifierObj )
+							{
+								const char* modifierString = json_string_value( modifierObj );
+								modifiers = LookupKeyModifier( modifierString );
+							}
+							json_t * keyboardObj = json_object_get( keyDefnObj, "key");
+							if( keyboardObj == NULL )
+							{
+								cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+								return false;
+							}
+							const char* keyString = json_string_value( keyboardObj );
+							if( keyString == NULL )
+							{
+								cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+								return false;
+							}
+							json_t * eventObj = json_object_get( keyDefnObj, "event");
+							const char* eventString = json_string_value( eventObj );
+							if( eventString == NULL )
+							{
+								cout << "ERROR: keyboard ini file has bad event: " << filePath <<", key=" << keyString << endl;
+								return false;
+							}
+							json_t * typeObj = json_object_get( keyDefnObj, "type");
+							const char* typeString = json_string_value( typeObj );
+
+							json_t * selectionObj = json_object_get( keyDefnObj, "selection");
+							int selection = static_cast<int> ( json_integer_value( selectionObj ) );
+
+							json_t * repeatObj = json_object_get( keyDefnObj, "repeat");
+							int repeat = static_cast<int> ( json_integer_value( repeatObj ) );
+
+							json_t * holdObj = json_object_get( keyDefnObj, "hold");
+							bool allowHold = json_integer_value( holdObj ) ? true : false;
+
+							GlobalGameFramework->GetInput().AddKeyMapping( mode, keyString, eventString, typeString, allowHold, repeat, modifiers, selection );
+						}
+						else
+						{
+							cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+							return false;
+						}
+					}
+				}
+				else
+				{
+					cout << "ERROR: keyboard ini file has bad set: " << filePath <<", mode=" << modeLookup << endl;
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+//--------------------------------------------------------------------
