@@ -8,6 +8,9 @@
 #include "PlayerDatabase.h"
 #include "GameFramework.h"
 
+// better fonts
+// http://nehe.gamedev.net/tutorial/freetype_fonts_in_opengl/24001/
+
 using namespace UI_Toolbox;
 
 UI_Frame :: ~UI_Frame()
@@ -189,7 +192,7 @@ void	UI_Frame :: DrawFrame () const
 {
 	// treating 0,0 as center.
 	glLineWidth ( lineWidth );
-	if( frameColor.alpha >=0 )
+	if( frameColor.isAlphaSet == true )
 	{
 		glColor4f ( frameColor.r, frameColor.g, frameColor.b, frameColor.a );
 	}
@@ -197,7 +200,6 @@ void	UI_Frame :: DrawFrame () const
 	{
 		glColor3f ( frameColor.r, frameColor.g, frameColor.b );
 	}
-	//float WidthMultiplier = 7.0/8.0;
 	
 	float Left = screenPosition.Corners[0].x+1;
 	float Top = screenPosition.Corners[0].y+1;
@@ -225,7 +227,6 @@ void	UI_Frame :: DrawLine ()
 {
 	// treating 0,0 as center.
 	glLineWidth ( lineWidth );
-	//glColor3f (frameColor.r, frameColor.g, frameColor.b);
 	if( frameColor.alpha >=0 )
 	{
 		glColor4f ( frameColor.r, frameColor.g, frameColor.b, frameColor.a );
@@ -234,19 +235,10 @@ void	UI_Frame :: DrawLine ()
 	{
 		glColor3f ( frameColor.r, frameColor.g, frameColor.b );
 	}
-	//float WidthMultiplier = 7.0/8.0;
-	
 	float Left = (screenPosition.Corners[0].x+1);
 	float Top = screenPosition.Corners[0].y+1;
 	float Right = (screenPosition.Corners[1].x-1);
 	float Bottom = screenPosition.Corners[1].y-1;
-	
-	/*glBegin (GL_LINES);	// two top lines
-		glVertex3f (Left, Top, 0);
-		glVertex3f (Right*WidthMultiplier, Top, 0);	
-		glVertex3f (Left, Top+20, 0);
-		glVertex3f (Right*WidthMultiplier, Top+20, 0);	
-	glEnd ();*/
 	
 	glBegin (GL_LINE_STRIP);	
 		glVertex3f (Left, Top, 0);
@@ -265,7 +257,8 @@ void	UI_Frame :: DrawFilledRect () const
 	float Top = screenPosition.Corners[0].y+1;
 	float Right = screenPosition.Corners[1].x-1;
 	float Bottom = screenPosition.Corners[1].y-1;
-	if( fillColor.alpha >=0 )
+
+	if( fillColor.isAlphaSet == true )
 	{
 		glColor4f ( fillColor.r, fillColor.g, fillColor.b, fillColor.a );
 	}
@@ -298,11 +291,11 @@ bool	UI_Label :: LoadIniFile( json_t* root )
 	{
 		text = json_string_value( pText );
 	}
-	json_t * pFrameStyle = json_object_get( root, "labelalign");
-	frameStyle = Invalid;
-	if( json_is_string( pFrameStyle ) )
+	json_t * pLabelAlign = json_object_get( root, "labelalign");
+	labelAlign = Left;
+	if( json_is_string( pLabelAlign ) )
 	{ 
-		const char* pStyle = json_string_value( pFrameStyle );
+		const char* pStyle = json_string_value( pLabelAlign );
 		{
 			if( stricmp( pStyle, "left" ) == 0 )
 			{
@@ -312,7 +305,7 @@ bool	UI_Label :: LoadIniFile( json_t* root )
 			{
 				labelAlign = Right;
 			} 
-			else if (stricmp( pStyle, "centered" ) == 0 )
+			else if (stricmp( pStyle, "centered" ) == 0 || stricmp( pStyle, "center" ) == 0 )
 			{
 				labelAlign = Centered;
 			}
@@ -322,37 +315,119 @@ bool	UI_Label :: LoadIniFile( json_t* root )
 			}
 		}
 	}
+	json_t * pVerticalAlign = json_object_get( root, "verticalalign");
+	verticalAlign = Bottom;
+	if( json_is_string( pVerticalAlign ) )
+	{ 
+		const char* pStyle = json_string_value( pVerticalAlign );
+		{
+			if( stricmp( pStyle, "top" ) == 0 )
+			{
+				verticalAlign = Top;
+			}
+			else if( stricmp( pStyle, "bottom" ) == 0 )
+			{
+				verticalAlign = Bottom;
+			} 
+			else if (stricmp( pStyle, "middle" ) == 0 )
+			{
+				verticalAlign = Middle;
+			}
+		}
+	}
+	json_t * pFontSize = json_object_get( root, "fontsize");
+	fontSize = 1;
+	if( json_is_number( pFontSize ) )
+	{
+		fontSize = static_cast< int >( json_integer_value( pFontSize ) );
+	}
 	UI_Frame::LoadIniFile( root );// finish loading
 	return isTextColorValid && text.size() > 0;
 }
 
 void	UI_Label :: Draw ()
 {
-	float Left = screenPosition.Corners[0].x+1;
-	float Right = screenPosition.Corners[1].x-1;
-	//float WidthMultiplier = 7.0/8.0;
-	float x = (Left + Right) / 2;
-	float y = 95;
-	
-	int Length = text.size () *12 /2;
-	
-	glColor3f (frameColor.r, frameColor.g, frameColor.b);
-	glRasterPos2f (x-Length, y);
+	float left = screenPosition.Corners[0].x+1;
+	float top = screenPosition.Corners[0].y+1;
+	float right = screenPosition.Corners[1].x-1;
+	float bottom = screenPosition.Corners[1].y-1;
+
+	int fontWidth = 8;
+	void * fontUsed = GLUT_STROKE_ROMAN;
+	switch( fontSize )
+	{
+	case 1: 
+		fontUsed = GLUT_BITMAP_HELVETICA_10;
+		fontWidth = 10;
+		break;
+	case 2:
+		fontUsed = GLUT_BITMAP_HELVETICA_12;
+		fontWidth = 12;
+		break;
+	case 3: 
+		fontUsed = GLUT_BITMAP_HELVETICA_18;
+		fontWidth = 18;
+		break;
+	}
+
+	float centerX = (left + right) * 0.5f;
+	float positionY = bottom;
+	float positionX = left;
+	int length = text.size() * fontWidth / 2;
+	switch( labelAlign ) 
+	{
+	case Left:
+		//glRasterPos2f (left, bottom);
+		break;
+	case Right:
+		//glRasterPos2f (right-length, bottom);
+		positionX = right-length;
+		break;
+	case Centered:
+		//glRasterPos2f (centerX-length/2, bottom);
+		positionX = centerX-length/2;
+		break;
+	default:
+		assert(0);
+	}
+	switch( verticalAlign )
+	{
+	case Bottom: break;
+	case Top: 
+		positionY = top + 20;
+		break;
+	case Middle:
+		positionY = (top + bottom) *0.5f + 10;
+		break;
+	}
+
+	// shadow first
+	glColor3f ( 0, 0, 0 );
+	glRasterPos2f( positionX+2, positionY+2 );
 	const char* str = text.c_str ();
 	while (*str)
 	{
-		glutBitmapCharacter (GLUT_BITMAP_HELVETICA_12, *str);
+		glutBitmapCharacter (fontUsed, *str);
 		str++;
 	}
-	
-	glColor3f (fillColor.r, fillColor.g, fillColor.b);
-	glRasterPos2f (x-Length+4, y+8);
+
+	// regular text
+	if( textColor.isAlphaSet == true )
+	{
+		glColor4f ( textColor.r, textColor.g, textColor.b, textColor.a );
+	}
+	else
+	{
+		glColor3f ( textColor.r, textColor.g, textColor.b );
+	}
+	glRasterPos2f( positionX, positionY );
 	str = text.c_str ();
 	while (*str)
 	{
-		glutBitmapCharacter (GLUT_BITMAP_HELVETICA_12, *str);
+		glutBitmapCharacter (fontUsed, *str);
 		str++;
 	}
+
 }
 
 //----------------------------------------------
