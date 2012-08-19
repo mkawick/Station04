@@ -1,6 +1,14 @@
 Station04
 =========
 
+Task list for week ending 26/Aug/2012
+[ ]Clickable UI
+[ ]UI caucses in-game events
+[ ]Zoom in and out of map
+[ ]Player health hooked up to new UI
+
+///////////////////////////////////////////////////////////////////
+
 Task list for week ending 21/Jul/2012
 
 [ ]Dynamic keybindings (in progress)
