@@ -247,6 +247,7 @@ namespace Events
 
 		UIMouseWheelScrollEvent (): state( Down ) {Message = UI_MouseWheel;}
 		
+		State	GetState() const { return state; }
 		void	SetState( State s ) { state = s; }
 
 	protected:

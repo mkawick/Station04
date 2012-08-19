@@ -23,6 +23,8 @@
 
 GameFramework* GlobalGameFramework;
 
+const float MinDistanceFromStations = 10.0f;
+const float MaxDistanceFromStations = 25.0f;
 //----------------------------------------------------
 
 double GetTimeInSeconds ()// return the time elapsed
@@ -242,6 +244,27 @@ void	GameFramework :: ProcessMessages (GameData& GlobalGameData)
 				}
 			}
 				break;
+			case Events::UI_MouseWheel:
+			{
+				const Events::UIMouseWheelScrollEvent* event = reinterpret_cast <const Events::UIMouseWheelScrollEvent*> (msg);
+				Events::UIMouseWheelScrollEvent::State state = event->GetState();
+				if( state == Events::UIMouseWheelScrollEvent::Up )
+				{
+					DistanceFromStations --;
+					if( DistanceFromStations < MinDistanceFromStations )
+						DistanceFromStations = MinDistanceFromStations;
+				}
+				else
+				{
+					DistanceFromStations ++;
+					if( DistanceFromStations > MaxDistanceFromStations )
+						DistanceFromStations = MaxDistanceFromStations;
+				}
+
+				viewport.SetCameraPosition (Vector (0, 0, DistanceFromStations));
+				viewport.SetNormalZDepth (DistanceFromStations);
+			}
+			break;
 			case Events :: QuitGame:
 				AwaitingExit = true;
 				break;

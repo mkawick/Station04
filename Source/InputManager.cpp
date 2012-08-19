@@ -339,7 +339,6 @@ bool	InputManager :: HandleMouse (GameData& data)
 		}
 	}
 	return true;
-
 }
 
 bool	InputManager :: HandleKeyboard (GameData& GlobalGameData)
