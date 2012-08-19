@@ -52,6 +52,7 @@ private:
 	bool	CreateGameEvent( GameData& GlobalGameData, const KeyMapping& mapping );
 	void	ProcessMessages (GameData& data);
 	bool	HandleKeyboard (GameData& data);
+	bool	HandleMouse (GameData& data);
 
 	GameModeKeySet keyboardSetup;
 };

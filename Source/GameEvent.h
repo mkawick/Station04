@@ -34,6 +34,8 @@ namespace Events
 		CreateResource,
 		CaptureResource,
 		UI_ShipConfig,
+		UI_MouseMove,
+		UI_MouseButton,
 		UI_Map,
 		UI_MyStatus,
 		QuitGame
@@ -202,6 +204,39 @@ namespace Events
 	protected:
 	};
 
+	//----------------------------------------------
+
+	class UIMouseMoveEvent : public GameEvent
+	{
+	public:
+		UIMouseMoveEvent (): diffX(0), diffY(0), x(0), y(0) {Message = UI_MouseMove;}
+		
+		void	SetPosition( int _x, int _y ) { x = _x, y = _y; }
+		void	SetDiff( int _x, int _y ) { diffX = _y, diffY = _y; }
+
+	protected:
+		int diffX, diffY;
+		int x, y;
+	};
+	//----------------------------------------------
+
+	class UIMouseButtonEvent : public GameEvent
+	{
+	public:
+		enum Button {Left, Right, Middle };
+		enum State { Up, Down };
+
+		UIMouseButtonEvent (): button(Left), state( Down ), x(0), y(0) {Message = UI_MouseButton;}
+		
+		void	SetButton( Button b ) { button = b; }
+		void	SetState( State s ) { state = s; }
+		void	SetPosition( int _x, int _y ) { x = _y, y = _y; }
+
+	protected:
+		Button		button;
+		State		state;
+		int			x, y;
+	};
 
 	//----------------------------------------------
 	//----------------------------------------------
@@ -243,6 +278,10 @@ namespace Events
 		int					Capacity ();
 	protected:
 	};
+	
+	//----------------------------------------------
+	
+
 	
 	//----------------------------------------------
 	

@@ -192,6 +192,7 @@ void		InputManager :: Update (GameData& GlobalGameData)
 	
 	ProcessMessages (GlobalGameData);
 	HandleKeyboard (GlobalGameData);
+	HandleMouse( GlobalGameData );
 	UpdateAllClients ();
 }
 
@@ -272,6 +273,59 @@ bool InputManager :: CreateGameEvent( GameData& GlobalGameData, const KeyMapping
 	return false;
 }
 // ----------------------------------------------------
+bool	InputManager :: HandleMouse (GameData& data)
+{
+	SDL_Event event;
+	const int numEventsToHandle = 6;
+	SDL_Event events[ numEventsToHandle ];
+
+
+	Uint32 mask = SDL_MOUSEEVENTMASK;
+	int NumEventsReturned = SDL_PeepEvents( events, numEventsToHandle, SDL_GETEVENT, mask );
+
+	for( int i=0; i<NumEventsReturned; i++ )
+	{
+		event = events[i];
+		switch( event.type )
+		{
+			case SDL_MOUSEMOTION:
+				{
+					Events::UIMouseMoveEvent mmEvent;
+					mmEvent.SetPosition( event.motion.x, event.motion.y );
+					mmEvent.SetDiff( event.motion.xrel, event.motion.yrel );
+					MessageSenderReceiver::SendMessages ( mmEvent );
+				}
+				break;
+			case SDL_MOUSEBUTTONUP:
+			case SDL_MOUSEBUTTONDOWN:
+				{
+					Events::UIMouseButtonEvent mbEvent;
+					switch( event.button.button )
+					{
+					case 1:
+						mbEvent.SetButton( Events::UIMouseButtonEvent::Left );
+						break;
+					case 2:
+						mbEvent.SetButton( Events::UIMouseButtonEvent::Middle );
+						break;
+					case 3:
+						mbEvent.SetButton( Events::UIMouseButtonEvent::Right );
+						break;
+					}
+					if( event.type == SDL_MOUSEBUTTONUP )
+						mbEvent.SetState( Events::UIMouseButtonEvent::Up );
+					else
+						mbEvent.SetState( Events::UIMouseButtonEvent::Down );
+
+					mbEvent.SetPosition( event.button.x, event.button.y );
+					MessageSenderReceiver::SendMessages ( mbEvent );
+				}
+				break;
+		}
+	}
+	return true;
+
+}
 
 bool	InputManager :: HandleKeyboard (GameData& GlobalGameData)
 {
