@@ -16,7 +16,7 @@
 //-------------------------------------------
 //-------------------------------------------
 
-PlayerDatabase :: PlayerDatabase ()
+PlayerDatabase :: PlayerDatabase () : Events:: MessageSenderReceiver()
 {
 	CurrentPlayer = PlayerList.end ();
 	

@@ -18,7 +18,7 @@ typedef stdext::hash_map< U32, UI_Toolbox::UiElementList > UiByGameMode;
 typedef stdext::hash_map < U32, UI_Toolbox::UiElementList >::iterator ModeUiPairIter;
 
 
-class UI_Framework
+class UI_Framework : public Events:: MessageSenderReceiver
 {
 public:
 	UI_Framework();
@@ -43,6 +43,7 @@ protected:
 
 	void	PrepOrthoDrawing();
 	void	PostDrawCleanup();
+	void	ProcessMessages (GameData& GlobalGameData);
 
 	UiByGameMode	UiElements; 
 

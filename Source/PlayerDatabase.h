@@ -14,6 +14,7 @@
 //-----------------------------------------------
 typedef std::list <Player*> ListOfPlayers;
 typedef ListOfPlayers::iterator ListOfPlayersIter;
+
 // functions as a player manager
 class PlayerDatabase : public Events:: MessageSenderReceiver
 {

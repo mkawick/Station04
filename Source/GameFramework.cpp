@@ -390,6 +390,7 @@ void	GameFramework :: SetupMessagingTopology ()
 	Input.AddClient (playerdb);
 	Input.AddClient (&projectiles);
 	Input.AddClient (&asteroids);
+	Input.AddClient (&ui);
 	
 	playerdb->AddClient (this);
 	playerdb->AddClient (&asteroids);

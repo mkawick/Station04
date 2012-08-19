@@ -177,7 +177,7 @@ void InputManager::AddKeyMapping( GameMode mode,
 		setOfKeys.push_back( mapping );
 	}
 }
-InputManager :: InputManager ()
+InputManager :: InputManager () : Events:: MessageSenderReceiver()
 {
 	//FillinBaselineKeyMapper (Mapper);
 	Events::SwitchViewportEvent Viewport;
@@ -278,7 +278,6 @@ bool	InputManager :: HandleMouse (GameData& data)
 	SDL_Event event;
 	const int numEventsToHandle = 6;
 	SDL_Event events[ numEventsToHandle ];
-
 
 	Uint32 mask = SDL_MOUSEEVENTMASK;
 	int NumEventsReturned = SDL_PeepEvents( events, numEventsToHandle, SDL_GETEVENT, mask );

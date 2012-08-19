@@ -83,6 +83,8 @@ void print(int x, int y, const char *string)
 
 void	UI_Framework :: Update( GameData& GlobalGameData )
 {
+	ProcessMessages (GlobalGameData);
+
 	currentGameMode = GlobalGameData.GetGameMode();
 	UiByGameMode::iterator listOfElements = UiElements.find( currentGameMode );
 	if( listOfElements != UiElements.end() )
@@ -94,6 +96,29 @@ void	UI_Framework :: Update( GameData& GlobalGameData )
 		{
 			(*it)->Update( GlobalGameData );
 			it++;
+		}
+	}
+}
+
+
+void	UI_Framework :: ProcessMessages (GameData& GlobalGameData)
+{
+	int NumMessages = ReceiveQueue.Count ();
+	for (int i=0; i<NumMessages; i++)
+	{
+		const Events::GameEvent* msg = reinterpret_cast <const Events::GameEvent*> (ReceiveQueue.Dequeue());
+		switch (msg->GetType())
+		{
+			case Events :: UI_MouseMove:
+				{
+					const Events::UIMouseMoveEvent* mbEvent = reinterpret_cast <const Events::UIMouseMoveEvent*> (msg);
+				}
+				break;
+			case Events :: UI_MouseButton:
+				{
+					const Events::UIMouseButtonEvent* mbEvent = reinterpret_cast <const Events::UIMouseButtonEvent*> (msg);
+				}
+				break;
 		}
 	}
 }
