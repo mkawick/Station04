@@ -452,7 +452,7 @@ void	UI_Label :: Draw ()
 
 void	UI_Image :: Load( const char* path )
 {
-	texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
+	//texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
 }
 
 //----------------------------------------------
@@ -461,12 +461,14 @@ void	UI_Image ::Draw()
 {
 	if( IsValid() == false )
 	{
-		texture = GlobalGameFramework->GetAssets().FindTexture( "scribble" );
+		texture = GlobalGameFramework->GetAssets().FindTexture( textureName.c_str() );
 		return;
 	}
 	else
 	{
-		GlobalGameFramework->GetAssets().RenderTexture( texture, Vector2D( 0, 0 ), Vector2D( 10, 10 ) );
+		GlobalGameFramework->GetAssets().RenderTexture( texture, 
+						Vector2D( screenPosition.Corners[0].x, screenPosition.Corners[0].y ), 
+						Vector2D( screenPosition.Corners[1].x, screenPosition.Corners[1].y ) );
 	}
 }
 
@@ -474,7 +476,17 @@ void	UI_Image ::Draw()
 
 bool	UI_Image :: LoadIniFile( json_t* root )
 {
-	return false;
+	json_t * pTexture = json_object_get( root, "texture");
+	texture = InvalidTexture;
+	textureName = "";
+	if( json_is_string( pTexture ) )
+	{
+		const char * name = json_string_value( pTexture );
+		textureName = name;
+		texture = GlobalGameFramework->GetAssets().FindTexture( name );
+	}
+	UI_Frame::LoadIniFile( root );// finish loading
+	return textureName.size() > 0;
 }
 
 //----------------------------------------------

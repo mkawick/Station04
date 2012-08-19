@@ -17,7 +17,7 @@
 #include "UI_Toolbox.h"
 
 using namespace Events;
-UI_Toolbox::UI_Image image;
+//UI_Toolbox::UI_Image image;
 //----------------------------------------------
 
 PlayerStatusBars :: PlayerStatusBars (): PlayerShipTracking (0),
@@ -87,7 +87,7 @@ void	PlayerStatusBars :: Draw ()
 	{
 		image.Load( "D:/Develop/VisualStudio/SDL/Station05/Data/Asteroids/Asteriod01_Color.bmp" );
 	}*/
-	image.Draw();
+	//image.Draw();
 	GLint ViewportParams [4];// we're going to change the viewport, so let's save the old one to restore it.
 	glGetIntegerv(GL_VIEWPORT, ViewportParams);// store until we restore later
 

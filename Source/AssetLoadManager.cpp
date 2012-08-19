@@ -482,7 +482,7 @@ GLuint	AssetLoadManager :: FindTexture( const char* key )
 	TexturePairIter iter;
 	iter = textures.find( hash );
 	if( iter == textures.end() )
-		return NULL;
+		return -1;
 
 	GLuint texture = (iter)->second;
 

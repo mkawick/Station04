@@ -113,7 +113,8 @@ namespace UI_Toolbox
 		bool			LoadIniFile( json_t* root );
 
 	protected:
-		GLuint texture;
+		GLuint			texture;
+		std::string		textureName;
 	};
 
 	//-----------------------------------------------
