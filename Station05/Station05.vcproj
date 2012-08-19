@@ -436,14 +436,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\GeneralDataTypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\GeneralDataTypes.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\InputManager.cpp"
 				>
 			</File>

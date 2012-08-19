@@ -4,6 +4,7 @@
  */
 
 #pragma once
+#include "../common/struct.h"
 #include <list>
 #include <hash_map>
 #include "UI_Toolbox.h"
@@ -11,7 +12,11 @@
 #include "../tools/json/jansson.h"
 
 class GameData;
+
+typedef std::pair < U32, UI_Toolbox::UiElementList > ModeUiPair;
 typedef stdext::hash_map< U32, UI_Toolbox::UiElementList > UiByGameMode;
+typedef stdext::hash_map < U32, UI_Toolbox::UiElementList >::iterator ModeUiPairIter;
+
 
 class UI_Framework
 {
@@ -28,7 +33,7 @@ public:
 
 	void	Draw();
 	
-	U32		AddElement( int GameMode, UI_Toolbox::UI_Element* pElement, U32 parentId );
+	U32		AddElement( int GameMode, UI_Toolbox::UI_Frame* pElement, U32 parentId );
 
 	bool	LoadIniFile( json_t* root, const char* filePath );
 
@@ -39,11 +44,11 @@ protected:
 	void	PrepOrthoDrawing();
 	void	PostDrawCleanup();
 
-	UiByGameMode  UiElements; 
+	UiByGameMode	UiElements; 
 
-		ScreenRect		ScreenPosition;
-		ScreenRect		ScreenDimensions;
-		ScreenRect		ResourceDisplay;
+	ScreenRect		ScreenPosition;
+	ScreenRect		ScreenDimensions;
+	ScreenRect		ResourceDisplay;
 	float			Width, Height;
 	int				currentGameMode;
 };

@@ -2,10 +2,12 @@
 	"ini":
 	{ 
 		"type": "ui_status",
-		"mode": "game",
-	    "UI": 
-		[
-		   { "Tool": "UI_Element", "framecolor": [0,1,1,0.5], "type": "Line", "position": [0,0,200,200] }
-		]		
+	    "ui": {
+			"mode": "game",
+			"toolbox":
+				[
+				   { "tool": "UI_Frame", "framecolor": [0,1,1,0.5], "framestyle": "Line", "linewidth": 1.2, "position": [0,0,200,200], "zdepth": 5 }
+				]
+			}	
 	}
 }

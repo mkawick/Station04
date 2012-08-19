@@ -66,6 +66,8 @@ public:
 	static 
 	bool 				IsEqual				(const Vector& lhs, const Vector& rhs, float epsilon);
 	
+	float&	operator[]	( int i );
+	float&	operator[]	( unsigned int i );
 	
 	//-------------------------------------------
 	
@@ -148,6 +150,21 @@ T	sign (const T& t)
 	return static_cast <T> (-1);
 }
 
+class ColorVector :  public Vector
+{
+public: 
+	ColorVector() : Vector(), alpha( 0 ), isAlphaSet( false ) {}
+
+	float&	operator[]	( int i );
+	float&	operator[]	( unsigned int i );
+
+	union
+	{
+		float alpha;
+		float a;
+	};
+	bool	isAlphaSet;
+};
 
 //Vector	CreateVector (Vector center, 
 // -------------------------------------------------

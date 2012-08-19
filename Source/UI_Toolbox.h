@@ -10,34 +10,41 @@
 #include "GameData.h"
 #include "GeneralDataTypes.h"
 #include "GameEvent.h"
+#include "../tools/json/jansson.h"
 
 namespace UI_Toolbox
 {
 	enum	eStatusBarFormat { GraphLike, LeftSided, TopDown, RightSided };
 
-	class UI_Element;
-	typedef std::list< UI_Element* > UiElementList;
 	//-----------------------------------------------
-	class UI_Element
+	//-----------------------------------------------
+
+	class UI_Frame;
+	typedef std::list< UI_Frame* > UiElementList;
+	//-----------------------------------------------
+	class UI_Frame
 	{
 	protected:
-		enum FrameStyle{ Frame, Separator, Line, Bar };
+		enum FrameStyle{ Invalid, Frame, Separator, Line, Bar };
 
 	public:
-		UI_Element() : style( Frame ) {}
-		~UI_Element();
-		void			SetFrameColor( const Vector& color ) { frameColor = color; }
-		const Vector&	GetFrameColor() const { return frameColor; }
-		void			SetFillColor( const Vector& color ) { fillColor = color; }
-		const Vector&	GetFillColor() const { return fillColor; }
+		UI_Frame() : frameStyle( Invalid ), zDepth( 5.0), isFrameColorValid( false ), isFillColorValid( false ), lineWidth( 1.0 ) {}
+		~UI_Frame();
+		void				SetFrameColor( const ColorVector& color ) { frameColor = color; }
+		const ColorVector&	GetFrameColor() const { return frameColor; }
+		void				SetFillColor( const ColorVector& color ) { fillColor = color; }
+		const ColorVector&	GetFillColor() const { return fillColor; }
 
 		void			SetScreenPosition (int Left, int Top, int Right, int Bottom);
 
 		void			SetLineWidth( float width ) { lineWidth = width; }
 
-		virtual void	Draw (){}
+		virtual void	Draw ();
 		virtual void	PostDrawCleanup (){}
 		virtual void	Update (GameData& GlobalGameData){}
+
+		//-----------------------------------------
+		virtual bool	LoadIniFile( json_t* root );
 
 	protected:
 
@@ -47,44 +54,55 @@ namespace UI_Toolbox
 
 	protected:
 		UiElementList	children;
-		FrameStyle		style;
+		FrameStyle		frameStyle;
 		float			lineWidth;
+		float			zDepth;
 		ScreenRect		screenPosition;
-		Vector			frameColor;
-		Vector			fillColor;
+		bool			isFrameColorValid;
+		bool			isFillColorValid;
+		ColorVector		frameColor;
+		ColorVector		fillColor;
 	};
 
 	//-----------------------------------------------
-	class UI_Label : public UI_Element
+	class UI_Label : public UI_Frame
 	{
 	public:
 		enum LabelStyle { Normal, Centered, Right_Aligned, Justified };
 
 		UI_Label() : 
-			UI_Element(), labelStyle( Normal ), text( "" ){}
+			UI_Frame(), labelStyle( Normal ), text( "" ), isTextColorValid( false ){}
 		UI_Label( LabelStyle _labelStyle, const char* _text ) : 
-			UI_Element(), labelStyle( _labelStyle ), text( _text ){}
+			UI_Frame(), labelStyle( _labelStyle ), text( _text ), isTextColorValid( false ){}
 
-		void	SetText( const char* _text ) { text = _text; }
-		void	Draw ();
+		void			SetText( const char* _text ) { text = _text; }
+		void			Draw ();
+
+		//-----------------------------------------
+		bool			LoadIniFile( json_t* root );
 
 	protected:
 		LabelStyle	labelStyle;
 		std::string text;
+		ColorVector	textColor;
+		bool		isTextColorValid;
 	};
 
 	//-----------------------------------------------
 	// http://www.gamedev.net/topic/568478-opengl-texture-mapping-help/
-	class UI_Image : public UI_Element
+	class UI_Image : public UI_Frame
 	{
 	public:
 		enum { InvalidTexture = -1 };
 		UI_Image() : 
-		  UI_Element(), texture( InvalidTexture ){}
+		  UI_Frame(), texture( InvalidTexture ){}
 
-		void	Load( const char* path );
-		void	Draw ();
-		bool	IsValid() const { return texture != InvalidTexture; }
+		void			Load( const char* path );
+		void			Draw ();
+		bool			IsValid() const { return texture != InvalidTexture; }
+
+		//-----------------------------------------
+		bool			LoadIniFile( json_t* root );
 
 	protected:
 		GLuint texture;
@@ -92,13 +110,15 @@ namespace UI_Toolbox
 
 	//-----------------------------------------------
 
-	class UI_EventElement : public UI_Element
+	class UI_EventElement : public UI_Frame
 	{
 	public:
-		UI_EventElement();
-		void	SetOnClickEvent( int _event ) { event = _event; }
-		bool	MouseClick( float x, float y, bool isDown = true );
-		bool	KeyEvent( int key, bool isDown = true );
+		UI_EventElement():
+		  UI_Frame(), event( 0 ), keyEvent( 0 ){}
+		void			SetOnClickEvent( int _event ) { event = _event; }
+		bool			MouseClick( float x, float y, bool isDown = true );
+		bool			KeyEvent( int key, bool isDown = true );
+
 	protected:
 		int			event;
 		int			keyEvent;
@@ -114,9 +134,11 @@ namespace UI_Toolbox
 		UI_Button () : 
 			UI_EventElement(), buttonStyle( Standard ), text() {}
 
-		void	SetStyle( ButtonStyle _buttonStyle ) { buttonStyle = _buttonStyle; }
-		void	SetText( const char* _text ) { text.SetText( _text ); }
-		void	Draw ();
+		void			SetStyle( ButtonStyle _buttonStyle ) { buttonStyle = _buttonStyle; }
+		void			SetText( const char* _text ) { text.SetText( _text ); }
+		void			Draw ();
+		//-----------------------------------------
+		bool			LoadIniFile( json_t* root );
 
 	private:
 		ButtonStyle buttonStyle;
@@ -125,15 +147,16 @@ namespace UI_Toolbox
 	};
 
 	//-----------------------------------------------
-	class UI_Status : public UI_Element
+	class UI_Status : public UI_Frame
 	{
 	public:
-		UI_Status() : UI_Element() {}
+		UI_Status() : UI_Frame() {}
 
 		void			Draw ();
 		void			PostDrawCleanup ();
 		void			Update (GameData& GlobalGameData);
-	
+		//-----------------------------------------
+		bool			LoadIniFile( json_t* root );
 	};
 
 	//-----------------------------------------------
@@ -164,7 +187,7 @@ namespace UI_Toolbox
 		
 	};
 
-	class UI_Manager : public UI_Element, public Events:: MessageSenderReceiver
+	class UI_Manager : public UI_Frame, public Events:: MessageSenderReceiver
 	{
 	public:
 		UI_Manager();

@@ -16,6 +16,18 @@ UI_Framework :: UI_Framework() : currentGameMode( 0 )
 
 UI_Framework :: ~UI_Framework()
 {
+	for( ModeUiPairIter listOfElements = UiElements.begin(); listOfElements != UiElements.end(); listOfElements++ )
+	{
+		UI_Toolbox::UiElementList& list = listOfElements->second;
+
+		UI_Toolbox::UiElementList::iterator it = list.begin();
+		while( it != list.end() )
+		{
+			delete (*it);
+			it++;
+		}
+	}
+    UiElements.clear();
 }
 
 void print(int x, int y, const char *string)
@@ -115,86 +127,70 @@ void	UI_Framework :: PostDrawCleanup()
 
 bool	UI_Framework :: LoadIniFile( json_t* root, const char* filePath )
 {
-	json_t * keySetObj = json_object_get( root, "key_set");
-	if( json_is_array( keySetObj ) )
+	json_t * uiRoot = json_object_get( root, "ui");
+	if( json_is_object( uiRoot ) )
 	{
-		int numItems = json_array_size( keySetObj );
-		for( int i=0; i< numItems; i++ )
+		json_t * modeNode = json_object_get( uiRoot, "mode");
+		GameMode mode = GameMode_none;
+		if( json_is_string( modeNode ) )
 		{
-			json_t * keysetForMode = json_array_get( keySetObj, i );
-			if( json_is_object( keysetForMode ) )
+			mode = LookupGameMode( json_string_value( modeNode ) );
+		}
+		if( Validate( mode ) == false )
+			return false;
+
+		json_t * toolbox = json_object_get( uiRoot, "toolbox");
+		if( json_is_array( toolbox ) )
+		{
+			int numItems = json_array_size( toolbox );
+			for( int i=0; i< numItems; i++ )
 			{
-				const char* modeLookup = NULL;
-				json_t * modeObj = json_object_get( keysetForMode, "mode");
-				if( json_is_string( modeObj ) )
-					modeLookup = json_string_value( modeObj );
-				json_t * setObj = json_object_get( keysetForMode, "set");
-
-				GameMode mode = LookupGameMode( modeLookup );
-				if( mode == GameMode_none )
+				json_t * toolObj = json_array_get( toolbox, i );
+				if( json_is_object( toolObj ) )
 				{
-					cout << "ERROR: keyboard ini file has bad mode: " << filePath <<", mode=" << modeLookup << endl;
-					return false;
-				}
-				if( json_is_array( setObj ) )
-				{
-					int numKeys = json_array_size( setObj );
-					for( int i=0; i< numKeys; i++ )
+					// determine what type of object
+					json_t * toolType = json_object_get( toolObj, "tool");
+					if( json_is_string( toolType ) )
 					{
-						json_t * keyDefnObj = json_array_get( setObj, i );
-						if( json_is_object( keyDefnObj ) )
+						UI_Toolbox::UI_Frame* pFrame = NULL;
+						const char* type = json_string_value( toolType );
+						if( stricmp( type, "ui_frame" ) == 0 )// turn this into a factory?
 						{
-							U32 modifiers = KeyModifier_none;
-							json_t * modifierObj = json_object_get( keyDefnObj, "modifier");
-							if( modifierObj )
-							{
-								const char* modifierString = json_string_value( modifierObj );
-								modifiers = LookupKeyModifier( modifierString );
-							}
-							json_t * keyboardObj = json_object_get( keyDefnObj, "key");
-							if( keyboardObj == NULL )
-							{
-								cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
-								return false;
-							}
-							const char* keyString = json_string_value( keyboardObj );
-							if( keyString == NULL )
-							{
-								cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
-								return false;
-							}
-							json_t * eventObj = json_object_get( keyDefnObj, "event");
-							const char* eventString = json_string_value( eventObj );
-							if( eventString == NULL )
-							{
-								cout << "ERROR: keyboard ini file has bad event: " << filePath <<", key=" << keyString << endl;
-								return false;
-							}
-							json_t * typeObj = json_object_get( keyDefnObj, "type");
-							const char* typeString = json_string_value( typeObj );
-
-							json_t * selectionObj = json_object_get( keyDefnObj, "selection");
-							int selection = static_cast<int> ( json_integer_value( selectionObj ) );
-
-							json_t * repeatObj = json_object_get( keyDefnObj, "repeat");
-							int repeat = static_cast<int> ( json_integer_value( repeatObj ) );
-
-							json_t * holdObj = json_object_get( keyDefnObj, "hold");
-							bool allowHold = json_integer_value( holdObj ) ? true : false;
-
-							GlobalGameFramework->GetInput().AddKeyMapping( mode, keyString, eventString, typeString, allowHold, repeat, modifiers, selection );
+							pFrame = new UI_Toolbox::UI_Frame();
 						}
-						else
+						else if( stricmp( type, "ui_button" ) == 0 )
 						{
-							cout << "ERROR: keyboard ini file has bad key: " << filePath <<", mode=" << modeLookup << endl;
+							pFrame = new UI_Toolbox::UI_Button();
+						}
+						else if( stricmp( type, "ui_label" ) == 0 )
+						{
+							pFrame = new UI_Toolbox::UI_Label();
+						}
+						else if( stricmp( type, "ui_image" ) == 0 )
+						{
+							pFrame = new UI_Toolbox::UI_Image();
+						}
+						else if( stricmp( type, "ui_status" ) == 0 )
+						{
+							pFrame = new UI_Toolbox::UI_Status();
+						}
+						bool success = pFrame->LoadIniFile( toolObj );
+						if( success == false )
+						{
+							cout << "ERROR: player status ui ini file bad: " << filePath << endl;
 							return false;
 						}
+
+						ModeUiPairIter it = UiElements.find( mode ); 
+						if( it == UiElements.end() )
+						{
+							ModeUiPair pair( mode, UI_Toolbox::UiElementList() );
+							UiElements.insert( pair );
+							it = UiElements.find( mode );
+						}
+
+						it->second.push_back( pFrame );
 					}
-				}
-				else
-				{
-					cout << "ERROR: keyboard ini file has bad set: " << filePath <<", mode=" << modeLookup << endl;
-					return false;
 				}
 			}
 		}

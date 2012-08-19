@@ -35,6 +35,7 @@ enum GameMode
 };
 
 GameMode LookupGameMode( const char* modeName );
+bool	 Validate( GameMode );
 
 enum KeyboardEvent
 {

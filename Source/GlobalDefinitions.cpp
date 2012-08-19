@@ -20,6 +20,13 @@ GameMode LookupGameMode( const char* modeName )
 	return GameMode_none;
 }
 
+bool	 Validate( GameMode mode )
+{
+	if( GameMode_none < mode && mode < GameMode_count )
+		return true;
+	return false;
+}
+
 U32 LookupKeyModifier( const char* KeyModifiers )
 {
 	std::vector<std::string> stringArray;

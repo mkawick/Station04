@@ -171,6 +171,26 @@ Vector :: operator float*	() const
 
 //---------------------------------------------------------
 
+float&	Vector::operator[]	( int i )
+{
+	assert( i>=0 && i<3 );
+	switch( i )
+	{
+	case 0: return x;
+	case 1: return y;
+	case 2: return z;
+	}
+
+	return x;
+}
+
+float&	Vector::operator[]	(unsigned int i )
+{
+	return operator[]((int) i);
+}
+
+//---------------------------------------------------------
+
 float	Vector :: Dot () const// self only
 {
 	return x*x + y*y + z*z;
@@ -365,6 +385,24 @@ void	Vector :: ClampMagnitude		(float MinDist, float MaxDist)
 	}
 }
 
+float&	ColorVector::operator[]	( int i )
+{
+	assert( i>=0 && i<4 );
+	switch( i )
+	{
+	case 0: return r;
+	case 1: return g;
+	case 2: return b;
+	case 3: return a;
+	}
+
+	return r;
+}
+
+float&	ColorVector::operator[]	(unsigned int i )
+{
+	return operator[]((int) i);
+}
 //---------------------------------------------------------
 //---------------------------------------------------------
 /*

@@ -10,4 +10,6 @@
 struct ScreenRect
 {
 	Vector2D Corners [2];
+	float&	operator[]	( int i );
+	float&	operator[]	( unsigned int i );
 };
