@@ -75,9 +75,9 @@ namespace UI_Toolbox
 		enum VerticalAlign { Bottom, Top, Middle };
 
 		UI_Label() : 
-			UI_Frame(), labelAlign( Left ), verticalAlign( Bottom ), text( "" ), isTextColorValid( false ), fontSize(0){}
+			UI_Frame(), labelAlign( Left ), verticalAlign( Bottom ), text( "" ), isTextColorValid( false ), isShadowSet( false ), fontSize(0){}
 		UI_Label( LabelAlign _labelStyle, const char* _text ) : 
-			UI_Frame(), labelAlign( _labelStyle ), verticalAlign( Bottom ), text( _text ), isTextColorValid( false ), fontSize(0){}
+			UI_Frame(), labelAlign( _labelStyle ), verticalAlign( Bottom ), text( _text ), isTextColorValid( false ), isShadowSet( false ), fontSize(0){}
 
 		void			SetText( const char* _text ) { text = _text; }
 		void			Draw ();
@@ -90,8 +90,10 @@ namespace UI_Toolbox
 		LabelAlign		labelAlign;
 		int				fontSize;
 		std::string 	text;
+		ColorVector		shadowColor;
 		ColorVector		textColor;
 		bool			isTextColorValid;
+		bool			isShadowSet;
 	};
 
 	//-----------------------------------------------

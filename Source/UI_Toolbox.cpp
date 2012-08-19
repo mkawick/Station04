@@ -285,6 +285,13 @@ bool	UI_Label :: LoadIniFile( json_t* root )
 	{
 		isTextColorValid = LoadColor( pTextColor, textColor );
 	}
+	json_t * pShadowColor = json_object_get( root, "shadowcolor");
+	isShadowSet = false;
+	if( json_is_string( pShadowColor ) || json_is_array( pShadowColor ) )
+	{
+		isShadowSet = LoadColor( pShadowColor, shadowColor );
+	}
+	
 	json_t * pText = json_object_get( root, "text");
 	text = "";
 	if( json_is_string( pText ) )
@@ -401,14 +408,25 @@ void	UI_Label :: Draw ()
 		break;
 	}
 
+
 	// shadow first
-	glColor3f ( 0, 0, 0 );
-	glRasterPos2f( positionX+2, positionY+2 );
-	const char* str = text.c_str ();
-	while (*str)
+	if( isShadowSet )
 	{
-		glutBitmapCharacter (fontUsed, *str);
-		str++;
+		if( shadowColor.isAlphaSet == true )
+		{
+			glColor4f ( shadowColor.r, shadowColor.g, shadowColor.b, shadowColor.a );
+		}
+		else
+		{
+			glColor3f ( shadowColor.r, shadowColor.g, shadowColor.b );
+		}
+		glRasterPos2f( positionX+2, positionY+2 );
+		const char* str = text.c_str ();
+		while (*str)
+		{
+			glutBitmapCharacter (fontUsed, *str);
+			str++;
+		}
 	}
 
 	// regular text
@@ -421,13 +439,12 @@ void	UI_Label :: Draw ()
 		glColor3f ( textColor.r, textColor.g, textColor.b );
 	}
 	glRasterPos2f( positionX, positionY );
-	str = text.c_str ();
+	const char* str = text.c_str ();
 	while (*str)
 	{
 		glutBitmapCharacter (fontUsed, *str);
 		str++;
 	}
-
 }
 
 //----------------------------------------------
