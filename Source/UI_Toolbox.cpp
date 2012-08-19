@@ -31,7 +31,21 @@ void	UI_Frame :: SetScreenPosition (int Left, int Top, int Right, int Bottom)
 
 void	UI_Frame :: Draw ()
 {
-
+	if( frameStyle == Frame )
+	{
+		if( isFillColorValid )
+		{
+			DrawFilledRect();
+		}
+		if( isFrameColorValid )
+		{
+			DrawFrame ();
+		}
+	}
+	else
+	{
+		DrawLine();
+	}
 }
 
 bool LoadPosition( json_t * pPosition, ScreenRect& position )
@@ -111,13 +125,13 @@ bool	UI_Frame :: LoadIniFile( json_t* root )
 	bool success = false;
 	json_t * pFrameColor = json_object_get( root, "framecolor");
 	isFrameColorValid = false;
-	if( json_is_object( pFrameColor ) || json_is_array( pFrameColor ) )
+	if( json_is_string( pFrameColor ) || json_is_array( pFrameColor ) )
 	{
 		isFrameColorValid = LoadColor( pFrameColor, frameColor );
 	}
 	json_t * pFillColor = json_object_get( root, "fillcolor");
 	isFillColorValid = false;
-	if( json_is_object( pFillColor ) || json_is_array( pFillColor ) )
+	if( json_is_string( pFillColor ) || json_is_array( pFillColor ) )
 	{
 		isFillColorValid = LoadColor( pFillColor, fillColor );
 	}
@@ -164,15 +178,26 @@ bool	UI_Frame :: LoadIniFile( json_t* root )
 	}
 	return isFrameColorValid | isFillColorValid | ( frameStyle != Invalid );
 }
+
+bool	UI_Frame :: operator< (const UI_Frame &rhs) const
+{ 
+	return rhs.GetZDepth() > GetZDepth(); 
+}
 //----------------------------------------------
 
-void	UI_Frame :: DrawFrame ()
+void	UI_Frame :: DrawFrame () const
 {
 	// treating 0,0 as center.
 	glLineWidth ( lineWidth );
-	//glColor4f
-	glColor3f (frameColor.r, frameColor.g, frameColor.b);
-	float WidthMultiplier = 7.0/8.0;
+	if( frameColor.alpha >=0 )
+	{
+		glColor4f ( frameColor.r, frameColor.g, frameColor.b, frameColor.a );
+	}
+	else
+	{
+		glColor3f ( frameColor.r, frameColor.g, frameColor.b );
+	}
+	//float WidthMultiplier = 7.0/8.0;
 	
 	float Left = screenPosition.Corners[0].x+1;
 	float Top = screenPosition.Corners[0].y+1;
@@ -181,14 +206,14 @@ void	UI_Frame :: DrawFrame ()
 	
 	glBegin (GL_LINES);	// two top lines
 		glVertex3f (Left, Top, 0);
-		glVertex3f (Right*WidthMultiplier, Top, 0);	
+		glVertex3f (Right, Top, 0);	
 		glVertex3f (Left, Top+20, 0);
-		glVertex3f (Right*WidthMultiplier, Top+20, 0);	
+		glVertex3f (Right, Top+20, 0);	
 	glEnd ();
 	
 	glBegin (GL_LINE_STRIP);	
 		glVertex3f (Left, Top+120, 0);
-		glVertex3f (Right*WidthMultiplier, Top+120, 0);
+		glVertex3f (Right, Top+120, 0);
 		glVertex3f (Right, Bottom/3, 0);
 		glVertex3f (Right, Bottom, 0);		
 	glEnd ();
@@ -200,39 +225,59 @@ void	UI_Frame :: DrawLine ()
 {
 	// treating 0,0 as center.
 	glLineWidth ( lineWidth );
-	glColor3f (frameColor.r, frameColor.g, frameColor.b);
-	float WidthMultiplier = 7.0/8.0;
+	//glColor3f (frameColor.r, frameColor.g, frameColor.b);
+	if( frameColor.alpha >=0 )
+	{
+		glColor4f ( frameColor.r, frameColor.g, frameColor.b, frameColor.a );
+	}
+	else
+	{
+		glColor3f ( frameColor.r, frameColor.g, frameColor.b );
+	}
+	//float WidthMultiplier = 7.0/8.0;
 	
-	float Left = screenPosition.Corners[0].x+1;
+	float Left = (screenPosition.Corners[0].x+1);
 	float Top = screenPosition.Corners[0].y+1;
-	float Right = screenPosition.Corners[1].x-1;
+	float Right = (screenPosition.Corners[1].x-1);
 	float Bottom = screenPosition.Corners[1].y-1;
 	
-	glBegin (GL_LINES);	// two top lines
+	/*glBegin (GL_LINES);	// two top lines
 		glVertex3f (Left, Top, 0);
 		glVertex3f (Right*WidthMultiplier, Top, 0);	
 		glVertex3f (Left, Top+20, 0);
 		glVertex3f (Right*WidthMultiplier, Top+20, 0);	
-	glEnd ();
+	glEnd ();*/
 	
 	glBegin (GL_LINE_STRIP);	
-		glVertex3f (Left, Top+120, 0);
-		glVertex3f (Right*WidthMultiplier, Top+120, 0);
-		glVertex3f (Right, Bottom/3, 0);
-		glVertex3f (Right, Bottom, 0);		
+		glVertex3f (Left, Top, 0);
+		glVertex3f (Right, Top, 0);
+		glVertex3f (Right, Bottom, 0);
+		glVertex3f (Left, Bottom, 0);
+		glVertex3f (Left, Top, 0);
 	glEnd ();
 }
 
 //----------------------------------------------
 
-void	UI_Frame :: DrawFilledRect (const Vector& Color, float left, float top, float right, float bottom )
+void	UI_Frame :: DrawFilledRect () const
 {
-	glColor3f (fillColor.r, fillColor.g, fillColor.b);
+	float Left = screenPosition.Corners[0].x+1;
+	float Top = screenPosition.Corners[0].y+1;
+	float Right = screenPosition.Corners[1].x-1;
+	float Bottom = screenPosition.Corners[1].y-1;
+	if( fillColor.alpha >=0 )
+	{
+		glColor4f ( fillColor.r, fillColor.g, fillColor.b, fillColor.a );
+	}
+	else
+	{
+		glColor3f ( fillColor.r, fillColor.g, fillColor.b );
+	}
 	glBegin (GL_QUADS);
-		glVertex2f (left, top);
-		glVertex2f (left, bottom);
-		glVertex2f (right, bottom);
-		glVertex2f (right, top);
+		glVertex2f (Left, Top);
+		glVertex2f (Left, Bottom);
+		glVertex2f (Right, Bottom);
+		glVertex2f (Right, Top);
 	glEnd ();
 }
 
@@ -240,15 +285,53 @@ void	UI_Frame :: DrawFilledRect (const Vector& Color, float left, float top, flo
 
 bool	UI_Label :: LoadIniFile( json_t* root )
 {
-	return false;
+	bool success = false;
+	json_t * pTextColor = json_object_get( root, "textcolor");
+	isTextColorValid = false;
+	if( json_is_string( pTextColor ) || json_is_array( pTextColor ) )
+	{
+		isTextColorValid = LoadColor( pTextColor, textColor );
+	}
+	json_t * pText = json_object_get( root, "text");
+	text = "";
+	if( json_is_string( pText ) )
+	{
+		text = json_string_value( pText );
+	}
+	json_t * pFrameStyle = json_object_get( root, "labelalign");
+	frameStyle = Invalid;
+	if( json_is_string( pFrameStyle ) )
+	{ 
+		const char* pStyle = json_string_value( pFrameStyle );
+		{
+			if( stricmp( pStyle, "left" ) == 0 )
+			{
+				labelAlign = Left;
+			}
+			else if( stricmp( pStyle, "right" ) == 0 )
+			{
+				labelAlign = Right;
+			} 
+			else if (stricmp( pStyle, "centered" ) == 0 )
+			{
+				labelAlign = Centered;
+			}
+			else if (stricmp( pStyle, "justified" ) == 0 )
+			{
+				labelAlign = Justified;
+			}
+		}
+	}
+	UI_Frame::LoadIniFile( root );// finish loading
+	return isTextColorValid && text.size() > 0;
 }
 
 void	UI_Label :: Draw ()
 {
 	float Left = screenPosition.Corners[0].x+1;
 	float Right = screenPosition.Corners[1].x-1;
-	float WidthMultiplier = 7.0/8.0;
-	float x = (Left + Right*WidthMultiplier) / 2;
+	//float WidthMultiplier = 7.0/8.0;
+	float x = (Left + Right) / 2;
 	float y = 95;
 	
 	int Length = text.size () *12 /2;

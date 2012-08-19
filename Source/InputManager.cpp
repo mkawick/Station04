@@ -177,7 +177,7 @@ void InputManager::AddKeyMapping( GameMode mode,
 		setOfKeys.push_back( mapping );
 	}
 }
-InputManager :: InputManager () : currentGameMode( GameMode_Game )
+InputManager :: InputManager ()
 {
 	//FillinBaselineKeyMapper (Mapper);
 	Events::SwitchViewportEvent Viewport;
@@ -282,7 +282,7 @@ bool	InputManager :: HandleKeyboard (GameData& GlobalGameData)
 	//
 
 	GameModeKeySetIter iter;
-	iter = keyboardSetup.find( currentGameMode );
+	iter = keyboardSetup.find( GlobalGameData.GetGameMode() );
 	if( iter == keyboardSetup.end() )
 	{
 		Uint32 mask = SDL_KEYUPMASK | SDL_KEYDOWNMASK;

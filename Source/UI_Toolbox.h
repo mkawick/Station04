@@ -38,6 +38,7 @@ namespace UI_Toolbox
 		void			SetScreenPosition (int Left, int Top, int Right, int Bottom);
 
 		void			SetLineWidth( float width ) { lineWidth = width; }
+		float			GetZDepth() const { return zDepth; }
 
 		virtual void	Draw ();
 		virtual void	PostDrawCleanup (){}
@@ -45,12 +46,14 @@ namespace UI_Toolbox
 
 		//-----------------------------------------
 		virtual bool	LoadIniFile( json_t* root );
+		bool operator< (const UI_Frame &rhs) const; 
+
 
 	protected:
 
-		void			DrawFrame ();
+		void			DrawFrame () const;
 		void			DrawLine ();
-		void			DrawFilledRect (const Vector& Color, float left, float top, float right, float bottom );
+		void			DrawFilledRect () const;
 
 	protected:
 		UiElementList	children;
@@ -68,12 +71,12 @@ namespace UI_Toolbox
 	class UI_Label : public UI_Frame
 	{
 	public:
-		enum LabelStyle { Normal, Centered, Right_Aligned, Justified };
+		enum LabelAlign { Left, Centered, Right, Justified };
 
 		UI_Label() : 
-			UI_Frame(), labelStyle( Normal ), text( "" ), isTextColorValid( false ){}
-		UI_Label( LabelStyle _labelStyle, const char* _text ) : 
-			UI_Frame(), labelStyle( _labelStyle ), text( _text ), isTextColorValid( false ){}
+			UI_Frame(), labelAlign( Left ), text( "" ), isTextColorValid( false ){}
+		UI_Label( LabelAlign _labelStyle, const char* _text ) : 
+			UI_Frame(), labelAlign( _labelStyle ), text( _text ), isTextColorValid( false ){}
 
 		void			SetText( const char* _text ) { text = _text; }
 		void			Draw ();
@@ -82,10 +85,10 @@ namespace UI_Toolbox
 		bool			LoadIniFile( json_t* root );
 
 	protected:
-		LabelStyle	labelStyle;
-		std::string text;
-		ColorVector	textColor;
-		bool		isTextColorValid;
+		LabelAlign		labelAlign;
+		std::string 	text;
+		ColorVector		textColor;
+		bool			isTextColorValid;
 	};
 
 	//-----------------------------------------------

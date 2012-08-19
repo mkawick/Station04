@@ -5,7 +5,7 @@
  */
 
 #pragma once
-//#include 
+#include "GlobalDefinitions.h"
 
 class PlayerDatabase;
 class ShipArchetype;
@@ -37,11 +37,14 @@ public:
 
 	PlayerDatabase* GetPlayerDb() { return PlayerDB;}
 
+	GameMode		GetGameMode() const { return currentGameMode; }
+	void			SetGameMode( GameMode _gameMode ) { currentGameMode = _gameMode; }
 	void			Update();
 
 protected:
 	PlayerDatabase* PlayerDB;
 	StaticGameData* StaticGameDatum;
+	GameMode		currentGameMode;
 	int				TimeInMS;
 	
 };

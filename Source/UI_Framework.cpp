@@ -10,6 +10,27 @@
 #include "GameFramework.h"
 #include "GameData.h"
 
+void	Insert( UI_Toolbox::UI_Frame* pFrame, UI_Toolbox::UiElementList& listOfElements )
+{
+	if( listOfElements.size() == 0 )
+	{
+		listOfElements.push_back( pFrame );
+		return;
+	}
+	UI_Toolbox::UiElementList::iterator it = listOfElements.begin();
+	while( it != listOfElements.end() )
+	{
+		UI_Toolbox::UI_Frame* pNextFrame = (*it);
+		if( pFrame->GetZDepth() < pNextFrame->GetZDepth() )
+		{
+			listOfElements.insert( it, pFrame );
+			return;
+		}
+		it++;
+	}
+	listOfElements.push_back( pFrame );
+}
+
 UI_Framework :: UI_Framework() : currentGameMode( 0 )
 {
 }
@@ -62,6 +83,7 @@ void print(int x, int y, const char *string)
 
 void	UI_Framework :: Update( GameData& GlobalGameData )
 {
+	currentGameMode = GlobalGameData.GetGameMode();
 	UiByGameMode::iterator listOfElements = UiElements.find( currentGameMode );
 	if( listOfElements != UiElements.end() )
 	{
@@ -189,7 +211,8 @@ bool	UI_Framework :: LoadIniFile( json_t* root, const char* filePath )
 							it = UiElements.find( mode );
 						}
 
-						it->second.push_back( pFrame );
+						
+						Insert( pFrame, it->second );
 					}
 				}
 			}
@@ -197,6 +220,8 @@ bool	UI_Framework :: LoadIniFile( json_t* root, const char* filePath )
 	}
 	return true;
 }
+
+
 
 void	UI_Framework :: DrawOld()
 {

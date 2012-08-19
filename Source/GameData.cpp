@@ -10,7 +10,7 @@
 
 //-----------------------------------------------
 
-GameData :: GameData ():TimeInMS(0)
+GameData :: GameData ():TimeInMS(0), currentGameMode( GameMode_Game )
 {
 	PlayerDB = new PlayerDatabase ();
 	StaticGameDatum = new StaticGameData ();
