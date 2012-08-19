@@ -36,6 +36,7 @@ namespace Events
 		UI_ShipConfig,
 		UI_MouseMove,
 		UI_MouseButton,
+		UI_MouseWheel,
 		UI_Map,
 		UI_MyStatus,
 		QuitGame
@@ -236,6 +237,20 @@ namespace Events
 		Button		button;
 		State		state;
 		int			x, y;
+	};
+	//----------------------------------------------
+
+	class UIMouseWheelScrollEvent : public GameEvent
+	{
+	public:
+		enum State { Up, Down };
+
+		UIMouseWheelScrollEvent (): state( Down ) {Message = UI_MouseWheel;}
+		
+		void	SetState( State s ) { state = s; }
+
+	protected:
+		State		state;
 	};
 
 	//----------------------------------------------

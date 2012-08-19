@@ -288,29 +288,37 @@ bool	InputManager :: HandleMouse (GameData& data)
 		switch( event.type )
 		{
 			case SDL_MOUSEMOTION:
-				{
-					Events::UIMouseMoveEvent mmEvent;
-					mmEvent.SetPosition( event.motion.x, event.motion.y );
-					mmEvent.SetDiff( event.motion.xrel, event.motion.yrel );
-					MessageSenderReceiver::SendMessages ( mmEvent );
-				}
-				break;
+			{
+				Events::UIMouseMoveEvent mmEvent;
+				mmEvent.SetPosition( event.motion.x, event.motion.y );
+				mmEvent.SetDiff( event.motion.xrel, event.motion.yrel );
+				MessageSenderReceiver::SendMessages ( mmEvent );
+			}
+			break;
 			case SDL_MOUSEBUTTONUP:
 			case SDL_MOUSEBUTTONDOWN:
+			{
+				bool useNormalMouseEvent = true;
+				Events::UIMouseButtonEvent mbEvent;
+				switch( event.button.button )
 				{
-					Events::UIMouseButtonEvent mbEvent;
-					switch( event.button.button )
-					{
-					case 1:
-						mbEvent.SetButton( Events::UIMouseButtonEvent::Left );
-						break;
-					case 2:
-						mbEvent.SetButton( Events::UIMouseButtonEvent::Middle );
-						break;
-					case 3:
-						mbEvent.SetButton( Events::UIMouseButtonEvent::Right );
-						break;
-					}
+				case SDL_BUTTON_LEFT:
+					mbEvent.SetButton( Events::UIMouseButtonEvent::Left );
+					break;
+				case SDL_BUTTON_MIDDLE:
+					mbEvent.SetButton( Events::UIMouseButtonEvent::Middle );
+					break;
+				case SDL_BUTTON_RIGHT:
+					mbEvent.SetButton( Events::UIMouseButtonEvent::Right );
+					break;
+
+				case SDL_BUTTON_WHEELUP:
+				case SDL_BUTTON_WHEELDOWN:
+					useNormalMouseEvent = false;
+					break;
+				}
+				if( useNormalMouseEvent )
+				{
 					if( event.type == SDL_MOUSEBUTTONUP )
 						mbEvent.SetState( Events::UIMouseButtonEvent::Up );
 					else
@@ -319,7 +327,15 @@ bool	InputManager :: HandleMouse (GameData& data)
 					mbEvent.SetPosition( event.button.x, event.button.y );
 					MessageSenderReceiver::SendMessages ( mbEvent );
 				}
-				break;
+				else
+				{
+					Events::UIMouseWheelScrollEvent scroller;
+					if( event.button.button == SDL_BUTTON_WHEELUP )
+						scroller.SetState( Events::UIMouseWheelScrollEvent::Up );
+					MessageSenderReceiver::SendMessages ( scroller );
+				}
+			}
+			break;
 		}
 	}
 	return true;
