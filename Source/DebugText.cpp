@@ -103,7 +103,7 @@ void	DebugText :: Draw ()
 	{
 		const char* string = TextByPosition [i].Text.c_str ();
 		Vector position = TextByPosition [i].Position;
-		RenderString( static_cast<int>( position.x ), position.y, string );
+		RenderString( static_cast<int>( position.x ), static_cast<int>( position.y ), string );
 	}
 	
 	CleanupFromDrawing ();
