@@ -30,19 +30,20 @@ namespace UI_Toolbox
 	public:
 		UI_Frame() : frameStyle( Invalid ), zDepth( 5.0), isFrameColorValid( false ), isFillColorValid( false ), lineWidth( 1.0 ) {}
 		~UI_Frame();
-		void				SetFrameColor( const ColorVector& color ) { frameColor = color; }
-		const ColorVector&	GetFrameColor() const { return frameColor; }
-		void				SetFillColor( const ColorVector& color ) { fillColor = color; }
-		const ColorVector&	GetFillColor() const { return fillColor; }
+		void					SetFrameColor( const ColorVector& color ) { frameColor = color; }
+		const ColorVector&		GetFrameColor() const { return frameColor; }
+		void					SetFillColor( const ColorVector& color ) { fillColor = color; }
+		const ColorVector&		GetFillColor() const { return fillColor; }
 
-		void			SetScreenPosition (int Left, int Top, int Right, int Bottom);
+		void					SetScreenPosition (int Left, int Top, int Right, int Bottom);
 
-		void			SetLineWidth( float width ) { lineWidth = width; }
-		float			GetZDepth() const { return zDepth; }
+		void					SetLineWidth( float width ) { lineWidth = width; }
+		float					GetZDepth() const { return zDepth; }
+		const std::string&		GetId() const { return id; }
 
-		virtual void	Draw ();
-		virtual void	PostDrawCleanup (){}
-		virtual void	Update (GameData& GlobalGameData){}
+		virtual void			Draw ();
+		virtual void			PostDrawCleanup (){}
+		virtual void			Update (GameData& GlobalGameData){}
 
 		//-----------------------------------------
 		virtual bool	LoadIniFile( json_t* root );
@@ -56,6 +57,8 @@ namespace UI_Toolbox
 		void			DrawFilledRect () const;
 
 	protected:
+		std::string		id;
+		std::string		parent;
 		UiElementList	children;
 		FrameStyle		frameStyle;
 		float			lineWidth;
@@ -138,7 +141,7 @@ namespace UI_Toolbox
 	class UI_Button : public UI_EventElement
 	{
 	public:
-		enum ButtonStyle { Check, Standard };
+		enum ButtonStyle { Standard, Check };
 
 		UI_Button () : 
 			UI_EventElement(), buttonStyle( Standard ), text() {}
@@ -150,8 +153,8 @@ namespace UI_Toolbox
 		bool			LoadIniFile( json_t* root );
 
 	private:
-		ButtonStyle buttonStyle;
-		UI_Label	text;
+		ButtonStyle		buttonStyle;
+		UI_Label		text;
 		
 	};
 

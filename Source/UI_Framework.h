@@ -13,9 +13,14 @@
 
 class GameData;
 
-typedef std::pair < U32, UI_Toolbox::UiElementList > ModeUiPair;
+typedef std::pair < U32, UI_Toolbox::UiElementList > ModeUiPair; 
 typedef stdext::hash_map< U32, UI_Toolbox::UiElementList > UiByGameMode;
 typedef stdext::hash_map < U32, UI_Toolbox::UiElementList >::iterator ModeUiPairIter;
+
+//class UI_Frame;
+typedef std::pair < U32, UI_Toolbox::UI_Frame* > UiByIdPair;
+typedef stdext::hash_map< U32, UI_Toolbox::UI_Frame* > UiByGameIdHash;
+typedef stdext::hash_map < U32, UI_Toolbox::UI_Frame* >::iterator UiByIdPairIter;
 
 
 class UI_Framework : public Events:: MessageSenderReceiver
@@ -44,8 +49,12 @@ protected:
 	void	PrepOrthoDrawing();
 	void	PostDrawCleanup();
 	void	ProcessMessages (GameData& GlobalGameData);
+	
+	void	AddElement( UI_Toolbox::UI_Frame* pFrame, U32 mode );
+	void	AddToIdHash( UI_Toolbox::UI_Frame* pFrame );
 
-	UiByGameMode	UiElements; 
+	UiByGameMode	UiElements;
+	UiByGameIdHash	UiIdElements;
 
 	ScreenRect		ScreenPosition;
 	ScreenRect		ScreenDimensions;

@@ -10,26 +10,7 @@
 #include "GameFramework.h"
 #include "GameData.h"
 
-void	Insert( UI_Toolbox::UI_Frame* pFrame, UI_Toolbox::UiElementList& listOfElements )
-{
-	if( listOfElements.size() == 0 )
-	{
-		listOfElements.push_back( pFrame );
-		return;
-	}
-	UI_Toolbox::UiElementList::iterator it = listOfElements.begin();
-	while( it != listOfElements.end() )
-	{
-		UI_Toolbox::UI_Frame* pNextFrame = (*it);
-		if( pFrame->GetZDepth() < pNextFrame->GetZDepth() )
-		{
-			listOfElements.insert( it, pFrame );
-			return;
-		}
-		it++;
-	}
-	listOfElements.push_back( pFrame );
-}
+#include <boost/functional/hash.hpp>
 
 UI_Framework :: UI_Framework() : currentGameMode( 0 )
 {
@@ -110,15 +91,15 @@ void	UI_Framework :: ProcessMessages (GameData& GlobalGameData)
 		switch (msg->GetType())
 		{
 			case Events :: UI_MouseMove:
-				{
-					const Events::UIMouseMoveEvent* mbEvent = reinterpret_cast <const Events::UIMouseMoveEvent*> (msg);
-				}
-				break;
+			{
+				const Events::UIMouseMoveEvent* mbEvent = reinterpret_cast <const Events::UIMouseMoveEvent*> (msg);
+			}
+			break;
 			case Events :: UI_MouseButton:
-				{
-					const Events::UIMouseButtonEvent* mbEvent = reinterpret_cast <const Events::UIMouseButtonEvent*> (msg);
-				}
-				break;
+			{
+				const Events::UIMouseButtonEvent* mbEvent = reinterpret_cast <const Events::UIMouseButtonEvent*> (msg);
+			}
+			break;
 		}
 	}
 }
@@ -228,22 +209,63 @@ bool	UI_Framework :: LoadIniFile( json_t* root, const char* filePath )
 							return false;
 						}
 
-						ModeUiPairIter it = UiElements.find( mode ); 
-						if( it == UiElements.end() )
-						{
-							ModeUiPair pair( mode, UI_Toolbox::UiElementList() );
-							UiElements.insert( pair );
-							it = UiElements.find( mode );
-						}
+						AddElement( pFrame, mode );
 
-						
-						Insert( pFrame, it->second );
+						AddToIdHash( pFrame );
 					}
 				}
 			}
 		}
 	}
 	return true;
+}
+
+void	InsertSorted( UI_Toolbox::UI_Frame* pFrame, UI_Toolbox::UiElementList& listOfElements )
+{
+	if( listOfElements.size() == 0 )
+	{
+		listOfElements.push_back( pFrame );
+		return;
+	}
+	UI_Toolbox::UiElementList::iterator it = listOfElements.begin();
+	while( it != listOfElements.end() )
+	{
+		UI_Toolbox::UI_Frame* pNextFrame = (*it);
+		if( pFrame->GetZDepth() < pNextFrame->GetZDepth() )
+		{
+			listOfElements.insert( it, pFrame );
+			return;
+		}
+		it++;
+	}
+	listOfElements.push_back( pFrame );
+}
+
+void	UI_Framework :: AddElement( UI_Toolbox::UI_Frame* pFrame, U32 mode )
+{
+	ModeUiPairIter it = UiElements.find( mode ); 
+	if( it == UiElements.end() )
+	{
+		ModeUiPair pair( mode, UI_Toolbox::UiElementList() );
+		UiElements.insert( pair );
+		it = UiElements.find( mode );
+	}
+	InsertSorted( pFrame, it->second );
+}
+
+void	UI_Framework :: AddToIdHash( UI_Toolbox::UI_Frame* pFrame )
+{
+	if( pFrame && pFrame->GetId().size() )
+	{
+		boost::hash<std::string> string_hash;
+
+		std::size_t hash = string_hash( pFrame->GetId() );
+
+		UiByIdPairIter iter = UiIdElements.find( hash );
+		assert( iter == UiIdElements.end() );// duplicate id found
+
+		UiIdElements.insert( UiByIdPair( hash, pFrame ) );
+	}
 }
 
 

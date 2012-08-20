@@ -49,6 +49,14 @@ void	UI_Frame :: Draw ()
 	{
 		DrawLine();
 	}
+
+	UiElementList::iterator it = children.begin();
+
+	while(it != children.end() )
+	{
+		(*it)->Draw();
+		it++;
+	}
 }
 
 bool LoadPosition( json_t * pPosition, ScreenRect& position )
@@ -126,6 +134,17 @@ bool LoadColor( json_t * pColor, ColorVector& color )
 bool	UI_Frame :: LoadIniFile( json_t* root )
 {
 	bool success = false;
+	json_t * pId = json_object_get( root, "id");
+	if( json_is_string( pId ) )
+	{
+		id = json_string_value( pId );
+	}
+	json_t * pParent = json_object_get( root, "parent");
+	if( json_is_string( pParent ) )
+	{
+		parent = json_string_value( pParent );
+	}
+
 	json_t * pFrameColor = json_object_get( root, "framecolor");
 	isFrameColorValid = false;
 	if( json_is_string( pFrameColor ) || json_is_array( pFrameColor ) )
