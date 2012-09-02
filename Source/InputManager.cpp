@@ -196,7 +196,7 @@ void		InputManager :: Update (GameData& GlobalGameData)
 	UpdateAllClients ();
 }
 
-bool InputManager :: CreateGameEvent( GameData& GlobalGameData, const KeyMapping& mapping )
+bool	InputManager :: CreateGameEvent( GameData& GlobalGameData, const KeyMapping& mapping )
 {
 	switch( mapping.event )
 	{

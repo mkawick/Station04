@@ -12,6 +12,8 @@
 #include "GameEvent.h"
 #include "../tools/json/jansson.h"
 
+class UI_Framework;
+
 namespace UI_Toolbox
 {
 	enum	eStatusBarFormat { GraphLike, LeftSided, TopDown, RightSided };
@@ -20,7 +22,10 @@ namespace UI_Toolbox
 	//-----------------------------------------------
 
 	class UI_Frame;
+	
+
 	typedef std::list< UI_Frame* > UiElementList;
+	typedef UiElementList::iterator UiElementListIter;
 	//-----------------------------------------------
 	class UI_Frame
 	{
@@ -40,6 +45,7 @@ namespace UI_Toolbox
 		void					SetLineWidth( float width ) { lineWidth = width; }
 		float					GetZDepth() const { return zDepth; }
 		const std::string&		GetId() const { return id; }
+		void					AddChild( UI_Frame* pChild );
 
 		virtual void			Draw ();
 		virtual void			PostDrawCleanup (){}
@@ -47,8 +53,9 @@ namespace UI_Toolbox
 
 		//-----------------------------------------
 		virtual bool	LoadIniFile( json_t* root );
-		bool operator< (const UI_Frame &rhs) const; 
+		bool operator< (const UI_Frame &rhs) const;
 
+		static void				SetUiManager( UI_Framework* pUiManager );
 
 	protected:
 
@@ -68,6 +75,7 @@ namespace UI_Toolbox
 		bool			isFillColorValid;
 		ColorVector		frameColor;
 		ColorVector		fillColor;
+		static UI_Framework* pUiManager;
 	};
 
 	//-----------------------------------------------
@@ -82,8 +90,11 @@ namespace UI_Toolbox
 		UI_Label( LabelAlign _labelStyle, const char* _text ) : 
 			UI_Frame(), labelAlign( _labelStyle ), verticalAlign( Bottom ), text( _text ), isTextColorValid( false ), isShadowSet( false ), fontSize(0){}
 
-		void			SetText( const char* _text ) { text = _text; }
-		void			Draw ();
+		void				SetText( const char* _text ) { text = _text; }
+		const std::string&	GetText() const { return text; }
+
+		void				Draw ();
+		void				Draw ( const ScreenRect& offsetRect );
 
 		//-----------------------------------------
 		bool			LoadIniFile( json_t* root );
@@ -126,14 +137,34 @@ namespace UI_Toolbox
 	{
 	public:
 		UI_EventElement():
-		  UI_Frame(), event( 0 ), keyEvent( 0 ){}
-		void			SetOnClickEvent( int _event ) { event = _event; }
-		bool			MouseClick( float x, float y, bool isDown = true );
+			UI_Frame(), 
+			event( Events::NoMessage ), 
+			eventDatum1( 0 ), 
+			eventDatum2( 0 ),
+			keyBinding( 0 ),
+			isMouseOver( false ), 
+			previousMouseButton( Events::UIMouseButtonEvent::None ), 
+			mouseButton( Events::UIMouseButtonEvent::None ){}
+
+		void			SetClickEvent( Events::EventMessages _event, int datum1 = 0, int datum2 = 0 );
+		void			SetKeyBinding( int key );
+
+		bool			MouseMove( float x, float y );
+		bool			MouseButton( float x, float y, int whichButton, bool isDown = true );// will not fire if release but mouse is release outside of button rect.
 		bool			KeyEvent( int key, bool isDown = true );
 
+		//-----------------------------------------
+		bool			LoadIniFile( json_t* root );
+
 	protected:
-		int			event;
-		int			keyEvent;
+		bool			IsMouseOver( float x, float y ) const;
+
+		Events::EventMessages			event;
+		int			eventDatum1, eventDatum2;
+		int			keyBinding;
+		bool		isMouseOver;// used for highlighting, etc
+		int 		previousMouseButton;// state tracking so that when you release, we can fire the event
+		int			mouseButton;
 	};
 
 	//-----------------------------------------------

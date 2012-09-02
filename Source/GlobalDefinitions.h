@@ -54,3 +54,12 @@ enum KeyModifier
 };
 
 U32 LookupKeyModifier( const char* KeyModifiers ); // separated by spaces, commas, ors
+
+enum ShipViewType
+{
+	ShipViewType_none,
+	ShipViewType_ship,
+	ShipViewType_station
+};
+
+U32 LookupShipViewType( const char* viewName );

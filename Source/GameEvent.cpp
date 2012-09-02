@@ -8,6 +8,8 @@
 #include "GameEvent.h"
 #include <assert.h>
 #pragma warning( disable : 4996 )
+#include "../Source/PlayerDatabase.h"
+#include "GameFramework.h"
 
 using namespace Events;
 //----------------------------------------------
@@ -164,4 +166,112 @@ void	MessageSenderReceiver :: AddClient (MessageSenderReceiver* Client)
 //----------------------------------------------
 //----------------------------------------------
 
+/*
+		DebugText,
+		ApplyThrust,
+		Maneuvers,
+		GameModeChange,
+		SwitchViewport,
+		FireWeapon,
+		CameraMode,
+		PlayerStatus,
+		PlayerChat,
+		PingTime,
+		CreateResource,
+		CaptureResource,
+		UI_ShipConfig,
+		UI_MouseMove,
+		UI_MouseButton,
+		UI_MouseWheel,
+		UI_Map,
+		UI_MyStatus,
+		QuitGame
+*/
+Events::GameEvent*  Events::GameEventFactory( EventMessages type, int datum1, int datum2, const char* text )
+{
+	switch( type )
+	{
+	case Events::DebugText:
+		{
+			Events::DebugTextEvent* dte = NULL;
+			if( text )
+			{
+				dte = new Events::DebugTextEvent();
+				dte->SetMessageText( text );
+			}
+			return dte;
+		}
+	case Events::ApplyThrust:
+		{
+			Events::ManeuverEvent* Man = new Events::ManeuverEvent();
+			Man->SetManeuver (Events::ManeuverEvent::Thrust);
+			return Man;
+		}
+	case Events::Maneuvers:
+		{
+			Events::ManeuverEvent* Man = new Events::ManeuverEvent();
+			if( datum1 == KeyboardEvent_RotateCW )
+			{
+				Man->SetManeuver (Events::ManeuverEvent::TurnLeft);
+			}
+			else
+			{
+				Man->SetManeuver (Events::ManeuverEvent::TurnRight);
+			}
+			return Man;
+		}
+	case Events::GameModeChange:
+		{
+			Events::GameModeChangeEvent* gmc = NULL;
+			if( Validate( (GameMode ) datum1 ) == true )
+			{
+				gmc = new Events::GameModeChangeEvent();
+				gmc->SetMode( (GameMode) datum1 );
+			}
+			return gmc;
+		}
+	case Events::SwitchViewport:
+		{
+			Events::SwitchViewportEvent* Viewport = new Events::SwitchViewportEvent();
+			if( datum1 == ShipViewType_ship )
+			{
+				Viewport->SetView( Events::SwitchViewportEvent::ShipView );
+			}
+			else
+			{
+				Viewport->SetView( Events::SwitchViewportEvent::StationView );
+			}
+			Viewport->SetViewIndex ( datum2 );
+			return Viewport;
+		}
+	case Events::FireWeapon:
+		{
+			Events:: FireWeaponEvent* Event = new Events:: FireWeaponEvent();
+			PlayerDatabase* playerdb = GlobalGameFramework->GetGameData().GetPlayerDatabase();
+			Event->SetPlayerID (playerdb->GetCurrentPlayerID ());
+			return Event;
+		}
+	case Events::UI_ShipConfig:
+		{
+			Events::UIShipConfigEvent* Event = new Events::UIShipConfigEvent();
+			return Event;
+		}
+	case Events::UI_Map:
+		{
+			Events::UIMapEvent* Event = new Events::UIMapEvent();
+			return Event;
+		}
+	case Events::UI_MyStatus:
+		{
+			Events::UIMyStatusEvent* Event = new Events::UIMyStatusEvent();
+			return Event;
+		}
+	case Events::QuitGame:
+		return new Events::GameQuitEvent();
+	}
 
+	return NULL;
+}
+
+//----------------------------------------------
+//----------------------------------------------

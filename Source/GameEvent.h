@@ -23,8 +23,8 @@ namespace Events
 		NoMessage,
 		DebugText,
 		ApplyThrust,
-		GameModeChange,
 		Maneuvers,
+		GameModeChange,
 		SwitchViewport,
 		FireWeapon,
 		CameraMode,
@@ -84,7 +84,41 @@ namespace Events
 		ManeuverType	GetManeuver () const {return Maneuver;}
 		
 	protected:
-		ManeuverType Maneuver;
+		ManeuverType	Maneuver;
+	};
+
+	//----------------------------------------------
+
+	class GameModeChangeEvent : public GameEvent
+	{
+	public:
+		GameModeChangeEvent () : mode( GameMode_none ) { Message = GameModeChange; }
+		GameModeChangeEvent( const GameModeChangeEvent& gmc ) : GameEvent( gmc ), mode( gmc.mode ) { Message = GameModeChange; }
+		
+		void			SetMode (GameMode _mode) {mode = _mode;}
+		GameMode		GetMode () const {return mode;}
+		
+	protected:
+		GameMode	mode;
+	};
+	
+	//----------------------------------------------
+	
+	class SwitchViewportEvent : public GameEvent
+	{
+	public:
+		enum	ViewportSetting {ShipView, StationView, GlobalView};
+		SwitchViewportEvent () : View (ShipView), ViewIndex (0) {Message = SwitchViewport;}
+		
+		void				SetView (ViewportSetting vp) {View = vp;}
+		ViewportSetting		GetView () const {return View;}
+		
+		void				SetViewIndex (int index) {ViewIndex = index;}
+		int					GetViewIndex () const {return ViewIndex;}
+		
+	protected:
+		ViewportSetting		View;
+		int		ViewIndex;
 	};
 
 	//----------------------------------------------
@@ -158,25 +192,7 @@ namespace Events
 		
 	protected:
 	};
-	
-	//----------------------------------------------
-	
-	class SwitchViewportEvent : public GameEvent
-	{
-	public:
-		enum	ViewportSetting {ShipView, StationView, GlobalView};
-		SwitchViewportEvent () : View (ShipView), ViewIndex (0) {Message = SwitchViewport;}
-		
-		void				SetView (ViewportSetting vp) {View = vp;}
-		ViewportSetting		GetView () const {return View;}
-		
-		void				SetViewIndex (int index) {ViewIndex = index;}
-		int					GetViewIndex () const {return ViewIndex;}
-		
-	protected:
-		ViewportSetting		View;
-		int		ViewIndex;
-	};
+
 	//----------------------------------------------
 
 	class UIShipConfigEvent : public GameEvent
@@ -224,7 +240,7 @@ namespace Events
 	class UIMouseButtonEvent : public GameEvent
 	{
 	public:
-		enum Button {Left, Right, Middle };
+		enum Button { None, Left, Right, Middle };
 		enum State { Up, Down };
 
 		UIMouseButtonEvent (): button(Left), state( Down ), x(0), y(0) {Message = UI_MouseButton;}
@@ -253,6 +269,12 @@ namespace Events
 	protected:
 		State		state;
 	};
+
+	//----------------------------------------------
+	//----------------------------------------------
+
+	// YOU MUST CLEAN UP THE ALLOCATED MEMORY
+	GameEvent* GameEventFactory( EventMessages type, int datum1, int datum2, const char* text = NULL );
 
 	//----------------------------------------------
 	//----------------------------------------------

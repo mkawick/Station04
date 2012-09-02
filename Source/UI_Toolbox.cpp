@@ -12,6 +12,9 @@
 // http://nehe.gamedev.net/tutorial/freetype_fonts_in_opengl/24001/
 
 using namespace UI_Toolbox;
+UI_Framework* UI_Frame :: pUiManager = NULL;
+
+//----------------------------------------------
 
 UI_Frame :: ~UI_Frame()
 {
@@ -24,6 +27,8 @@ UI_Frame :: ~UI_Frame()
 	}
 }
 
+//----------------------------------------------
+
 void	UI_Frame :: SetScreenPosition (int Left, int Top, int Right, int Bottom)
 {
 	screenPosition.Corners[0].x = static_cast<float> ( Left );
@@ -31,6 +36,23 @@ void	UI_Frame :: SetScreenPosition (int Left, int Top, int Right, int Bottom)
 	screenPosition.Corners[1].x = static_cast<float> ( Right );
 	screenPosition.Corners[1].y = static_cast<float> ( Bottom );
 }
+
+//----------------------------------------------
+
+void	UI_Frame :: AddChild( UI_Frame* pChild )
+{
+	UiElementListIter it = children.begin();
+
+	while( it != children.end() )// validate no duplicates
+	{
+		if( pChild == (*it) )
+			return;
+		it++;
+	}
+	children.push_back( pChild );
+}
+
+//----------------------------------------------
 
 void	UI_Frame :: Draw ()
 {
@@ -50,7 +72,7 @@ void	UI_Frame :: Draw ()
 		DrawLine();
 	}
 
-	UiElementList::iterator it = children.begin();
+	UiElementListIter it = children.begin();
 
 	while(it != children.end() )
 	{
@@ -58,6 +80,8 @@ void	UI_Frame :: Draw ()
 		it++;
 	}
 }
+
+//----------------------------------------------
 
 bool LoadPosition( json_t * pPosition, ScreenRect& position )
 {
@@ -76,6 +100,8 @@ bool LoadPosition( json_t * pPosition, ScreenRect& position )
 	}
 	return false;
 }
+
+//----------------------------------------------
 
 bool LoadColor( json_t * pColor, ColorVector& color )
 {
@@ -131,6 +157,16 @@ bool LoadColor( json_t * pColor, ColorVector& color )
 
 	return false;
 }
+
+//----------------------------------------------
+
+void	UI_Frame :: SetUiManager( UI_Framework* pManager )
+{
+	pUiManager = pManager;
+}
+
+//----------------------------------------------
+
 bool	UI_Frame :: LoadIniFile( json_t* root )
 {
 	bool success = false;
@@ -201,10 +237,13 @@ bool	UI_Frame :: LoadIniFile( json_t* root )
 	return isFrameColorValid | isFillColorValid | ( frameStyle != Invalid );
 }
 
+//----------------------------------------------
+
 bool	UI_Frame :: operator< (const UI_Frame &rhs) const
 { 
 	return rhs.GetZDepth() > GetZDepth(); 
 }
+
 //----------------------------------------------
 
 void	UI_Frame :: DrawFrame () const
@@ -294,6 +333,7 @@ void	UI_Frame :: DrawFilledRect () const
 }
 
 //----------------------------------------------
+//----------------------------------------------
 
 bool	UI_Label :: LoadIniFile( json_t* root )
 {
@@ -371,12 +411,20 @@ bool	UI_Label :: LoadIniFile( json_t* root )
 	return isTextColorValid && text.size() > 0;
 }
 
+//----------------------------------------------
+
 void	UI_Label :: Draw ()
 {
-	float left = screenPosition.Corners[0].x+1;
-	float top = screenPosition.Corners[0].y+1;
-	float right = screenPosition.Corners[1].x-1;
-	float bottom = screenPosition.Corners[1].y-1;
+	ScreenRect offsetRect;// this isn't much cost and it's pretty clear what it does.
+	Draw ( offsetRect );
+}
+
+void	UI_Label :: Draw ( const ScreenRect& offsetRect )// common method for drawing.
+{
+	float left =	screenPosition.Corners[0].x + offsetRect.Corners[0].x + 1;
+	float top =		screenPosition.Corners[0].y + offsetRect.Corners[0].y + 1;
+	float right =	screenPosition.Corners[1].x + offsetRect.Corners[1].x - 1;
+	float bottom =	screenPosition.Corners[1].y + offsetRect.Corners[1].y - 1;
 
 	int fontWidth = 8;
 	void * fontUsed = GLUT_STROKE_ROMAN;
@@ -465,7 +513,6 @@ void	UI_Label :: Draw ()
 		str++;
 	}
 }
-
 //----------------------------------------------
 //----------------------------------------------
 
@@ -509,10 +556,113 @@ bool	UI_Image :: LoadIniFile( json_t* root )
 }
 
 //----------------------------------------------
+//----------------------------------------------
+// what happens when you click on this button
+void	UI_EventElement :: SetClickEvent( Events::EventMessages _event, int datum1, int datum2 ) 
+{ 
+	event = _event; 
+	eventDatum1 = datum1;
+	eventDatum2 = datum2;
+}
+
+//----------------------------------------------
+// key that triggers this button click
+void	UI_EventElement :: SetKeyBinding( int key ) 
+{ 
+	keyBinding = key ;
+} 
+
+//----------------------------------------------
+
+bool	UI_EventElement :: IsMouseOver( float x, float y ) const
+{
+	if( x >= screenPosition.Corners[0].x && x <= screenPosition.Corners[1].x )
+	{
+		if( y >= screenPosition.Corners[0].y && y <= screenPosition.Corners[1].y )
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+//----------------------------------------------
+
+bool	UI_EventElement :: MouseMove( float x, float y )
+{
+	isMouseOver = IsMouseOver( x, y );
+	return isMouseOver;
+}
+
+//----------------------------------------------
+
+bool	UI_EventElement :: MouseButton( float x, float y, int whichButton, bool isDown )
+{
+	isMouseOver = IsMouseOver( x, y );
+	if( isMouseOver == false )
+	{
+		previousMouseButton = Events::UIMouseButtonEvent::None;
+		mouseButton = Events::UIMouseButtonEvent::None;
+		return false;
+	}
+
+	// we want to prevent a user from sliding a click onto a button as well. (should be corrected by the above check)
+	if( isDown )
+	{
+		//previousMouseButton = whichButton;
+		mouseButton = whichButton;
+	}
+	else if( mouseButton != Events::UIMouseButtonEvent::None )
+	{
+		previousMouseButton = mouseButton;// just 
+		mouseButton = whichButton;
+		Events::GameEvent* pEvent = Events::GameEventFactory( event, eventDatum1, eventDatum2 );
+		if( pEvent && pUiManager )
+		{
+			pUiManager->SendMessages ( *pEvent );
+			delete pEvent;
+		}
+	}
+
+	return true;
+}
+
+//----------------------------------------------
+
+bool	UI_EventElement :: KeyEvent( int key, bool isDown )
+{
+	Events::GameEvent* pEvent = Events::GameEventFactory( event, eventDatum1, eventDatum2 );
+	if( pEvent && pUiManager )
+	{
+		pUiManager->SendMessages ( *pEvent );
+		delete pEvent;
+		return true;
+	}
+	return false;
+}
+
+//----------------------------------------------
+
+bool	UI_EventElement :: LoadIniFile( json_t* root )
+{
+	return false;
+}
+
+//----------------------------------------------
 
 void	UI_Button :: Draw ()
 {
+	UI_Frame::Draw();
+
+	// if we add texture support, this is where it goes.
+
+	if( text.GetText().size() > 0 )
+	{
+		text.Draw( screenPosition );
+	}
 }
+
+//----------------------------------------------
 
 bool	UI_Button :: LoadIniFile( json_t* root )
 {

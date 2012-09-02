@@ -15,12 +15,12 @@ class GameData;
 
 typedef std::pair < U32, UI_Toolbox::UiElementList > ModeUiPair; 
 typedef stdext::hash_map< U32, UI_Toolbox::UiElementList > UiByGameMode;
-typedef stdext::hash_map < U32, UI_Toolbox::UiElementList >::iterator ModeUiPairIter;
+typedef UiByGameMode::iterator ModeUiPairIter;
 
 //class UI_Frame;
 typedef std::pair < U32, UI_Toolbox::UI_Frame* > UiByIdPair;
 typedef stdext::hash_map< U32, UI_Toolbox::UI_Frame* > UiByGameIdHash;
-typedef stdext::hash_map < U32, UI_Toolbox::UI_Frame* >::iterator UiByIdPairIter;
+typedef UiByGameIdHash::iterator UiByIdPairIter;
 
 
 class UI_Framework : public Events:: MessageSenderReceiver
