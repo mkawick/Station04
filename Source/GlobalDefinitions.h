@@ -39,10 +39,12 @@ bool	 Validate( GameMode );
 
 enum KeyboardEvent
 {
+	KeyboardEvent_none,
 	KeyboardEvent_RotateCW,
 	KeyboardEvent_RotateCCW,
 	KeyboardEvent_FireMain,
-	KeyboardEvent_Thrust
+	KeyboardEvent_Thrust,
+	KeyboardEvent_count
 };
 
 enum KeyModifier
@@ -50,7 +52,8 @@ enum KeyModifier
 	KeyModifier_none = 0,
 	KeyModifier_Ctrl = 1 << 0,
 	KeyModifier_Alt  = 1 << 1,
-	KeyModifier_Shift= 1 << 2
+	KeyModifier_Shift= 1 << 2,
+	KeyModifier_count = 4
 };
 
 U32 LookupKeyModifier( const char* KeyModifiers ); // separated by spaces, commas, ors
@@ -59,7 +62,24 @@ enum ShipViewType
 {
 	ShipViewType_none,
 	ShipViewType_ship,
-	ShipViewType_station
+	ShipViewType_station,
+	ShipViewType_ship_cockpit,
+	ShipViewType_count
 };
 
 U32 LookupShipViewType( const char* viewName );
+
+enum	UI_StatusBinding
+{
+	UI_StatusBinding_none,
+	UI_StatusBinding_ship,
+	UI_StatusBinding_station,
+	UI_StatusBinding_resource,
+	UI_StatusBinding_production,
+	UI_StatusBinding_experience,
+	UI_StatusBinding_experience_level,
+	UI_StatusBinding_territory_control,
+	UI_StatusBinding_count
+};
+
+U32 LookupStatusBinding( const char* bindingName );

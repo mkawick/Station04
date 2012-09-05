@@ -46,3 +46,26 @@ U32 LookupKeyModifier( const char* KeyModifiers )
 
 	return keyMods;
 }
+
+
+U32 LookupShipViewType( const char* viewName )
+{
+	if( stricmp( modeName, "ship" ) == 0 )			return ShipViewType_ship;
+	if( stricmp( modeName, "station" ) == 0 )		return ShipViewType_station;
+	if( stricmp( modeName, "ship_cockpit" ) == 0 )	return ShipViewType_ship_cockpit;
+
+	return ShipViewType_none;
+}
+
+U32 LookupStatusBinding( const char* bindingName )
+{
+	if( stricmp( modeName, "ship" ) == 0 )				return UI_StatusBinding_ship;
+	if( stricmp( modeName, "station" ) == 0 )			return UI_StatusBinding_station;
+	if( stricmp( modeName, "resource" ) == 0 )			return UI_StatusBinding_resource;
+	if( stricmp( modeName, "production" ) == 0 )		return UI_StatusBinding_production;
+	if( stricmp( modeName, "experience" ) == 0 )		return UI_StatusBinding_experience;
+	if( stricmp( modeName, "experiencelevel" ) == 0 )	return UI_StatusBinding_experience_level;
+	if( stricmp( modeName, "territorycontrol" ) == 0 )	return UI_StatusBinding_territory_control;
+
+	return UI_StatusBinding_none;
+}

@@ -12,9 +12,14 @@
 
 #include <boost/functional/hash.hpp>
 
+//----------------------------------------------
+//----------------------------------------------
+
 UI_Framework :: UI_Framework() : currentGameMode( 0 )
 {
 }
+
+//----------------------------------------------
 
 UI_Framework :: ~UI_Framework()
 {
@@ -31,6 +36,8 @@ UI_Framework :: ~UI_Framework()
 	}
     UiElements.clear();
 }
+
+//----------------------------------------------
 
 void print(int x, int y, const char *string)
 {
@@ -81,6 +88,7 @@ void	UI_Framework :: Update( GameData& GlobalGameData )
 	}
 }
 
+//----------------------------------------------
 
 void	UI_Framework :: ProcessMessages (GameData& GlobalGameData)
 {
@@ -104,6 +112,8 @@ void	UI_Framework :: ProcessMessages (GameData& GlobalGameData)
 	}
 }
 
+//----------------------------------------------
+
 void	UI_Framework :: Draw()
 {
 	PrepOrthoDrawing();
@@ -124,6 +134,8 @@ void	UI_Framework :: Draw()
 	PostDrawCleanup();
 }
 
+//----------------------------------------------
+
 void	UI_Framework :: PrepOrthoDrawing()
 {
 	//Assume we are in MODEL_VIEW already
@@ -143,6 +155,8 @@ void	UI_Framework :: PrepOrthoDrawing()
 	glDisable (GL_BLEND);
 }
 
+//----------------------------------------------
+
 void	UI_Framework :: PostDrawCleanup()
 {
 	glEnable (GL_BLEND);	
@@ -152,6 +166,8 @@ void	UI_Framework :: PostDrawCleanup()
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix ();
 }
+
+//----------------------------------------------
 
 bool	UI_Framework :: LoadIniFile( json_t* root, const char* filePath )
 {
@@ -220,6 +236,8 @@ bool	UI_Framework :: LoadIniFile( json_t* root, const char* filePath )
 	return true;
 }
 
+//----------------------------------------------
+
 void	InsertSorted( UI_Toolbox::UI_Frame* pFrame, UI_Toolbox::UiElementList& listOfElements )
 {
 	if( listOfElements.size() == 0 )
@@ -241,6 +259,8 @@ void	InsertSorted( UI_Toolbox::UI_Frame* pFrame, UI_Toolbox::UiElementList& list
 	listOfElements.push_back( pFrame );
 }
 
+//----------------------------------------------
+
 void	UI_Framework :: AddElement( UI_Toolbox::UI_Frame* pFrame, U32 mode )
 {
 	ModeUiPairIter it = UiElements.find( mode ); 
@@ -252,6 +272,8 @@ void	UI_Framework :: AddElement( UI_Toolbox::UI_Frame* pFrame, U32 mode )
 	}
 	InsertSorted( pFrame, it->second );
 }
+
+//----------------------------------------------
 
 void	UI_Framework :: AddToIdHash( UI_Toolbox::UI_Frame* pFrame )
 {
@@ -268,7 +290,7 @@ void	UI_Framework :: AddToIdHash( UI_Toolbox::UI_Frame* pFrame )
 	}
 }
 
-
+//----------------------------------------------
 
 void	UI_Framework :: DrawOld()
 {
@@ -315,3 +337,5 @@ void	UI_Framework :: DrawOld()
 			   ViewportParams[2],
 			   ViewportParams[3]);
 }
+
+//----------------------------------------------

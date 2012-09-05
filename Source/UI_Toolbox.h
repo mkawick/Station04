@@ -190,6 +190,7 @@ namespace UI_Toolbox
 	};
 
 	//-----------------------------------------------
+
 	class UI_Status : public UI_Frame
 	{
 	public:
@@ -203,6 +204,7 @@ namespace UI_Toolbox
 	};
 
 	//-----------------------------------------------
+
 	class StellarObjectStatus
 	{
 	public:

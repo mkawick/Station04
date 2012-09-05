@@ -671,6 +671,8 @@ bool	UI_Button :: LoadIniFile( json_t* root )
 
 //----------------------------------------------
 
+// finally, we come to it... this is the part I was hoping to build from the beginning.
+
 void	UI_Status :: Draw ()
 {
 }
