@@ -645,6 +645,7 @@ bool	UI_EventElement :: KeyEvent( int key, bool isDown )
 
 bool	UI_EventElement :: LoadIniFile( json_t* root )
 {
+	// TODO
 	return false;
 }
 
@@ -660,12 +661,15 @@ void	UI_Button :: Draw ()
 	{
 		text.Draw( screenPosition );
 	}
+	// we'll want to overlay if the mouse is down on the button.
 }
 
 //----------------------------------------------
 
 bool	UI_Button :: LoadIniFile( json_t* root )
 {
+	// TODO
+	// KeyboardEvent
 	return false;
 }
 
@@ -675,7 +679,14 @@ bool	UI_Button :: LoadIniFile( json_t* root )
 
 void	UI_Status :: Draw ()
 {
+	UI_Frame::Draw();
+
+/*	if( text.GetText().size() > 0 )
+	{
+		text.Draw( screenPosition );
+	}*/
 }
+
 void	UI_Status :: PostDrawCleanup ()
 {
 }
@@ -684,8 +695,103 @@ void	UI_Status :: Update (GameData& GlobalGameData)
 {
 }
 
+Vector	UI_Status :: CalculateColor( float percentageOfMax )
+{
+	if( statusColors.size() == 0 )
+		return Vector( 1, 1, 1 );
+
+	float maxPercentage = 100;
+	float minPercentage = 0;
+	Vector highColor( 1, 1, 1 );
+	Vector lowColor( 0, 0, 0 );
+
+	std::vector< UI_StatusColor >:: iterator it = statusColors.begin();
+	if( statusColors.size() == 1 )
+	{
+		int centerPercentage = (*it).percentage;
+		if( centerPercentage == -1 )// exceptional case. Always return single color.
+			return (*it).color;
+
+		if( percentageOfMax >= centerPercentage )
+		{
+			minPercentage = static_cast<float>( centerPercentage );
+			lowColor = (*it).color;
+		}
+		else
+		{
+			maxPercentage = static_cast<float>( centerPercentage ); 
+			highColor = (*it).color;
+		}
+	}
+	else
+	{
+		// walk until the end or until we are in-between 
+		while( it != statusColors.end() )
+		{
+			int testPercentage = (*it).percentage;
+			if( percentageOfMax >= testPercentage )
+			{
+				minPercentage = static_cast<float>( testPercentage );
+				lowColor = (*it).color;
+			}
+			else if( (it+1) != statusColors.end() &&
+				percentageOfMax < (*(it+1)).percentage )// test against the next
+			{
+				maxPercentage = static_cast<float>( (*(it+1)).percentage ); 
+				highColor = (*(it+1)).color;
+				break;
+			}
+			it++;
+		}
+	}
+
+	// normalize the ranges and convert them to 0-1 range.
+	float range = static_cast<float>(maxPercentage - minPercentage) * 0.01f;
+	float normalizedPercentage = static_cast<float>(percentageOfMax - minPercentage) * 0.01f;
+	float t = normalizedPercentage / range;// sliding scale allows us to use this as a raw percentage of the high-value color
+
+	return highColor * t + lowColor * (1-t);
+}
+
+void	UI_Status :: InsertColorSorted( Vector color, int percentage )
+{
+	UI_StatusColor statusColor;
+	statusColor.color = color;
+	statusColor.percentage= percentage;
+
+	if( statusColors.size() == 0 )
+	{
+		statusColors.push_back( statusColor );
+		return;
+	}
+
+	std::vector< UI_StatusColor >:: iterator it = statusColors.begin();
+	while( it != statusColors.end() )
+	{
+		if( percentage >= (*it).percentage && 
+			(it+1) != statusColors.end() &&
+			percentage < (*(it+1)).percentage)
+		{
+			statusColors.insert( it, statusColor );
+			return;
+		}
+		it++;
+	}
+
+	statusColors.push_back( statusColor );
+}
+
+void	UI_Status :: NormalizeColorPercentages()
+{
+	if( statusColors.size() == 0 )
+		return;
+}
+
 //-----------------------------------------
 bool	UI_Status :: LoadIniFile( json_t* root )
 {
+	// LookupStatusBinding
+
+	NormalizeColorPercentages();
 	return false;
 }

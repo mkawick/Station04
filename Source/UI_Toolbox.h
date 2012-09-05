@@ -191,6 +191,22 @@ namespace UI_Toolbox
 
 	//-----------------------------------------------
 
+	// used for showing varying colors in the UI based on health, shield status, level gain, etc.
+	// for a health value of 33 and two colors of green for 100 health and red for level 1,
+	// we'll do a smoothe blend between green and red giving more red (think parametric linear eqn).
+	// for three colors, we'll expect the colors to be ordered by percentage and then we'll choose the 
+	// two in-between which our health or shield value falls and lerp.
+	// If the user omits a 0 percentage or a 100 percentage, then 0 will be assumed to be black and 100 will be white.
+	// The exception to this will be if a percentage of -1 is provided singly and this special case will
+	// keep the color constant.
+
+	struct UI_StatusColor
+	{
+		UI_StatusColor() : percentage( 50 ), color( 0.5f, 0.5f, 0.5f ) {}
+		int		percentage;
+		Vector	color;
+	};
+
 	class UI_Status : public UI_Frame
 	{
 	public:
@@ -201,6 +217,13 @@ namespace UI_Toolbox
 		void			Update (GameData& GlobalGameData);
 		//-----------------------------------------
 		bool			LoadIniFile( json_t* root );
+
+	protected:
+		void			InsertColorSorted( Vector color, int percentage );
+		void			NormalizeColorPercentages();
+		Vector			CalculateColor( float percentageOfMax );
+
+		std::vector< UI_StatusColor > statusColors;
 	};
 
 	//-----------------------------------------------
