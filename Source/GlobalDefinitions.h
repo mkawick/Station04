@@ -83,3 +83,19 @@ enum	UI_StatusBinding
 };
 
 U32 LookupStatusBinding( const char* bindingName );
+
+enum	UI_StatusFieldBinding
+{
+	UI_StatusFieldBinding_none,
+	UI_StatusFieldBinding_shield,
+	UI_StatusFieldBinding_health,
+	UI_StatusFieldBinding_regeneration,
+	UI_StatusFieldBinding_armor,
+	UI_StatusFieldBinding_repair_rate,
+	//UI_StatusFieldBinding_production_level,
+	UI_StatusFieldBinding_value, // applies to experience, production, resource, etc
+	UI_StatusFieldBinding_rate, // applies to production, healing, etc.
+	UI_StatusFieldBinding_count
+};
+
+U32 LookupStatusFieldBinding( const char* bindingName );

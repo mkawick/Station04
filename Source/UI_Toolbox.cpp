@@ -679,12 +679,15 @@ bool	UI_Button :: LoadIniFile( json_t* root )
 
 void	UI_Status :: Draw ()
 {
+	if( binding == UI_StatusBinding_none || fieldbinding == UI_StatusFieldBinding_none )
+		return;
+
 	UI_Frame::Draw();
 
-/*	if( text.GetText().size() > 0 )
+	if( text.GetText().size() > 0 )
 	{
 		text.Draw( screenPosition );
-	}*/
+	}
 }
 
 void	UI_Status :: PostDrawCleanup ()
@@ -781,7 +784,7 @@ void	UI_Status :: InsertColorSorted( Vector color, int percentage )
 	statusColors.push_back( statusColor );
 }
 
-void	UI_Status :: NormalizeColorPercentages()
+void	UI_Status :: NormalizeColorPercentages()// to correct for users going beyond 100 %. TODO
 {
 	if( statusColors.size() == 0 )
 		return;
@@ -790,8 +793,31 @@ void	UI_Status :: NormalizeColorPercentages()
 //-----------------------------------------
 bool	UI_Status :: LoadIniFile( json_t* root )
 {
-	// LookupStatusBinding
+	bool success = false;
+	json_t * pLabel = json_object_get( root, "label");
+	if( json_is_object ( pLabel ) )
+	{
+		text.LoadIniFile( pLabel );
+	}
+
+	UI_Frame::LoadIniFile( root );
+
+	json_t * pStatusBinding = json_object_get( root, "statusbinding");
+	binding = UI_StatusBinding_none;
+	if( json_is_string( pStatusBinding ) )
+	{
+		const char * bindingName = json_string_value( pStatusBinding );
+		binding = static_cast<UI_StatusBinding>( LookupStatusBinding( bindingName ) );
+	}
+
+	json_t * pStatusFieldBinding = json_object_get( root, "statusfield");
+	fieldbinding = UI_StatusFieldBinding_none;
+	if( json_is_string( pStatusFieldBinding ) )
+	{
+		const char * bindingName = json_string_value( pStatusFieldBinding );
+		fieldbinding = static_cast<UI_StatusFieldBinding>( LookupStatusFieldBinding( bindingName ) );
+	}
 
 	NormalizeColorPercentages();
-	return false;
+	return binding != UI_StatusBinding_none;
 }

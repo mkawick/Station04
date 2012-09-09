@@ -62,10 +62,23 @@ U32 LookupStatusBinding( const char* bindingName )
 	if( stricmp( bindingName, "ship" ) == 0 )				return UI_StatusBinding_ship;
 	if( stricmp( bindingName, "station" ) == 0 )			return UI_StatusBinding_station;
 	if( stricmp( bindingName, "resource" ) == 0 )			return UI_StatusBinding_resource;
-	if( stricmp( bindingName, "production" ) == 0 )		return UI_StatusBinding_production;
-	if( stricmp( bindingName, "experience" ) == 0 )		return UI_StatusBinding_experience;
+	if( stricmp( bindingName, "production" ) == 0 )			return UI_StatusBinding_production;
+	if( stricmp( bindingName, "experience" ) == 0 )			return UI_StatusBinding_experience;
 	if( stricmp( bindingName, "experiencelevel" ) == 0 )	return UI_StatusBinding_experience_level;
 	if( stricmp( bindingName, "territorycontrol" ) == 0 )	return UI_StatusBinding_territory_control;
 
 	return UI_StatusBinding_none;
+}
+
+U32 LookupStatusFieldBinding( const char* bindingName )
+{
+	if( stricmp( bindingName, "shield" ) == 0 )				return UI_StatusFieldBinding_shield;
+	if( stricmp( bindingName, "health" ) == 0 )				return UI_StatusFieldBinding_health;
+	if( stricmp( bindingName, "regeneration" ) == 0 )		return UI_StatusFieldBinding_regeneration;
+	if( stricmp( bindingName, "armor" ) == 0 )				return UI_StatusFieldBinding_armor;
+	if( stricmp( bindingName, "repairrate" ) == 0 )			return UI_StatusFieldBinding_repair_rate;
+	if( stricmp( bindingName, "value" ) == 0 )				return UI_StatusFieldBinding_value;
+	if( stricmp( bindingName, "rate" ) == 0 )				return UI_StatusFieldBinding_rate;
+
+	return UI_StatusFieldBinding_none;
 }

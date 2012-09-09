@@ -210,7 +210,8 @@ namespace UI_Toolbox
 	class UI_Status : public UI_Frame
 	{
 	public:
-		UI_Status() : UI_Frame() {}
+		UI_Status() : 
+			UI_Frame(), binding( UI_StatusBinding_none ), fieldbinding( UI_StatusFieldBinding_none ) {}
 
 		void			Draw ();
 		void			PostDrawCleanup ();
@@ -219,6 +220,9 @@ namespace UI_Toolbox
 		bool			LoadIniFile( json_t* root );
 
 	protected:
+		UI_Label				text;
+		UI_StatusBinding		binding;
+		UI_StatusFieldBinding	fieldbinding;
 		void			InsertColorSorted( Vector color, int percentage );
 		void			NormalizeColorPercentages();
 		Vector			CalculateColor( float percentageOfMax );

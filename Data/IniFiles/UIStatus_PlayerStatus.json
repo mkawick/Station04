@@ -10,7 +10,26 @@
 				   { "tool": "UI_Frame", "framecolor": [1,0,1,1], "framestyle": "Line", "linewidth": 4, "position": [320,20,520,220], "zdepth":6 },
 				   { "tool": "UI_Frame", "framecolor": [1,1,0,1], "framestyle": "Line", "linewidth": 4, "position": [340,40,540,240], "zdepth":4 },
 				   { "tool": "UI_Label", "text" : "testing", "verticalalign":"bottom", "labelalign": "center", "textcolor": [1,1,0], "framecolor": [1,1,0,1], "framestyle": "Line", "fontsize": 2, "position": [340,40,540,240], "zdepth":4, "shadowcolor": [0,0.2,0.2]  },
-				   { "tool": "UI_Image", "texture":"scribble", "position": [100,400,240,140], "zdepth": 2 }
+				   { "tool": "UI_Image", "texture":"scribble", "position": [100,400,240,140], "zdepth": 2 },
+				   { "tool": "UI_Status", 
+					 "label":{ 
+								"tool": "UI_Label", 
+								"text" : "health", 
+								"verticalalign":"bottom", 
+								"labelalign": "center", 
+								"textcolor": [1,1,1], 
+								"fontsize": 2, 
+								"position": [10,10,30,30], 
+								"zdepth":5 
+							},
+					 "framecolor": [1,1,0,1], 
+					 "fillcolor": [0.6,1,0.6,1], 
+					 "framestyle": "Line",
+					 "position": [100,400,240,140], 
+					 "statusbinding": "ship",
+					 "statusfield": "shield",
+					 "zdepth": 4 
+					}
 				]
 			}	
 	}
