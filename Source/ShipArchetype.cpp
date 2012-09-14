@@ -16,23 +16,29 @@
 //----------------------------------------------
 //----------------------------------------------
 
-ShipArchetype :: ShipArchetype () : IsApplyingThrust (false), StellarObject()
+ShipArchetype :: ShipArchetype () : IsApplyingThrust (false), StellarObject(), MaxShieldValue( 3.0f )
 {
-	ShieldLevel[0] = 3;
-	ShieldLevel[1] = 3;
+	ShieldLevel[0] = MaxShieldValue;
+	ShieldLevel[1] = MaxShieldValue;
 	memset( ResourceStorage, 0, sizeof( ResourceStorage ) );
 }
 
 
 //---------------------------------------------------------
 
-int				ShipArchetype :: GetShieldLevel ( int which ) const// overall 0-100, not individually
+float			ShipArchetype :: GetShieldLevel ( int which ) const// overall 0-100, not individually
 {
-	int value = 0;
+	float value = 0;
 	if( which == -1 )
+	{
 		value = (ShieldLevel[0] + ShieldLevel[1]);
-	if( which < NumShields )
+		value = value / (MaxShieldValue*2) * 100;
+	}
+	else if( which < NumShields )
+	{
 		value = ShieldLevel[ which ];
+		value = value / (MaxShieldValue) * 100;
+	}
 	if (value > 100)
 		value = 100;
 	return value;

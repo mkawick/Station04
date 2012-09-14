@@ -27,7 +27,7 @@ public:
 	void			SetOwner( UUID id ) { PlayerId = id; }
 	UUID			GetOwner() const {return PlayerId; }
 	
-	int				GetShieldLevel ( int which = -1 ) const;// default sums the shields
+	float			GetShieldLevel ( int which = -1 ) const;// default sums the shields
 	void			SetBodyColor (Vector color);
 	void			SetCockpitColors (Vector FrameColor, Vector WindowsColor);
 	void			SetNationalColors (Vector* colors, int NumColors);
@@ -72,7 +72,8 @@ protected:
 	Vector					ShieldColor;
 	std::list <Vector>		NationalColors;
 	Vector					ExhaustPosition;
-	int						ShieldLevel [NumShields];//
+	float					MaxShieldValue;
+	float					ShieldLevel [NumShields];//
 	UUID					PlayerId;
 	
 	bool					IsApplyingThrust;

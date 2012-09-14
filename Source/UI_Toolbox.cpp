@@ -60,16 +60,16 @@ void	UI_Frame :: Draw ()
 	{
 		if( isFillColorValid )
 		{
-			DrawFilledRect();
+			DrawFilledRect( screenPosition, fillColor );
 		}
 		if( isFrameColorValid )
 		{
-			DrawFrame ();
+			DrawFrame ( screenPosition, frameColor );
 		}
 	}
 	else
 	{
-		DrawLine();
+		DrawLine( screenPosition, frameColor );
 	}
 
 	UiElementListIter it = children.begin();
@@ -246,7 +246,7 @@ bool	UI_Frame :: operator< (const UI_Frame &rhs) const
 
 //----------------------------------------------
 
-void	UI_Frame :: DrawFrame () const
+void	UI_Frame :: DrawFrame ( const ScreenRect& screenPosition, const Vector& color ) const
 {
 	// treating 0,0 as center.
 	glLineWidth ( lineWidth );
@@ -281,7 +281,7 @@ void	UI_Frame :: DrawFrame () const
 
 //----------------------------------------------
 
-void	UI_Frame :: DrawLine ()
+void	UI_Frame :: DrawLine ( const ScreenRect& screenPosition, const Vector& color )
 {
 	// treating 0,0 as center.
 	glLineWidth ( lineWidth );
@@ -309,7 +309,7 @@ void	UI_Frame :: DrawLine ()
 
 //----------------------------------------------
 
-void	UI_Frame :: DrawFilledRect () const
+void	UI_Frame :: DrawFilledRect ( const ScreenRect& screenPosition, const Vector& color ) const
 {
 	float Left = screenPosition.Corners[0].x+1;
 	float Top = screenPosition.Corners[0].y+1;
@@ -687,6 +687,74 @@ void	UI_Status :: Draw ()
 	if( text.GetText().size() > 0 )
 	{
 		text.Draw( screenPosition );
+	}
+
+	DrawStatus();
+}
+
+void	UI_Status :: DrawStatus()
+{
+	// need to branch an look up our values for display.
+	switch( binding )
+	{
+	case UI_StatusBinding_ship:
+		DrawShipStatus();
+		break;
+	case UI_StatusBinding_station:
+		break;
+	case UI_StatusBinding_resource:
+		break;
+	case UI_StatusBinding_production:
+		break;
+	case UI_StatusBinding_experience:
+		break;
+	case UI_StatusBinding_experience_level:
+		break;
+	case UI_StatusBinding_territory_control:
+		break; 
+	}
+}
+void	UI_Status :: DrawShipStatus()
+{
+	PlayerDatabase* playerDb = GlobalGameFramework->GetGameData().GetPlayerDatabase();
+	Player*			player = playerDb->GetCurrentPlayer ();
+
+	int NumberOfStationsBeingTracked = player->GetNumStations();
+	ShipArchetype* ship = player->GetShip ();
+	float PlayerShipTracking = static_cast<float>( ship->GetHealth () );
+	//ship->GetHea
+	
+
+	float statusValue = -1;
+	//int statusMax = 100;
+
+	switch( fieldbinding )
+	{
+	case UI_StatusFieldBinding_shield:
+		statusValue = static_cast<float>( ship->GetShieldLevel () );
+		
+		break;
+	case UI_StatusFieldBinding_health:
+		statusValue = static_cast<float>( ship->GetHealth () );
+		break;
+	case UI_StatusFieldBinding_regeneration:
+		break;
+	case UI_StatusFieldBinding_armor:
+		//ship->GetA
+		break;
+	case UI_StatusFieldBinding_repair_rate:
+		break;
+	case UI_StatusFieldBinding_value:
+		break;
+	case UI_StatusFieldBinding_rate:
+		break;
+	}
+
+	if( statusValue >= 0 )
+	{
+		ScreenRect position = screenPosition;
+		position.Corners[0].x = ( position.Corners[0].x - position.Corners[1].x ) * ( statusValue * 0.01f) + position.Corners[1].x;
+		DrawFilledRect ( position, CalculateColor( statusValue ) );
 	}
 }
 

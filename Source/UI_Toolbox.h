@@ -59,9 +59,9 @@ namespace UI_Toolbox
 
 	protected:
 
-		void			DrawFrame () const;
-		void			DrawLine ();
-		void			DrawFilledRect () const;
+		void			DrawFrame ( const ScreenRect& screenPosition, const Vector& color ) const;
+		void			DrawLine ( const ScreenRect& screenPosition, const Vector& color );
+		void			DrawFilledRect ( const ScreenRect& screenPosition, const Vector& color ) const;
 
 	protected:
 		std::string		id;
@@ -226,6 +226,8 @@ namespace UI_Toolbox
 		void			InsertColorSorted( Vector color, int percentage );
 		void			NormalizeColorPercentages();
 		Vector			CalculateColor( float percentageOfMax );
+		void			DrawStatus();
+		void			DrawShipStatus();
 
 		std::vector< UI_StatusColor > statusColors;
 	};
