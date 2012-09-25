@@ -24,7 +24,8 @@ StellarObject :: StellarObject () : Color (0.5, 0.5, 0.5),
 									DrawList (InvalidDrawList),
 									HitPointsLow (0),
 									HitPointsHigh (100),
-									HitPoints (HitPointsHigh)
+									HitPoints (HitPointsHigh),
+									HitPointsHealed( 0 )
 {
 }
 
@@ -201,6 +202,9 @@ void	StellarObject :: SetHitPointRange (float min, float max)
 
 void	StellarObject :: SetCurrentHitPoints (float value)
 {
+	HitPointsHealed = 0;
+	if( value > HitPoints )
+		HitPointsHealed = value-HitPoints;
 	HitPoints = value;
 }
 
@@ -211,7 +215,15 @@ int		StellarObject :: GetHealth () const// scaled value from 0-100
 	float Range = HitPointsHigh-HitPointsLow;
 	float Percentage = HitPoints/Range;
 	
-	return static_cast <int> (Percentage*100.0);
+	return static_cast <int> (Percentage*100.5f);
+}
+
+//----------------------------------------------
+
+int		StellarObject ::GetRegenerationRate() const// scaled value from 0-100
+{
+	float Range = HitPointsHigh-HitPointsLow;
+	return static_cast <int> (HitPointsHealed / Range *100.5f);
 }
 
 //----------------------------------------------

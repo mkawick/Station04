@@ -50,6 +50,7 @@ public:
 	void			SetHitPointRange (float min, float max);
 	void			SetCurrentHitPoints (float value);
 	int				GetHealth () const;// scaled value from 0-100
+	int				GetRegenerationRate() const; // due to repairs, etc. Any positive difference in health with change this.
 	void			AddDamageResistance (const WeaponResistance& res);
 	virtual void	Damage (const DamageTaken& dam);// this will need to be modified for each object
 	virtual bool	IsDestroyed ();// this will need to be modified for each object
@@ -99,6 +100,7 @@ protected:
 	float							HitPoints;
 	float							HitPointsLow;
 	float							HitPointsHigh;
+	float							HitPointsHealed;
 	std::list <DamageTaken>			AccumulatedDamage;
 	std::list <WeaponResistance>	Resistances;
 	PartitionObject					Partitioning;

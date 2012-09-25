@@ -490,6 +490,17 @@ bool	IMPLIES (Type a, Type b)
 	return (a | (~b)) ? true:false;
 }
 
+template <typename type>
+type FastInverseSqrt(type x) // http://blog.quenta.org/2012/09/0x5f3759df.html
+{
+  type xhalf = 0.5f * x;
+  int i = *(int*)&x;         // evil floating point bit level hacking
+  i = 0x5f3759df - (i >> 1);  // what the fuck?
+  x = *(type*)&i;
+  x = x*(1.5f-(xhalf*x*x));
+  return x;
+}
+
 template <typename type>					// TORAD return the radian measure of the degrees passed
 type  TORAD (type a) {return DEGtoRAD(a);}  
 template <typename type>					// TODEG convert to degrees from radians

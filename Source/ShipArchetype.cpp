@@ -44,6 +44,13 @@ float			ShipArchetype :: GetShieldLevel ( int which ) const// overall 0-100, not
 	return value;
 }
 
+//---------------------------------------------------------
+
+float			ShipArchetype :: GetArmorLevel() const 
+{
+	return 100.0f;
+}
+
 //----------------------------------------------
 
 void			ShipArchetype :: SetCenter (Vector center)

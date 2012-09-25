@@ -28,6 +28,10 @@ public:
 	UUID			GetOwner() const {return PlayerId; }
 	
 	float			GetShieldLevel ( int which = -1 ) const;// default sums the shields
+	float			GetArmorLevel() const;
+	float			GetPowerLevel() const { return 100.0f; }
+	float			GetPowerGeneration() const { return 100.0f; }
+
 	void			SetBodyColor (Vector color);
 	void			SetCockpitColors (Vector FrameColor, Vector WindowsColor);
 	void			SetNationalColors (Vector* colors, int NumColors);
@@ -72,6 +76,8 @@ protected:
 	Vector					ShieldColor;
 	std::list <Vector>		NationalColors;
 	Vector					ExhaustPosition;
+
+	float					ArmorValue;
 	float					MaxShieldValue;
 	float					ShieldLevel [NumShields];//
 	UUID					PlayerId;

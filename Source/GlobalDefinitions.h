@@ -92,6 +92,10 @@ enum	UI_StatusFieldBinding
 	UI_StatusFieldBinding_regeneration,
 	UI_StatusFieldBinding_armor,
 	UI_StatusFieldBinding_repair_rate,
+	UI_StatusFieldBinding_energy_level,
+	UI_StatusFieldBinding_energy_generation_rate,
+	UI_StatusFieldBinding_speed,
+	UI_StatusFieldBinding_acceleration,
 	//UI_StatusFieldBinding_production_level,
 	UI_StatusFieldBinding_value, // applies to experience, production, resource, etc
 	UI_StatusFieldBinding_rate, // applies to production, healing, etc.

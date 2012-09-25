@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include <boost/lexical_cast.hpp>
 #include <windows.h>
+#include <sstream>
 #include "PlayerShipDataView.h"
 #include "../Common/UUID.h"
 #include "../Source/GameFramework.h"
@@ -57,6 +58,7 @@ bool	PlayerShipDataView :: GetData( int row, int column, std::string& data ) con
 	if( pShip == NULL )
 		return false;
 
+	std::ostringstream buff;
 	switch( row )
 	{
 		case Column_ShipName:
@@ -66,13 +68,16 @@ bool	PlayerShipDataView :: GetData( int row, int column, std::string& data ) con
 			data = pShip->GetName();
 			return true;	
 		case Column_ShipShield1:
-			data = pShip->GetShieldLevel( 0 );
+			buff << pShip->GetShieldLevel( 0 );
+			data = buff.str();
 			return true;
 		case Column_ShipShield2:
-			data = pShip->GetShieldLevel( 1 );
+			buff << pShip->GetShieldLevel( 1 );
+			data = buff.str();
 			return true;
 		case Column_ShipShield3:
-			data = pShip->GetShieldLevel( 2 );
+			buff << pShip->GetShieldLevel( 2 );
+			data = buff.str();
 			return true;
 		case Column_Speed:
 			data = boost::lexical_cast<std::string>( pShip->GetVelocity().Magnitude() );

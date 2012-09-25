@@ -77,6 +77,10 @@ U32 LookupStatusFieldBinding( const char* bindingName )
 	if( stricmp( bindingName, "regeneration" ) == 0 )		return UI_StatusFieldBinding_regeneration;
 	if( stricmp( bindingName, "armor" ) == 0 )				return UI_StatusFieldBinding_armor;
 	if( stricmp( bindingName, "repairrate" ) == 0 )			return UI_StatusFieldBinding_repair_rate;
+	if( stricmp( bindingName, "energylevel" ) == 0 )		return UI_StatusFieldBinding_energy_level;
+	if( stricmp( bindingName, "energyrate" ) == 0 )			return UI_StatusFieldBinding_energy_generation_rate;
+	if( stricmp( bindingName, "speed" ) == 0 )				return UI_StatusFieldBinding_speed;
+	if( stricmp( bindingName, "acceleration" ) == 0 )		return UI_StatusFieldBinding_acceleration;
 	if( stricmp( bindingName, "value" ) == 0 )				return UI_StatusFieldBinding_value;
 	if( stricmp( bindingName, "rate" ) == 0 )				return UI_StatusFieldBinding_rate;
 

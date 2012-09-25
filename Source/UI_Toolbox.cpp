@@ -738,11 +738,24 @@ void	UI_Status :: DrawShipStatus()
 		statusValue = static_cast<float>( ship->GetHealth () );
 		break;
 	case UI_StatusFieldBinding_regeneration:
+		statusValue = static_cast<float>( ship->GetRegenerationRate() );
 		break;
 	case UI_StatusFieldBinding_armor:
-		//ship->GetA
+		statusValue = static_cast<float>( ship->GetArmorLevel() );
 		break;
 	case UI_StatusFieldBinding_repair_rate:
+		break;
+	case UI_StatusFieldBinding_energy_level:
+		statusValue = static_cast<float>( ship->GetPowerLevel() );
+		break;
+	case UI_StatusFieldBinding_energy_generation_rate:
+		statusValue = static_cast<float>( ship->GetPowerGeneration() );
+		break;
+	case UI_StatusFieldBinding_speed:
+		statusValue = static_cast<float>( ship->GetVelocity().Magnitude() );
+		break;
+	case UI_StatusFieldBinding_acceleration:
+		statusValue = static_cast<float>( ship->GetAcceleration().Magnitude() );
 		break;
 	case UI_StatusFieldBinding_value:
 		break;
