@@ -83,6 +83,9 @@ U32 LookupStatusFieldBinding( const char* bindingName )
 	if( stricmp( bindingName, "acceleration" ) == 0 )		return UI_StatusFieldBinding_acceleration;
 	if( stricmp( bindingName, "value" ) == 0 )				return UI_StatusFieldBinding_value;
 	if( stricmp( bindingName, "rate" ) == 0 )				return UI_StatusFieldBinding_rate;
+	if( stricmp( bindingName, "name" ) == 0 )				return UI_StatusFieldBinding_name;
+	if( stricmp( bindingName, "numstations" ) == 0 )		return UI_StatusFieldBinding_num_stations;
+	if( stricmp( bindingName, "score" ) == 0 )				return UI_StatusFieldBinding_score;
 
 	return UI_StatusFieldBinding_none;
 }

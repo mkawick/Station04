@@ -27,6 +27,7 @@ public:
 
 	void					Remove( PartitionObject *object );
 	void					UpdateObject( PartitionObject *object );
+
 private:
 	float					x1, y1, x2, y2;
 	int						level;

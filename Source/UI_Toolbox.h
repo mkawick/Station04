@@ -227,6 +227,7 @@ namespace UI_Toolbox
 		void			NormalizeColorPercentages();
 		Vector			CalculateColor( float percentageOfMax );
 		void			DrawStatus();
+		void			DrawPlayerStatus();
 		void			DrawShipStatus();
 
 		std::vector< UI_StatusColor > statusColors;

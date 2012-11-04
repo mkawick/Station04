@@ -714,6 +714,33 @@ void	UI_Status :: DrawStatus()
 		break; 
 	}
 }
+
+void	UI_Status :: DrawPlayerStatus()
+{
+	PlayerDatabase* playerDb = GlobalGameFramework->GetGameData().GetPlayerDatabase();
+	Player*			player = playerDb->GetCurrentPlayer ();
+
+	switch( fieldbinding )
+	{
+	case UI_StatusFieldBinding_name:
+		{
+			std::string name = player->GetName();
+		}
+		break;
+	case UI_StatusFieldBinding_num_stations:
+		{
+			int numStations = player->GetNumStations();
+		}
+		break;
+	case UI_StatusFieldBinding_score:
+		break;
+	case UI_StatusFieldBinding_value:
+		break;
+	case UI_StatusFieldBinding_rate:
+		break;
+	}
+}
+
 void	UI_Status :: DrawShipStatus()
 {
 	PlayerDatabase* playerDb = GlobalGameFramework->GetGameData().GetPlayerDatabase();

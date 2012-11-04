@@ -32,7 +32,7 @@ AssetLoadManager :: AssetLoadManager()
 	loggingStream = aiGetPredefinedLogStream( aiDefaultLogStream_STDOUT,NULL );
 	aiAttachLogStream( &loggingStream );
 
-	loggingStream2 = aiGetPredefinedLogStream( aiDefaultLogStream_FILE,"assimp_log.txt" );
+	loggingStream2 = aiGetPredefinedLogStream( aiDefaultLogStream_FILE, "assimp_log.txt" );
 	aiAttachLogStream( &loggingStream2 );
 }
 

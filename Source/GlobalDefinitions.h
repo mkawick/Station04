@@ -72,6 +72,7 @@ U32 LookupShipViewType( const char* viewName );
 enum	UI_StatusBinding
 {
 	UI_StatusBinding_none,
+	UI_StatusBinding_player,
 	UI_StatusBinding_ship,
 	UI_StatusBinding_station,
 	UI_StatusBinding_resource,
@@ -99,6 +100,9 @@ enum	UI_StatusFieldBinding
 	//UI_StatusFieldBinding_production_level,
 	UI_StatusFieldBinding_value, // applies to experience, production, resource, etc
 	UI_StatusFieldBinding_rate, // applies to production, healing, etc.
+	UI_StatusFieldBinding_name,
+	UI_StatusFieldBinding_num_stations,
+	UI_StatusFieldBinding_score,
 	UI_StatusFieldBinding_count
 };
 

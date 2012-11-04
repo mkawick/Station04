@@ -37,6 +37,7 @@ void    ResourceManager :: Shutdown()
 		StellarResource* obj = *it++;
 		delete obj;
 	}
+	Resources.clear();
 }
 
 //---------------------------------------------------------
