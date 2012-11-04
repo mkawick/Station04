@@ -168,7 +168,7 @@ void	PhaseBolt :: Update ()
 		//CalculateMaxAABB();
 
 		list<PartitionObject*> listOfPossibleCollisionObjects;
-		GlobalGameFramework->GetSpacePartition().GetObjectsAtMin( listOfPossibleCollisionObjects, Center.x, Center.y, CollisionFlags_Mining );
+		GlobalGameFramework->GetSpacePartition().GetObjectsAt( listOfPossibleCollisionObjects, Center.x, Center.y, 2.0f, CollisionFlags_Mining );
 
 		list<PartitionObject*>::iterator it = listOfPossibleCollisionObjects.begin();
 		if( it != listOfPossibleCollisionObjects.end() )
@@ -228,7 +228,8 @@ void	PhaseBolt :: Setup (const ShipArchetype& gazelle, UUID& WhoFired)
 	Vector StartPosition = v + b * Length * 1.2f; 
 	SetCenter (StartPosition);
 	SetAngle (a);
-	SetVelocity (Vector (b.AsNormal () * 3.4f));
+	//SetVelocity (Vector (b.AsNormal () * 3.4f));
+	SetVelocity (Vector (b.AsNormal () * 0.4f));
 	WhoFiredMe = WhoFired;
 }
 
@@ -246,7 +247,8 @@ void	PhaseBolt :: Setup (const Scorey& scorey, UUID& WhoFired)
 	Vector StartPosition = v + b * Length * 1.2f; 
 	SetCenter (StartPosition);
 	SetAngle (a);
-	SetVelocity (Vector (b.AsNormal () * 3.4f ));
+	//SetVelocity (Vector (b.AsNormal () * 3.4f ));
+	SetVelocity (Vector (b.AsNormal () * 0.4f));
 	WhoFiredMe = WhoFired;
 }
 

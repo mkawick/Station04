@@ -8,6 +8,8 @@
 using namespace std;
 #include <math.h>
 
+//-------------------------------------------------------------------------------
+
 Quadtree::Quadtree() : 
 	x1		( 0 ),
 	y1		( 0 ),
@@ -22,6 +24,8 @@ Quadtree::Quadtree() :
 	SE		( NULL )
 {
 }
+
+//-------------------------------------------------------------------------------
 
 void Quadtree::Init( float _x1, float _y1, float _x2, float _y2, int _level, int _maxLevel )
 {
@@ -55,15 +59,21 @@ void Quadtree::Init( float _x1, float _y1, float _x2, float _y2, int _level, int
 	SE->Init( halfX, halfY, x2, y2, level+1, maxLevel );
 }
 
+//-------------------------------------------------------------------------------
+
 float	 Quadtree::GetMinimumPartitionX() const 
 { 
 	return ( x1 + x2 ) / pow( 2.0f, maxLevel ) ; 
 }
 
+//-------------------------------------------------------------------------------
+
 float	 Quadtree::GetMinimumPartitionY() const
 { 
 	return ( y1 + y2 ) / pow( 2.0f, maxLevel ) ; 
 }
+
+//-------------------------------------------------------------------------------
 
 void Quadtree::AddPartitionObject( PartitionObject *object ) 
 {
@@ -101,6 +111,8 @@ void Quadtree::AddPartitionObject( PartitionObject *object )
 	}
 }
 
+//-------------------------------------------------------------------------------
+
 list<PartitionObject*>  FilterList( list<PartitionObject*>& listOfObjects, U32 collisionFlags )
 {
 	if( collisionFlags == 0 )
@@ -120,6 +132,8 @@ list<PartitionObject*>  FilterList( list<PartitionObject*>& listOfObjects, U32 c
 
 	return temp;
 }
+
+//-------------------------------------------------------------------------------
 
 void CopyFilterList( list<PartitionObject*>& sourceObjects, list<PartitionObject*>& destList, U32 collisionFlags )
 {
@@ -141,6 +155,44 @@ void CopyFilterList( list<PartitionObject*>& sourceObjects, list<PartitionObject
 	}
 }
 
+//-------------------------------------------------------------------------------
+
+void CopyFilterList( list<PartitionObject*>& sourceObjects, list<PartitionObject*>& destList, float x, float y, float dist, U32 collisionFlags )
+{
+	if( collisionFlags == 0 )
+	{
+		dist = dist * dist;
+		list<PartitionObject*>::iterator it = sourceObjects.begin();
+		while( it != sourceObjects.end() )
+		{
+			PartitionObject* po = *it;
+			if( DIST_SQUARED( po->cx(), po->cy(), x, y ) <= dist )// this is slightly poblematic since it only considers the center.
+			{
+				destList.push_back( *it );
+			}
+			++it;
+		}
+		return;
+	}
+
+	list<PartitionObject*>::iterator it = sourceObjects.begin();
+	while( it != sourceObjects.end() )
+	{
+		PartitionObject* po = *it;
+		if( ( po->collisionFlag & collisionFlags ) != CollisionFlags_None )
+		{
+			if( DIST_SQUARED( po->cx(), po->cy(), x, y ) <= dist )// this is slightly poblematic since it only considers the center.
+			{
+				destList.push_back( *it );
+			}
+		}
+
+		++it;
+	}
+}
+
+//-------------------------------------------------------------------------------
+
 list<PartitionObject*>  Quadtree::GetObjectsAt( float x1, float y1, float x2, float y2, U32 collisionFlags )
 {
 	list<PartitionObject*> temp;
@@ -152,6 +204,8 @@ list<PartitionObject*>  Quadtree::GetObjectsAt( float x1, float y1, float x2, fl
 
 	return temp;
 }
+
+//-------------------------------------------------------------------------------
 
 bool Quadtree::GetObjectsAt( list<PartitionObject*>& listOfStuff, float _x, float _y, U32 collisionFlags )
 {
@@ -197,6 +251,8 @@ bool Quadtree::GetObjectsAt( list<PartitionObject*>& listOfStuff, float _x, floa
 	}
 	return false;
 }
+
+//-------------------------------------------------------------------------------
 
 bool Quadtree::GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float _x, float _y, U32 collisionFlags )
 {
@@ -250,6 +306,59 @@ bool Quadtree::GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float _x, f
 	return false;
 }
 
+//-------------------------------------------------------------------------------
+
+bool  Quadtree::GetObjectsAt( list<PartitionObject*>& listOfChldObjects, float _x, float _y, float dist, U32 collisionFlags )
+{
+	if ( level == maxLevel ) 
+	{
+		CopyFilterList( objects, listOfChldObjects, collisionFlags );
+		return true;
+	}
+
+	float halfX = ( x2+x1 ) * 0.5f;
+	float halfY = ( y2+y1 ) * 0.5f;
+
+	Quadtree* childToCopy = NULL;
+	if ( _x > halfX && _x < x2 ) 
+	{
+		if ( _y > halfY && _y < y2 ) 
+		{
+			childToCopy = SE;
+		} 
+		else if ( _y > y1 && _y <= halfY ) 
+		{
+			childToCopy = NE;
+		}
+	} 
+	else if ( _x > x1 && _x <= halfX ) 
+	{
+		if ( _y > halfY && _y < y2 ) 
+		{
+			childToCopy = SW;
+		} 
+		else if ( _y > y1 && _y <= halfY ) 
+		{
+			childToCopy = NW;
+		}
+	}
+
+	if( childToCopy )
+	{
+		childToCopy->GetObjectsAt( listOfChldObjects, _x, _y, dist, collisionFlags );
+		if( listOfChldObjects.size() == 0 )
+		CopyFilterList( objects, listOfChldObjects, _x, _y, dist, collisionFlags );
+		return true;
+	}
+	else// no too sure about this else case.
+	{
+		CopyFilterList( objects, listOfChldObjects,  _x, _y, dist, collisionFlags );
+	}
+	return false;
+}
+
+//-------------------------------------------------------------------------------
+
 list<PartitionObject*> Quadtree::GetObjectsAtMin( float _x, float _y, U32 collisionFlags ) 
 {
 	if ( level == maxLevel ) 
@@ -301,6 +410,8 @@ list<PartitionObject*> Quadtree::GetObjectsAtMin( float _x, float _y, U32 collis
 	return returnObjects;
 }
 
+//-------------------------------------------------------------------------------
+
 list<PartitionObject*> Quadtree::GetObjectsAt( float _x, float _y, U32 collisionFlags ) 
 {
 	if ( level == maxLevel ) 
@@ -349,6 +460,7 @@ list<PartitionObject*> Quadtree::GetObjectsAt( float _x, float _y, U32 collision
 	return returnObjects;
 }
 
+//-------------------------------------------------------------------------------
 
 void Quadtree::Clear() 
 {
@@ -370,6 +482,8 @@ void Quadtree::Clear()
 	}
 }
 
+//-------------------------------------------------------------------------------
+
 bool Quadtree::Contains( Quadtree *child, PartitionObject *object ) 
 {
 	return	 !( object->x1 < child->x1 ||
@@ -381,6 +495,8 @@ bool Quadtree::Contains( Quadtree *child, PartitionObject *object )
 				object->x2 > child->x2 ||
 				object->y2 > child->y2 );
 }
+
+//-------------------------------------------------------------------------------
 
 void Quadtree::Remove( PartitionObject *object )
 {
@@ -418,8 +534,12 @@ void Quadtree::Remove( PartitionObject *object )
 	}
 }
 
+//-------------------------------------------------------------------------------
+
 void Quadtree::UpdateObject( PartitionObject *object )
 {
 	Remove( object );
 	AddPartitionObject( object );
 }
+
+//-------------------------------------------------------------------------------

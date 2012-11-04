@@ -8,6 +8,8 @@ using namespace std;
 
 class PartitionObject;
 
+//-------------------------------------------------------------------------------
+
 class Quadtree 
 {
 	enum {UninitializedLevel = -1};
@@ -23,6 +25,9 @@ public:
 	bool					GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float x, float y, U32 collisionFlags = 0 );
 	list<PartitionObject*>  GetObjectsAtMin( float x, float y, U32 collisionFlags = 0 );
 	list<PartitionObject*>  GetObjectsAt( float x1, float y1, float x2, float y2, U32 collisionFlags = 0 );// this is an approximation only
+
+	bool					GetObjectsAt( list<PartitionObject*>& listOfStuff, float x, float y, float dist, U32 collisionFlags = 0 );
+
 	void					Clear();
 
 	void					Remove( PartitionObject *object );
@@ -46,3 +51,5 @@ private:
 	//list<PartitionObject*>  FilterList( list<PartitionObject*>& listOfObjects, U32 collisionFlags );
 	
 };
+
+//-------------------------------------------------------------------------------
