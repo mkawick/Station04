@@ -2,17 +2,27 @@
 
 #pragma once
 
-class Type;
-typedef shared_ptr<Type> shared_type;
-typedef weak_ptr<Type> weak_type;
+#include <Reflection/Traits.h>
 
 // --------------------------------------------------------------------------------------------------------------------
-template<typename T> struct TypeOfT
+namespace Marbles
+{
+namespace Reflection
+{
+
+// --------------------------------------------------------------------------------------------------------------------
+class Type;
+typedef std::shared_ptr<const Type> shared_type;
+typedef std::weak_ptr<const Type> weak_type;
+
+// --------------------------------------------------------------------------------------------------------------------
+template<typename T, bool hasMember = HasTypeInfo<T>::value> struct TypeOfT
 {
 	static const shared_type& DeclaredType();
 	static const shared_type& DeclaredType(T*);
 };
 
+// --------------------------------------------------------------------------------------------------------------------
 template<typename T> const shared_type& TypeOf()
 {
 	typedef T Self;
@@ -43,18 +53,25 @@ template<typename T> const shared_type& TypeOf(T* obj)
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-#define REFLECT_EXTERNAL_START(T) \
-	REFLECT_COMMON_START(T)
+} // namespace Reflection
+} // namespace Marbles
 
-#define REFLECT_START(T) \
-	REFLECT_COMMON_START(T)
+// --------------------------------------------------------------------------------------------------------------------
+#define REFLECT_TYPE(T) \
+	REFLECT_COMMON_TYPE(T)
 
-#define REFLECT_COMMON_START(T) \
-	template<> const ::Marbles::Reflection::Type& ::Marbles::Reflection::TypeOfT<T>::DeclareType() \
+#define REFLECT_EXTERNAL_TYPE(T) \
+	REFLECT_COMMON_TYPE(T)
+
+#define REFLECT_COMMON_TYPE(T) \
+	template<> struct ::Marbles::Reflection::TypeOfT<T> \
 	{ \
-		typedef T Self; \
+		static const shared_type& DeclaredType(); \
+		static const shared_type& DeclaredType(T*); \
+
+#define REFLECT_MEMBER(...) \
 
 #define REFLECT_END() \
 	};
-	
+
 // End of file --------------------------------------------------------------------------------------------------------

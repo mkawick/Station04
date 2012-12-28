@@ -7,6 +7,10 @@
 namespace Marbles
 {
 
+class Behaviour;
+typedef std::shared_ptr<Behaviour> shared_behaviour;
+typedef std::weak_ptr<Behaviour> weak_behaviour;
+
 class Behaviour
 {
 public:
@@ -14,10 +18,9 @@ public:
 	class List;
 	class Select;
 	template<typename > class Stack;
-	typedef std::tr1::shared_ptr<Behaviour> shared_ptr;
-	typedef std::tr1::weak_ptr<Behaviour> weak_ptr;
-	typedef std::tr1::shared_ptr<Tree> tree_shared_ptr;
-	typedef std::tr1::weak_ptr<Tree> tree_weak_ptr;
+	typedef std::shared_ptr<const Tree> shared_tree;
+	typedef std::weak_ptr<const Tree> weak_tree;
+
 	static const int MaxDepth = 16;
 
 	Behaviour() { mName[0] = '\0'; }
@@ -39,7 +42,7 @@ public:
 		strcpy_s(mName, len, name);
 		return mName;
 	}
-	tree_shared_ptr GetTree() const
+	shared_tree GetTree() const
 	{
 		return mTree.lock();
 	}
@@ -53,22 +56,20 @@ private:
 	virtual void OnDone(Bag& ) const { }
 
 	char mName[NameLength];
-	tree_weak_ptr mTree;
+	weak_tree mTree;
 };
 
 class Behaviour::Tree : public Behaviour
 {
 protected:
-	typedef std::vector< Behaviour::shared_ptr > list; // should be unordered_set
+	typedef std::vector< shared_behaviour > list; // should be unordered_set
 
 public:
-	typedef std::tr1::shared_ptr<const Behaviour::Tree> shared_ptr;
-	typedef std::tr1::weak_ptr<const Behaviour::Tree> weak_ptr;
-
+	typedef std::shared_ptr<const Tree> shared_const_tree;
 	Tree()
 	{
 		mBagBuilder.Clear();
-		mBagBuilder.GetHandle<Tree::shared_ptr>("Tree");
+		mBagBuilder.GetHandle<Behaviour::shared_tree>("Tree");
 	}
 
 	virtual void Register(Bag::Builder& builder)
@@ -80,7 +81,7 @@ public:
 	{
 		Bag::shared_ptr treeBag = *bag.Get<Bag::shared_ptr>(mTreeBag);
 		treeBag = mBagBuilder.Create();
-		treeBag->GetAt<Tree::shared_ptr>(0)->reset(this);
+		treeBag->GetAt<Behaviour::shared_tree>(0)->reset(this);
 
 		for (list::const_iterator i = mBehaviours.begin(); i != mBehaviours.end(); ++i)
 		{
@@ -100,7 +101,7 @@ public:
 		mRootIndex = -1;
 	}
 
-	void Add(Behaviour::shared_ptr behaviour)
+	void Add(shared_behaviour& behaviour)
 	{
 		mBehaviours.push_back(behaviour);
 		behaviour->Register(mBagBuilder);
@@ -200,7 +201,7 @@ public:
 	virtual bool CanStart(const Bag& bag) const 
 	{
 		bool result = false;
-		Tree::shared_ptr tree = GetTree();
+		shared_tree tree = GetTree();
 		for(const_iterator i = mBehaviours.begin(); !result && i != mBehaviours.end(); ++i)
 		{
 			result |= (*tree)[*i]->CanStart(bag);
@@ -216,7 +217,7 @@ public:
 
 	void Add(const char* behaviourName)
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		int behaviour = tree->Find(behaviourName);
 		mBehaviours.push_back(behaviour);
 	}
@@ -224,7 +225,7 @@ public:
 protected:
 	virtual void OnStart(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		list& activeList = stack->Pop();
 
@@ -241,7 +242,7 @@ protected:
 	}
 	virtual bool OnUpdate(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		list& activeList = stack->Pop();
 
@@ -264,7 +265,7 @@ protected:
 	}
 	virtual void OnInterrupt(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		list& activeList = stack->Pop();
 
@@ -278,7 +279,7 @@ protected:
 	}
 	virtual void OnDone(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		list& activeList = stack->Pop();
 		activeList.clear();
@@ -321,7 +322,7 @@ public:
 protected:
 	virtual void OnStart(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		const int focus = stack->Pop();
 		int selected = FindSelection(bag, focus);
@@ -333,7 +334,7 @@ protected:
 	}
 	virtual bool OnUpdate(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		int focus = stack->Pop();
 		// ASSERT(0 <= focus);
@@ -349,7 +350,7 @@ protected:
 	}
 	virtual void OnInterrupt(Bag& bag) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		stack_type* stack = bag.Get<stack_type>(mStackHandle);
 		const int focus = stack->Pop();
 		// ASSERT(0 <= focus);
@@ -361,9 +362,9 @@ protected:
 	}
 	stack_type::value_type FindSelection(const Bag& bag, stack_type::value_type focus = -1) const
 	{
-		Tree::shared_ptr tree = GetTree();
+		Behaviour::shared_tree tree = GetTree();
 		list::size_type count = mBehaviours.size();
-		int selected = max(0, focus + 1);
+		int selected = Max(0, focus + 1);
 		while(selected != focus && !(*tree)[selected]->CanStart(bag))
 		{
 			selected += 1;

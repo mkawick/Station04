@@ -8,6 +8,9 @@
 #include <memory>
 #include <algorithm>
 
+namespace Marbles
+{
+
 class Bag
 {
 public:
@@ -142,3 +145,5 @@ private:
 
 	std::vector<Item> mItems;
 };
+
+} // namespace Marbles

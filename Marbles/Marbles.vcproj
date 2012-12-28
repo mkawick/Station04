@@ -18,10 +18,11 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)bin"
-			IntermediateDirectory="$(SolutionDir)obj\$(ProjectName)\$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="$(SolutionDir)build\$(PlatformName)\bin"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\obj\$(ProjectName)\$(ConfigurationName)"
+			ConfigurationType="4"
 			CharacterSet="1"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -54,7 +55,7 @@
 				WarningLevel="4"
 				WarnAsError="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4634"
+				DisableSpecificWarnings="4634;4800"
 				ForcedIncludeFiles="Marbles.h"
 			/>
 			<Tool
@@ -67,17 +68,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\$(ProjectName)d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -89,19 +84,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)bin"
-			IntermediateDirectory="$(SolutionDir)obj\$(ProjectName)\$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="$(SolutionDir)build\$(PlatformName)\bin"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\obj\$(ProjectName)\$(ConfigurationName)"
+			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -135,7 +128,7 @@
 				WarningLevel="4"
 				WarnAsError="true"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4634"
+				DisableSpecificWarnings="4634;4800"
 				ForcedIncludeFiles="Marbles.h"
 			/>
 			<Tool
@@ -148,19 +141,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -170,9 +154,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -186,15 +167,15 @@
 			Name="Common"
 			>
 			<File
+				RelativePath=".\Common\CircularBuffer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Common\Common.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Common\Hash.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Common\Platform.h"
 				>
 			</File>
 			<Filter
@@ -230,7 +211,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Application\Message.h"
+				RelativePath=".\Application\Application.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\Platform.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\Service.h"
 				>
 			</File>
 			<File
@@ -241,11 +230,15 @@
 				Name="Source"
 				>
 				<File
-					RelativePath=".\Application\Source\Application_Win32.cpp"
+					RelativePath=".\Application\Source\Application.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Application\Source\Message.cpp"
+					RelativePath=".\Application\Source\Platform_Win32.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Application\Source\Service.cpp"
 					>
 				</File>
 				<File
@@ -262,7 +255,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Reflection\Member.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Object.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Reflection\Reflection.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Serialization.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Traits.h"
 				>
 			</File>
 			<File
@@ -273,6 +282,90 @@
 				RelativePath=".\Reflection\TypeOf.h"
 				>
 			</File>
+			<Filter
+				Name="Source"
+				>
+				<File
+					RelativePath=".\Reflection\Source\Serialization.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Math"
+			>
+			<File
+				RelativePath=".\Math\Angle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\CapsuleCollision.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\MathFunctions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Matrix4.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\PositionalShaker.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Quaternion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\Vector3.h"
+				>
+			</File>
+			<Filter
+				Name="source"
+				>
+				<File
+					RelativePath=".\Math\source\Angle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\source\CapsuleCollision.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\source\MathFunctions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\source\Matrix4.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\source\PositionalShaker.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\source\Quaternion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\source\Vector3.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Entity"
+			>
+			<File
+				RelativePath=".\Entity\Entity.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Rendering"
+			>
 		</Filter>
 		<File
 			RelativePath=".\Marbles.cpp"
@@ -298,10 +391,6 @@
 		</File>
 		<File
 			RelativePath=".\Marbles.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Marbles.vsprops"
 			>
 		</File>
 	</Files>

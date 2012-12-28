@@ -1,0 +1,27 @@
+Marbles Application layer
+
+The application layer is a set of classes designed for managing the primary 
+platform device features.  This layer consists of features to control the flow
+of the application and make it simple for users to quickly modify that flow.  
+By design all Marbles applications are multi-thread and therefore the application 
+layer's primary feature is that of an execution service.  A Marbles application 
+consists of a finite set of services operating together asyncronously, 
+communicating to each other via a tasking system.
+
+Application Service
+
+A service is defined as being an unrestricted independent execution unit 
+that receives tasks from another service to perform.  An application thread will 
+select a service to execute and perform the tasks in that service's task queue.  
+When an application thread starts processing a service queue a 'select new service 
+task' is inserted into the service task queue.  This ensures that only the existing 
+tasks within the queue will be performed before moving on to the next service. It 
+is important to note that task order is maintained by the service queue and tasks 
+will be performed in the order they arrive.  
+
+Tasks
+A task is a single execution unit, a service queue contains these functions waiting
+for it's turn to execute.  
+
+-	Note to syncronize services send a message containing a block within it and then 
+	release the block as needed to restart the services.  Shutdown will need to do this.

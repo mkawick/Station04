@@ -1,13 +1,10 @@
 #pragma once
 // --------------------------------------------------------------------------------------------------------------------
 
-#include <type_traits>
-#include <memory>
-
-namespace Reflection
-{
 #include <Reflection/TypeOf.h>
+#include <Reflection/Declaration.h>
 #include <Reflection/Type.h>
-}// namespace Reflection
+#include <Reflection/Object.h>
+#include <Reflection/Serialization.h>
 
 // End of file --------------------------------------------------------------------------------------------------------

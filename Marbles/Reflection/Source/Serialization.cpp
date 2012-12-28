@@ -1,34 +1,26 @@
+// --------------------------------------------------------------------------------------------------------------------
 #pragma once
+
+#include <Reflection\Serialization.h>
 
 // --------------------------------------------------------------------------------------------------------------------
 namespace Marbles
 {
 namespace Reflection
 {
-class Object;
-class Declaration;
-class Member;
+// --------------------------------------------------------------------------------------------------------------------
+bool Serialize::Text(std::ostream& os, const Object& in, const Object& root)
+{
+	(void)os; (void)in; (void)root;
+	return true;
+}
 
 // --------------------------------------------------------------------------------------------------------------------
-class Type
+bool Serialize::From(std::istream& is, Object& out)
 {
-public:
-	typedef std::vector<Member> MemberList;
-
-	const MemberList&	Members() const;
-	unsigned int		MemberIndex(const Hash& hashName) const;
-	unsigned int		MemberIndex(const std::string& name) const;
-
-private:
-	// AssignFn
-	// DestoryFn
-
-	// CreateFn
-	// ConvertFn
-	// IndexFn
-	// EnumeratorFn
-	// AppendFn
-};
+	(void)is; (void) out;
+	return 0 == is.gcount();
+}
 
 // --------------------------------------------------------------------------------------------------------------------
 } // namespace Reflection
