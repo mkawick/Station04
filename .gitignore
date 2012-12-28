@@ -164,4 +164,4 @@ pip-log.txt
 
 # Marbles
 *_log.txt
-Boost_*\*
+*/boost_*/*
