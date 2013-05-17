@@ -18,6 +18,8 @@
 #define CONFIG_PROFILE
 #elif defined _RETAIL
 #define CONFIG_RETAIL
+#elif defined NDEBUG
+#define CONFIG_PROFILE
 #else
 	#pragma Message("Config error", "Unknown or unsupported configuration defaulting to _DEBUG.")
 	#define PLATFORM_WIN32

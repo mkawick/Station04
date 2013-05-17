@@ -1,4 +1,5 @@
 #include <Common/CircularBuffer.h>
+#include <boost/thread.hpp>
 
 BOOST_AUTO_TEST_SUITE( CircularBuffer )
 

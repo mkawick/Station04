@@ -67,6 +67,7 @@
 				OutputFile="$(OutDir)\$(ProjectName)d.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
+				GenerateMapFile="true"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -197,6 +198,14 @@
 		<Filter
 			Name="Reflection"
 			>
+			<File
+				RelativePath=".\Reflection\FooBar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\ObjectTest.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\Reflection\SerializationTest.cpp"
 				>

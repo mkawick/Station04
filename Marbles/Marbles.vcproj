@@ -175,6 +175,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Common\Definitions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Common\Function_Traits.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Common\Hash.h"
 				>
 			</File>
@@ -255,7 +263,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Reflection\Enumerator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Field.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Reflection\Member.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Method.h"
 				>
 			</File>
 			<File
@@ -263,11 +283,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Reflection\Reflection.h"
+				RelativePath=".\Reflection\Path.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Reflection\Serialization.h"
+				RelativePath=".\Reflection\Primitives.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Property.h"
 				>
 			</File>
 			<File
@@ -279,14 +303,30 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Reflection\type_def.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Reflection\TypeOf.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Reflection\Value.h"
 				>
 			</File>
 			<Filter
 				Name="Source"
 				>
 				<File
-					RelativePath=".\Reflection\Source\Serialization.cpp"
+					RelativePath=".\Reflection\Source\Member.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Reflection\Source\Object.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Reflection\Source\Type.cpp"
 					>
 				</File>
 			</Filter>
@@ -356,6 +396,10 @@
 			</Filter>
 		</Filter>
 		<Filter
+			Name="Rendering"
+			>
+		</Filter>
+		<Filter
 			Name="Entity"
 			>
 			<File
@@ -364,8 +408,32 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Rendering"
+			Name="Serialization"
 			>
+			<File
+				RelativePath=".\Serialization\Format.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialization\Reader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialization\Serializer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialization\Writer.h"
+				>
+			</File>
+			<Filter
+				Name="Source"
+				>
+				<File
+					RelativePath=".\Serialization\Source\Serializer.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\Marbles.cpp"
@@ -391,6 +459,10 @@
 		</File>
 		<File
 			RelativePath=".\Marbles.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Reflection.h"
 			>
 		</File>
 	</Files>

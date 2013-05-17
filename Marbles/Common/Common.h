@@ -7,14 +7,18 @@
 #include <array>
 #include <limits>
 #include <cassert>
+#include <type_traits>
 
 // We should not make these global includes if possible
-#include <boost\cstdint.hpp>
-#include <boost\interprocess\detail\atomic.hpp>
+#include <boost/cstdint.hpp>
+#include <boost/interprocess/detail/atomic.hpp>
 namespace boost
 {
 	using namespace interprocess::ipcdetail;
 }
+
+#include <Common/Function_Traits.h>
+#include <Common/Definitions.h>
 
 #define TO_STRING2(constant) #constant
 #define TO_STRING(constant) TO_STRING2(constant)
@@ -55,44 +59,37 @@ template<typename T> struct Expired
 { inline bool operator()(const std::tr1::weak_ptr<T>& p) const { return p.expired(); } };
 
 // --------------------------------------------------------------------------------------------------------------------
+inline void NoDelete(void*) {}
 template<typename T> inline void Destruct(void* p) { p->~T(); }
 template<typename T> inline void Delete(void* p) { delete reinterpret_cast<T*>(p); }
-template<typename T> inline void Empty(T* ) { }
+template<typename T> inline void Empty(T*) { }
 
+#define CONSTRUCT_WITH_ARGS(N) \
+	template<typename T, FN_TYPENAME(N)> \
+	T* Construct(FN_PARAMETER(N)) { return new T(FN_ARGUMENTS(N)); } \
+	template<typename T, FN_TYPENAME(N)> \
+	T* Construct(void* p, FN_PARAMETER(N)) { return new (p) T(FN_ARGUMENTS(N)); } 
+
+// CONSTRUCT_WITH_ARGS(0)
 template<typename T>
-inline T* Construct() { return new T(); }
+T* Construct() { return new T(); }
 template<typename T>
-inline T* Construct(void* p) { return new (p) T(); }
+T* Construct(void* p) { return new (p) T(); }
 
-template<typename T, typename A0>
-inline T* Construct(A0& a0) { return new T(a0); }
-template<typename T, typename A0>
-inline T* Construct(void* p, A0& a0) { return new (p) T(a0); }
+CONSTRUCT_WITH_ARGS(1)
+CONSTRUCT_WITH_ARGS(2)
+CONSTRUCT_WITH_ARGS(3)
+CONSTRUCT_WITH_ARGS(4)
+CONSTRUCT_WITH_ARGS(5)
+CONSTRUCT_WITH_ARGS(6)
+CONSTRUCT_WITH_ARGS(7)
+CONSTRUCT_WITH_ARGS(8)
+CONSTRUCT_WITH_ARGS(9)
+CONSTRUCT_WITH_ARGS(10)
+CONSTRUCT_WITH_ARGS(11)
+CONSTRUCT_WITH_ARGS(12)
 
-template<typename T, typename A0, typename A1>
-inline T* Construct(A0& a0, A1& a1) { return new T(a0, a1); }
-template<typename T, typename A0, typename A1>
-inline T* Construct(void* p, A0& a0, A1& a1) { return new (p) T(a0, a1); }
-
-template<typename T, typename A0, typename A1, typename A2>
-inline T* Construct(A0& a0, A1& a1, A2& a2) { return new T(a0, a1, a2); }
-template<typename T, typename A0, typename A1, typename A2>
-inline T* Construct(void* p, A0& a0, A1& a1, A2& a2) { return new (p) T(a0, a1, a2); }
-
-template<typename T, typename A0, typename A1, typename A2, typename A3>
-inline T* Construct(A0& a0, A1& a1, A2& a2, A3& a3) { return new T(a0, a1, a2, a3); }
-template<typename T, typename A0, typename A1, typename A2, typename A3>
-inline T* Construct(void* p, A0& a0, A1& a1, A2& a2, A3& a3) { return new (p) T(a0, a1, a2, a3); }
-
-template<typename T, typename A0, typename A1, typename A2, typename A3, typename A4>
-inline T* Construct(A0& a0, A1& a1, A2& a2, A3& a3, A4& a4) { return new T(a0, a1, a2, a3, a4); }
-template<typename T, typename A0, typename A1, typename A2, typename A3, typename A4>
-inline T* Construct(void* p, A0& a0, A1& a1, A2& a2, A3& a3, A4& a4) { return new (p) T(a0, a1, a2, a3, a4); }
-
-template<typename T, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5>
-inline T* Construct(A0& a0, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5) { return new T(a0, a1, a2, a3, a4, a5); }
-template<typename T, typename A0, typename A1, typename A2, typename A3, typename A4, typename A5>
-inline T* Construct(void* p, A0& a0, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5) { return new (p) T(a0, a1, a2, a3, a4, a5); }
+#undef CONSTRUCT_WITH_ARGS
 
 // --------------------------------------------------------------------------------------------------------------------
 // to be replaced by std::unique_ptr<>
@@ -200,6 +197,66 @@ private:
 } // namespace Marbles
 
 // --------------------------------------------------------------------------------------------------------------------
-namespace std { using namespace std::tr1; }
+namespace std 
+{ 
+using namespace std::tr1; 
+
+// --------------------------------------------------------------------------------------------------------------------
+template<int condition, typename Then, typename Else> struct conditional { typedef Then type; };
+template<typename Then, typename Else> struct conditional<0, Then, Else> { typedef Else type; };
+
+//	// MACRO _IS_YES
+//typedef char (&_No)[1];
+//typedef char (&_Yes)[2];
+//
+// #define _IS_YES(ty)	(sizeof (ty) == sizeof (_STD tr1::_Yes))
+//
+//	// FUNCTION _Has_result_type
+//_No _Has_result_type(...);
+//
+//template<class _Ty>
+//	_Yes _Has_result_type(_Ty *,
+//		typename _Remove_reference<typename _Ty::result_type>::_Type * = 0);
+//
+//#define _HAS_RESULT_TYPE(_Ty)	\
+//	_IS_YES(_STD tr1::_Has_result_type((_Ty *)0))
+
+// --------------------------------------------------------------------------------------------------------------------
+template<typename T> struct is_default_constructable 
+{ 
+private:
+	template<typename U> static U* construct_default() { return new U(); }
+	template<typename U, U* (*pFn)() = &is_default_constructable::construct_default<U> > struct signature {};
+	template<typename U> static U* default_construct(signature<U>*);
+	template<typename U> static char default_construct(...);
+public:
+	static const bool value = sizeof(default_construct<T>(0)) != sizeof(char);
+	typedef typename std::conditional<value, T, void>::type result_type;
+};
+
+// --------------------------------------------------------------------------------------------------------------------
+#define MAKE_SHARED(N) \
+	template<typename T, FN_TYPENAME(N)> \
+	shared_ptr<T> make_shared(FN_PARAMETER(N)) { return shared_ptr<T>(new T(FN_ARGUMENTS(N))); } \
+
+// MAKE_SHARED(0)
+template<typename T>
+shared_ptr<T> make_shared() { return shared_ptr<T>(new T()); }
+
+MAKE_SHARED(1)
+MAKE_SHARED(2)
+MAKE_SHARED(3)
+MAKE_SHARED(4)
+MAKE_SHARED(5)
+MAKE_SHARED(6)
+MAKE_SHARED(7)
+MAKE_SHARED(8)
+MAKE_SHARED(9)
+MAKE_SHARED(10)
+MAKE_SHARED(11)
+MAKE_SHARED(12)
+	
+#undef MAKE_SHARED
+}
 
 // End of file --------------------------------------------------------------------------------------------------------

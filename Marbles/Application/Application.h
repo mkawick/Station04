@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <boost/thread.hpp> // This header should be in the cpp only
 
 // --------------------------------------------------------------------------------------------------------------------
 namespace Marbles
@@ -37,7 +36,7 @@ public:
 	static Application* Get();
 
 	Application();
-	~Application() {}
+	~Application();
 	void Stop(int runResult);
 	int Run(unsigned numThreads = 0); // The value given to Application::Stop() is returned by this function
 
@@ -58,38 +57,15 @@ public:
 
 private:
 	struct Kernel;
+	struct Implementation;
 	friend class Service;
 
+	shared_service ActiveService() const;
 	void Register(shared_service service);
 	void Unregister(shared_service service);
 
-	typedef boost::shared_mutex					SharedMutex;
-	typedef boost::unique_lock<SharedMutex>		UniqueLock;
-	typedef boost::shared_lock<SharedMutex>		SharedLock;
-	typedef boost::thread_specific_ptr<shared_service> ActiveService;
-	typedef boost::thread_specific_ptr<Application> ActiveApplication;
-	typedef std::vector<weak_service>			ServiceList;
-	typedef std::vector<shared_service>			KernelList;
-	SharedMutex				mKernelMutex;
-	KernelList				mKernels;
-
-	SharedMutex				mServiceMutex;
-	ServiceList				mServices;
-
-	ActiveService			mActiveService;
-	atomic<unsigned int>	mNextService;
-	int						mRunResult;
-
-	static ActiveApplication sApplication;
+	Implementation* mImplementation;
 };
-
-// --------------------------------------------------------------------------------------------------------------------
-inline Application* Application::Get() 
-{ 
-	Application* app = sApplication.get();
-	ASSERT(app || !"You must call Application::Run before calling this function."); 
-	return app; 
-}
 
 // --------------------------------------------------------------------------------------------------------------------
 template<typename Fn>

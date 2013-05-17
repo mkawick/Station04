@@ -2,6 +2,8 @@
 
 #include <Application/Task.h>
 #include <Common/CircularBuffer.h>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/condition.hpp>
 #include <boost/any.hpp>
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -49,7 +51,6 @@ private:
 	typedef std::weak_ptr<boost::any> weak_provider;
 
 							Service();
-	void					AllStop();
 
 	static shared_service	Create();
 	template<typename Fn>

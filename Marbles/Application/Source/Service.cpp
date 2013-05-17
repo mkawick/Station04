@@ -19,7 +19,7 @@ Service::ExecutionState Service::State() const
 // --------------------------------------------------------------------------------------------------------------------
 void Service::Stop(bool /*block*/)
 {
-	Post(std::bind<void>(&Service::AllStop, mSelf.lock()));
+	Post(std::bind<void>(&Application::Unregister, Application::Get(), mSelf.lock()));
 	//if (block)
 	//{
 	//	Wait(Stopped);
@@ -57,28 +57,9 @@ bool Service::Post(shared_task task)
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-void Service::AllStop()
-{
-	Application* application = Application::Get();
-	Application::SharedLock lock(application->mServiceMutex);
-
-	shared_service self = mSelf.lock();
-	Application::ServiceList::iterator item = application->mServices.begin();
-	while(item->lock() != self && item != application->mServices.end())
-	{
-		++item;
-	}
-	if (item != application->mServices.end())
-	{	
-		item->reset(); // Item is no longer a candidate
-	}
-	mState = Stopped;
-}
-
-// --------------------------------------------------------------------------------------------------------------------
 shared_service Service::Active()
 {
-	return *Application::Get()->mActiveService;
+	return Application::Get()->ActiveService();
 }
 
 // --------------------------------------------------------------------------------------------------------------------

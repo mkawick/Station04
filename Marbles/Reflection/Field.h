@@ -1,7 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
 #pragma once
-
-#include <Reflection\Serialization.h>
 
 // --------------------------------------------------------------------------------------------------------------------
 namespace Marbles
@@ -9,18 +6,29 @@ namespace Marbles
 namespace Reflection
 {
 // --------------------------------------------------------------------------------------------------------------------
-bool Serialize::Text(std::ostream& os, const Object& in, const Object& root)
+template<typename T, typename C> 
+class MemberT<T C::*> : public MemberT<T>
 {
-	(void)os; (void)in; (void)root;
-	return true;
-}
+public:
+	typedef T return_type;
+	typedef C member_type;
+	typedef T C::*field_type;
 
-// --------------------------------------------------------------------------------------------------------------------
-bool Serialize::From(std::istream& is, Object& out)
-{
-	(void)is; (void) out;
-	return 0 == is.gcount();
-}
+	MemberT(const std::string& name, field_type field, const char* usage)
+	: MemberT<T>(name, DeclarationT<T>(), usage)
+	, mField(field)
+	{
+	}
+
+	virtual Object Dereference(const Object& self) const
+	{
+		ASSERT(self.TypeInfo()->Implements(TypeOf<typename member_type>()));
+		return Object(DeclareInfo(), &(self.As<typename member_type*>()->*mField));
+	}
+
+private:
+	field_type mField;
+};
 
 // --------------------------------------------------------------------------------------------------------------------
 } // namespace Reflection

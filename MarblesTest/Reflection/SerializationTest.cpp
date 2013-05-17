@@ -1,24 +1,11 @@
-#include <Reflection/Reflection.h>
-#include <sstream>
-
-struct Foo
-{
-	int x;
-	int y;
-	int z;
-};
-
-REFLECT_TYPE(Foo)
-	REFLECT_MEMBER("X", x, "")
-	REFLECT_MEMBER("Y", y, "")
-	REFLECT_MEMBER("Z", z, "")
-REFLECT_END()
+#include "FooBar.h"
+#include <Serialization/Serializer.h>
 
 BOOST_AUTO_TEST_SUITE( serialization )
 
 BOOST_AUTO_TEST_CASE( text_serialization )
 {
-	BOOST_MESSAGE( "Serialization.reflection_text" );
+	BOOST_MESSAGE( "Serialization.format.text" );
 	Foo foo;
 	foo.x = 3;
 	foo.y = 2;
@@ -27,22 +14,34 @@ BOOST_AUTO_TEST_CASE( text_serialization )
 	// Serialize same data should yield same result
 	std::stringstream ss1;
 	std::stringstream ss2;
-	BOOST_CHECK(Marbles::Reflection::Serialize::Text(ss1, foo));
-	BOOST_CHECK(Marbles::Reflection::Serialize::Text(ss2, foo));
+	BOOST_CHECK(Marbles::Serialization::Serializer::Text(ss1, foo));
+	BOOST_CHECK(Marbles::Serialization::Serializer::Text(ss2, foo));
 	BOOST_CHECK_EQUAL(ss1.str(), ss2.str());
 	
 	// Serialize different should yield different result
 	foo.x = 1;
-	ss1.clear();
-	BOOST_CHECK(Marbles::Reflection::Serialize::Text(ss1, foo));
-	BOOST_CHECK_NE(ss1.str(), ss2.str());
+	std::stringstream ss3;
+	BOOST_CHECK(Marbles::Serialization::Serializer::Text(ss3, foo));
+	BOOST_CHECK_NE(ss1.str(), ss3.str());
 
 	// Reading outputed data should yield same result
+	Foo* foo_ref = NULL;
 	Foo foo2;
-	BOOST_CHECK(Marbles::Reflection::Serialize::From(ss1, foo2));
-	BOOST_CHECK_EQUAL(foo.x, foo2.x);
-	BOOST_CHECK_EQUAL(foo.y, foo2.y);
-	BOOST_CHECK_EQUAL(foo.z, foo2.z);
+	foo2.bar.reference2_foo = &foo_ref;
+	foo2.bar.reference_foo = &foo;
+	foo2.bar.reference_zero = NULL;
+	foo2.bar.shared_foo = std::make_shared<Foo>();
+	foo2.bar.weak_foo = foo2.bar.shared_foo;
+	BOOST_CHECK(Marbles::Serialization::Serializer::From(ss1, foo2));
+	BOOST_CHECK(Marbles::Serialization::Serializer::From(ss2, foo_ref));
+	BOOST_CHECK_NE(static_cast<Foo*>(NULL), foo_ref);
+	if (NULL != foo_ref)
+	{
+		BOOST_CHECK_EQUAL(foo_ref->x, foo2.x);
+		BOOST_CHECK_EQUAL(foo_ref->y, foo2.y);
+		BOOST_CHECK_EQUAL(foo_ref->z, foo2.z);
+		delete foo_ref;
+	}
 }
 
 BOOST_AUTO_TEST_SUITE_END()

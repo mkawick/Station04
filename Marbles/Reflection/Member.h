@@ -7,41 +7,32 @@ namespace Marbles
 {
 namespace Reflection
 {
+class Object;
+template<typename T> class MemberT;
 
 // --------------------------------------------------------------------------------------------------------------------
-class Member
+class Member : public std::enable_shared_from_this<const Member>
 {
 public:
-	const std::string&	Name() const;
-	Hash				HashName() const;
+	Member(const std::string& name, const Declaration& declaration, const char* usage);
+	Member(const std::string& name, const shared_type& type, const char* usage);
 
-	virtual shared_type	Type() const;
-	virtual bool		Constant() const;
-	virtual bool		Reference() const;
-	virtual bool		Function() const;
+	const std::string&	Name() const		{ return mName; }
+	hash_t				HashName() const	{ return mHashName; }
+	Declaration			DeclareInfo() const	{ return Declaration(shared_from_this(), mDeclaration); }
+	const char*			Usage() const		{ return mUsage; }
 
-	virtual Object		Dereference(Object ref) = 0;
+	virtual shared_type TypeInfo() const	{ return mType.lock(); }
+	virtual Object		Assign(Object self, const Object& rhs) const;
+	virtual Object		Dereference(const Object& self) const;
+	virtual Object		Append(Object& self) const;
+
 private:
 	std::string			mName;
-	Hash				mHashName;
-
-	virtual bool		Constant() const		{ return std::is_const<T>::value; }
-	virtual bool		Reference() const		{ return std::is_pointer<T>::value; }
-	virtual bool		Function() const		{ return false; }
-};
-
-// --------------------------------------------------------------------------------------------------------------------
-template<typename T> 
-class MemberT : public Member
-{
-public:
-	shared_type			Type() const			{ return TypeOf<T>(); }
-	virtual bool		Constant() const		{ return std::is_const<T>::value; }
-	virtual bool		Reference() const		{ return std::is_pointer<T>::value; }
-	virtual bool		Function() const		{ return false; }
-
-	virtual Object		Dereference(Object ref)	{ return Object(); }
-private:
+	hash_t				mHashName;
+	Declaration			mDeclaration;
+	weak_type			mType;
+	const char*			mUsage;
 };
 
 // --------------------------------------------------------------------------------------------------------------------
