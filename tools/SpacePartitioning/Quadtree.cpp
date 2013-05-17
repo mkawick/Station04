@@ -254,6 +254,51 @@ bool Quadtree::GetObjectsAt( list<PartitionObject*>& listOfStuff, float _x, floa
 
 //-------------------------------------------------------------------------------
 
+
+bool Quadtree::GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float _x, float _y, U32 collisionFlags )
+{
+	if ( level == maxLevel ) 
+	{
+		CopyFilterList( objects, listOfStuff, collisionFlags );
+		return true;
+	}
+
+	float halfX = ( x2+x1 ) * 0.5f;
+	float halfY = ( y2+y1 ) * 0.5f;
+
+	Quadtree* childToCopy = NULL;
+	if ( _x > halfX && _x < x2 ) 
+	{
+		if ( _y > halfY && _y < y2 ) 
+		{
+			childToCopy = SE;
+		} 
+		else if ( _y > y1 && _y <= halfY ) 
+		{
+			childToCopy = NE;
+		}
+	} 
+	else if ( _x > x1 && _x <= halfX ) 
+	{
+		if ( _y > halfY && _y < y2 ) 
+		{
+			childToCopy = SW;
+		} 
+		else if ( _y > y1 && _y <= halfY ) 
+		{
+			childToCopy = NW;
+		}
+	}
+
+	if( childToCopy )
+	{
+		return childToCopy->GetObjectsAtMin( listOfStuff, _x, _y, collisionFlags );
+	}
+	return false;
+}
+
+//-------------------------------------------------------------------------------
+/*
 bool Quadtree::GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float _x, float _y, U32 collisionFlags )
 {
 	if ( level == maxLevel ) 
@@ -304,7 +349,7 @@ bool Quadtree::GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float _x, f
 		CopyFilterList( objects, listOfStuff, collisionFlags );
 	}
 	return false;
-}
+}*/
 
 //-------------------------------------------------------------------------------
 
@@ -358,7 +403,7 @@ bool  Quadtree::GetObjectsAt( list<PartitionObject*>& listOfChldObjects, float _
 }
 
 //-------------------------------------------------------------------------------
-
+/*
 list<PartitionObject*> Quadtree::GetObjectsAtMin( float _x, float _y, U32 collisionFlags ) 
 {
 	if ( level == maxLevel ) 
@@ -397,9 +442,6 @@ list<PartitionObject*> Quadtree::GetObjectsAtMin( float _x, float _y, U32 collis
 
 	if( childToCopy )
 	{
-		/*childReturnObjects = childToCopy->GetObjectsAtMin( _x, _y, collisionFlags );
-		returnObjects.insert( returnObjects.end(), childReturnObjects.begin(), childReturnObjects.end() );
-		return returnObjects;*/
 		list<PartitionObject*>& listOfChldObjects = childToCopy->GetObjectsAtMin( _x, _y, collisionFlags );
 		if( listOfChldObjects.size() == 0 )
 		{
@@ -409,7 +451,7 @@ list<PartitionObject*> Quadtree::GetObjectsAtMin( float _x, float _y, U32 collis
 	}
 	return returnObjects;
 }
-
+*/
 //-------------------------------------------------------------------------------
 
 list<PartitionObject*> Quadtree::GetObjectsAt( float _x, float _y, U32 collisionFlags ) 

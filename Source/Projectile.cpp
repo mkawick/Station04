@@ -168,7 +168,13 @@ void	PhaseBolt :: Update ()
 		//CalculateMaxAABB();
 
 		list<PartitionObject*> listOfPossibleCollisionObjects;
-		GlobalGameFramework->GetSpacePartition().GetObjectsAt( listOfPossibleCollisionObjects, Center.x, Center.y, 2.0f, CollisionFlags_Mining );
+		
+		//GlobalGameFramework->GetSpacePartition().GetObjectsAt( listOfPossibleCollisionObjects, Center.x, Center.y, 2.0f, CollisionFlags_Mining );
+		GlobalGameFramework->GetSpacePartition().GetObjectsAtMin( listOfPossibleCollisionObjects, Center.x, Center.y, CollisionFlags_Mining );
+
+		wchar_t string[256];
+		wsprintf( string, L"Num partition objects = %d\n", listOfPossibleCollisionObjects.size() );
+		OutputDebugString( string );
 
 		list<PartitionObject*>::iterator it = listOfPossibleCollisionObjects.begin();
 		if( it != listOfPossibleCollisionObjects.end() )

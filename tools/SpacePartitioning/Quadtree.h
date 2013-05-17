@@ -22,11 +22,13 @@ public:
 
 	void					AddPartitionObject( PartitionObject *object );
 	list<PartitionObject*>  GetObjectsAt( float x, float y, U32 collisionFlags = 0 );
-	bool					GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float x, float y, U32 collisionFlags = 0 );
-	list<PartitionObject*>  GetObjectsAtMin( float x, float y, U32 collisionFlags = 0 );
+	//bool					GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float x, float y, U32 collisionFlags = 0 );
+	//list<PartitionObject*>  GetObjectsAtMin( float x, float y, U32 collisionFlags = 0 );
 	list<PartitionObject*>  GetObjectsAt( float x1, float y1, float x2, float y2, U32 collisionFlags = 0 );// this is an approximation only
 
 	bool					GetObjectsAt( list<PartitionObject*>& listOfStuff, float x, float y, float dist, U32 collisionFlags = 0 );
+
+	bool					GetObjectsAtMin( list<PartitionObject*>& listOfStuff, float _x, float _y, U32 collisionFlags );
 
 	void					Clear();
 

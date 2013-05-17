@@ -283,7 +283,7 @@ void	GameFramework :: Init ()
 	int DistanceFromCenter = 80;
 	
 	
-	SpacePartition.Init( -3000, -3000, 3000, 3000, 0, 8 );
+	SpacePartition.Init( -3000, -3000, 3000, 3000, 0, 10 );
 	starfield.Setup ();
 	projectiles.Setup ();
 	asteroids.Setup ();
